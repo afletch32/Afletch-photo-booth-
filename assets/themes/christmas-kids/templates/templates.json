@@ -1,0 +1,87 @@
+[
+  {
+    "src": "christmas-kids-storybook-double-column-strip.png",
+    "name": "Christmas for Kids storybook identical double strips",
+    "layout": "double_column",
+    "orientation": "portrait",
+    "photoSlots": [
+      {
+        "x": 0.041666666666666664,
+        "y": 0.18888888888888888,
+        "width": 0.4166666666666667,
+        "height": 0.15833333333333333,
+        "sourceIndex": 0,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.18888888888888888,
+        "width": 0.4166666666666667,
+        "height": 0.15833333333333333,
+        "sourceIndex": 0,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.041666666666666664,
+        "y": 0.39611111111111114,
+        "width": 0.4166666666666667,
+        "height": 0.17333333333333334,
+        "sourceIndex": 1,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.39611111111111114,
+        "width": 0.4166666666666667,
+        "height": 0.17333333333333334,
+        "sourceIndex": 1,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.041666666666666664,
+        "y": 0.6194444444444445,
+        "width": 0.4166666666666667,
+        "height": 0.18611111111111112,
+        "sourceIndex": 2,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.6194444444444445,
+        "width": 0.4166666666666667,
+        "height": 0.18611111111111112,
+        "sourceIndex": 2,
+        "borderRadius": 0
+      }
+    ],
+    "textFields": [
+      {
+        "key": "event_name",
+        "xPct": 0.05,
+        "yPct": 0.9522222222222222,
+        "wPct": 0.4,
+        "hPct": 0.015555555555555555,
+        "fontFamily": "'Comic Neue', cursive",
+        "fontWeight": "700",
+        "fontSize": 22,
+        "minFontSize": 12,
+        "color": "#b3261e",
+        "align": "center"
+      },
+      {
+        "key": "event_name",
+        "xPct": 0.55,
+        "yPct": 0.9522222222222222,
+        "wPct": 0.4,
+        "hPct": 0.015555555555555555,
+        "fontFamily": "'Comic Neue', cursive",
+        "fontWeight": "700",
+        "fontSize": 22,
+        "minFontSize": 12,
+        "color": "#b3261e",
+        "align": "center"
+      }
+    ]
+  },
+  "christmas-kids-storybook-double-column-strip.thumb.webp"
+]

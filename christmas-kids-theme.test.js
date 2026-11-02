@@ -15,6 +15,14 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.equal(theme.thankYouScreens.length, 2);
   assert.equal(theme.backgrounds.length, 2);
   assert.equal(theme.overlays.length, 2);
+  assert.equal(theme.templates.length, 1);
+  const strip = theme.templates[0];
+  assert.equal(strip.layout, "double_column");
+  assert.equal(strip.orientation, "portrait");
+  assert.equal(strip.photoSlots.length, 6);
+  assert.deepEqual(strip.photoSlots.map((slot) => slot.sourceIndex), [0, 0, 1, 1, 2, 2]);
+  assert.deepEqual(strip.textFields.map((field) => field.key), ["event_name", "event_name"]);
+  assert.ok(existsSync(`.${strip.src}`), "missing Christmas photo strip template");
   for (const overlay of theme.overlays) {
     assert.ok(existsSync(`.${overlay.src}`), `missing photo overlay: ${overlay.src}`);
     assert.deepEqual(overlay.photoSlots, [
