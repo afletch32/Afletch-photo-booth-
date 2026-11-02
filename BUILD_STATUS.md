@@ -1,4 +1,4 @@
-- Christmas strip revision (2026-11-02): Removed the banner and penguin footer, completed the third icy frame, and aligned all six transparent openings to canonical print slots.
+- Christmas strip layout revision (2026-11-02): Removed the leftover empty footer by spreading three equal photo openings down the full strip. The template has no banner, text, or penguins.\n- Christmas strip revision (2026-11-02): Removed the banner and penguin footer, completed the third icy frame, and aligned all six transparent openings to canonical print slots.
 # Build status
 
 - Current goal: Keep setup theme browsing clear and make holiday assets discoverable by category.
