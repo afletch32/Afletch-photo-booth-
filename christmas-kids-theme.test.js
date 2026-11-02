@@ -14,7 +14,11 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.equal(theme.idleScreens.filter((screen) => screen.role === "photo-choice").length, 2);
   assert.equal(theme.thankYouScreens.length, 2);
   assert.equal(theme.backgrounds.length, 2);
-  assert.equal(theme.overlays.length, 2);
+  assert.equal(theme.overlays.length, 4);
+  assert.deepEqual(theme.overlays.slice(2).map((overlay) => overlay.photoSlots[0]), [
+    { x: 0.075, y: 0.07, width: 0.85, height: 0.85, borderRadius: 0 },
+    { x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 },
+  ]);
   assert.equal(theme.templates.length, 1);
   const strip = theme.templates[0];
   assert.equal(strip.layout, "double_column");
@@ -33,6 +37,8 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.ok(existsSync(`.${strip.src}`), "missing Christmas photo strip template");
   for (const overlay of theme.overlays) {
     assert.ok(existsSync(`.${overlay.src}`), `missing photo overlay: ${overlay.src}`);
+  }
+  for (const overlay of theme.overlays.slice(0, 2)) {
     assert.deepEqual(overlay.photoSlots, [
       { x: 0.25, y: 0.25, width: 0.5, height: 0.5, borderRadius: 0 },
     ]);

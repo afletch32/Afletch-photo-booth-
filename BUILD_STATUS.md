@@ -1,6 +1,8 @@
 - Christmas strip layout revision (2026-11-02): Removed the leftover empty footer by spreading three equal photo openings down the full strip. The template has no banner, text, or penguins.\n- Christmas strip revision (2026-11-02): Removed the banner and penguin footer, completed the third icy frame, and aligned all six transparent openings to canonical print slots.
 # Build status
 
+- Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
+
 - Current goal: Keep setup theme browsing clear and make holiday assets discoverable by category.
 - Done: Removed the duplicate Browse All Themes dropdown; the main picker remains. Avery's Birthday is cataloged under General and the picker classifies it as General. Holiday filters load built-in and remote assets; production Christmas results verified at 13 cards (backgrounds and templates).
 - In progress: Production release complete; locate the Christmas overlay records reported by the user.

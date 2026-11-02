@@ -1131,6 +1131,22 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
               aspectRatio: "3:2",
               photoSlots: [{ x: 0.25, y: 0.25, width: 0.5, height: 0.5, borderRadius: 0 }],
             },
+            {
+              src: "/assets/themes/christmas-kids/overlays/christmas-kids-polar-bear-icy-portrait.png",
+              name: "Christmas for Kids polar bear icy frame portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [{ x: 0.075, y: 0.07, width: 0.85, height: 0.85, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/overlays/christmas-kids-polar-bear-icy-landscape.png",
+              name: "Christmas for Kids polar bear icy frame landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [{ x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 }],
+            },
           ],
           templates: [
             {
