@@ -1055,6 +1055,76 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
             prompt: "Start the countdown!",
           },
         },
+        christmasKids: {
+          name: "Christmas for Kids",
+          accent: "#e53935",
+          accent2: "#1b7741",
+          fontHeading: "'Comic Neue', cursive",
+          fontBody: "'Comic Neue', cursive",
+          logo: "",
+          backgrounds: [
+            "/assets/themes/christmas-kids/christmas-kids-background-landscape.jpg",
+            "/assets/themes/christmas-kids/christmas-kids-background-portrait.jpg",
+          ],
+          idleScreens: [
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-idle-portrait.jpg",
+              name: "Christmas for Kids idle screen portrait",
+              role: "idle",
+              orientation: "portrait",
+              buttonZones: { start: { x: 50, y: 82, width: 72, height: 18, variant: "hotspot" } },
+            },
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-idle-landscape.jpg",
+              name: "Christmas for Kids idle screen landscape",
+              role: "idle",
+              orientation: "landscape",
+              buttonZones: { start: { x: 50, y: 78, width: 62, height: 30, variant: "hotspot" } },
+            },
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-photo-choice-portrait.jpg",
+              name: "Christmas for Kids photo choice portrait",
+              role: "photo-choice",
+              orientation: "portrait",
+              buttonZones: {
+                singlePhoto: { x: 50, y: 43, width: 68, height: 22 },
+                photoStrip: { x: 50, y: 76, width: 70, height: 23 },
+              },
+            },
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-photo-choice-landscape.jpg",
+              name: "Christmas for Kids photo choice landscape",
+              role: "photo-choice",
+              orientation: "landscape",
+              buttonZones: {
+                singlePhoto: { x: 35, y: 59, width: 32, height: 44 },
+                photoStrip: { x: 68, y: 59, width: 33, height: 44 },
+              },
+            },
+          ],
+          thankYouScreens: [
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-thank-you-portrait.jpg",
+              name: "Christmas for Kids Thank You screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/christmas-kids/christmas-kids-thank-you-landscape.jpg",
+              name: "Christmas for Kids Thank You screen landscape",
+              orientation: "landscape",
+            },
+          ],
+          overlays: [],
+          templates: [],
+          welcome: {
+            title: "Christmas for Kids",
+            portrait: "",
+            landscape: "",
+            prompt: "Tap to Start",
+          },
+          vibeParentKey: "winter:christmas",
+          vibeSummary: "Bright, playful, kid-friendly Christmas",
+        },
         valentines: {
           name: "Valentine's Day",
           accent: "#ff5e91",
