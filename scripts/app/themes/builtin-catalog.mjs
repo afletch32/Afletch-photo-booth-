@@ -1114,7 +1114,24 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
               orientation: "landscape",
             },
           ],
-          overlays: [],
+          overlays: [
+            {
+              src: "/assets/themes/christmas-kids/overlays/christmas-kids-single-photo-portrait.png",
+              name: "Christmas for Kids single photo portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [{ x: 0.25, y: 0.25, width: 0.5, height: 0.5, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/overlays/christmas-kids-single-photo-landscape.png",
+              name: "Christmas for Kids single photo landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [{ x: 0.25, y: 0.25, width: 0.5, height: 0.5, borderRadius: 0 }],
+            },
+          ],
           templates: [],
           welcome: {
             title: "Christmas for Kids",
