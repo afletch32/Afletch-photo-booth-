@@ -1,3 +1,4 @@
+- Christmas strip revision (2026-11-02): Removed the banner and penguin footer, completed the third icy frame, and aligned all six transparent openings to canonical print slots.
 # Build status
 
 - Current goal: Keep setup theme browsing clear and make holiday assets discoverable by category.

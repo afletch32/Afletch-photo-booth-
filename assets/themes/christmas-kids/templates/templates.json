@@ -1,85 +1,57 @@
 [
   {
     "src": "christmas-kids-storybook-double-column-strip.png",
-    "name": "Christmas for Kids storybook identical double strips",
+    "name": "Christmas for Kids three-photo double strips, no banner",
     "layout": "double_column",
     "orientation": "portrait",
     "photoSlots": [
       {
         "x": 0.041666666666666664,
-        "y": 0.145,
+        "y": 0.19833333333333333,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.23,
         "sourceIndex": 0,
         "borderRadius": 0
       },
       {
         "x": 0.5416666666666666,
-        "y": 0.145,
+        "y": 0.19833333333333333,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.23,
         "sourceIndex": 0,
         "borderRadius": 0
       },
       {
         "x": 0.041666666666666664,
-        "y": 0.37777777777777777,
+        "y": 0.4572222222222222,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.23,
         "sourceIndex": 1,
         "borderRadius": 0
       },
       {
         "x": 0.5416666666666666,
-        "y": 0.37777777777777777,
+        "y": 0.4572222222222222,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.23,
         "sourceIndex": 1,
         "borderRadius": 0
       },
       {
         "x": 0.041666666666666664,
-        "y": 0.6105555555555555,
+        "y": 0.7155555555555555,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.22944444444444445,
         "sourceIndex": 2,
         "borderRadius": 0
       },
       {
         "x": 0.5416666666666666,
-        "y": 0.6105555555555555,
+        "y": 0.7155555555555555,
         "width": 0.4166666666666667,
-        "height": 0.19611111111111112,
+        "height": 0.22944444444444445,
         "sourceIndex": 2,
         "borderRadius": 0
-      }
-    ],
-    "textFields": [
-      {
-        "key": "event_name",
-        "xPct": 0.05,
-        "yPct": 0.9511111111111111,
-        "wPct": 0.4,
-        "hPct": 0.015555555555555555,
-        "fontFamily": "'Comic Neue', cursive",
-        "fontWeight": "700",
-        "fontSize": 22,
-        "minFontSize": 12,
-        "color": "#b3261e",
-        "align": "center"
-      },
-      {
-        "key": "event_name",
-        "xPct": 0.55,
-        "yPct": 0.9511111111111111,
-        "wPct": 0.4,
-        "hPct": 0.015555555555555555,
-        "fontFamily": "'Comic Neue', cursive",
-        "fontWeight": "700",
-        "fontSize": 22,
-        "minFontSize": 12,
-        "color": "#b3261e",
-        "align": "center"
       }
     ]
   },

@@ -21,7 +21,15 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.equal(strip.orientation, "portrait");
   assert.equal(strip.photoSlots.length, 6);
   assert.deepEqual(strip.photoSlots.map((slot) => slot.sourceIndex), [0, 0, 1, 1, 2, 2]);
-  assert.deepEqual(strip.textFields.map((field) => field.key), ["event_name", "event_name"]);
+  assert.equal(strip.textFields, undefined);
+  assert.deepEqual(strip.photoSlots.map(({ x, y, width, height }) => [x, y, width, height]), [
+    [0.041666666666666664, 0.19833333333333333, 0.4166666666666667, 0.23],
+    [0.5416666666666666, 0.19833333333333333, 0.4166666666666667, 0.23],
+    [0.041666666666666664, 0.4572222222222222, 0.4166666666666667, 0.23],
+    [0.5416666666666666, 0.4572222222222222, 0.4166666666666667, 0.23],
+    [0.041666666666666664, 0.7155555555555555, 0.4166666666666667, 0.22944444444444445],
+    [0.5416666666666666, 0.7155555555555555, 0.4166666666666667, 0.22944444444444445],
+  ]);
   assert.ok(existsSync(`.${strip.src}`), "missing Christmas photo strip template");
   for (const overlay of theme.overlays) {
     assert.ok(existsSync(`.${overlay.src}`), `missing photo overlay: ${overlay.src}`);
