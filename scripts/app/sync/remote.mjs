@@ -53,6 +53,8 @@ export function createRemoteModule(__appRuntimeContext) {
       const migratedAmandaNorthScreens = __appRuntimeContext.migrateAmandaNorthScreenAssets(__appRuntimeContext.themes);
       const migratedSummerAssets = __appRuntimeContext.migrateSummerThemeAssets(__appRuntimeContext.themes);
       const migratedHalloweenAssets = __appRuntimeContext.migrateHalloweenThemeAssets(__appRuntimeContext.themes);
+      const migratedChristmasKidsAssets =
+        __appRuntimeContext.migrateChristmasKidsCatalogAssets(__appRuntimeContext.themes);
       const migratedSpringHillHawks = __appRuntimeContext.migrateSpringHillHawksAssets(__appRuntimeContext.themes);
       const migratedSpringHillHawksStadium =
         __appRuntimeContext.migrateSpringHillHawksStadiumAssets(__appRuntimeContext.themes);
@@ -71,6 +73,7 @@ export function createRemoteModule(__appRuntimeContext) {
         migratedAmandaNorthScreens ||
         migratedSummerAssets ||
         migratedHalloweenAssets ||
+        migratedChristmasKidsAssets ||
         migratedSpringHillHawks ||
         migratedSpringHillHawksStadium ||
         migratedSpringHillHawksCheer
