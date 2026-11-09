@@ -9,7 +9,7 @@
 - Photo booth overlay-maker skill (2026-10-30): Added canonical dimensions, transparent slot rules, duplicate-strip geometry, and banner guidance.
 - Photo booth theme-builder skill (2026-11-02): Added the reusable theme workflow for matched screen art and invisible responsive hotspots.
 
-- Saved catalog migration (2026-11-09): Existing saved Christmas for Kids themes now adopt missing built-in overlays and templates while honoring assets explicitly removed by the user. Four focused theme/catalog tests pass.
+- Saved catalog migration (2026-11-09): Existing saved Christmas for Kids themes now adopt missing built-in overlays and templates while honoring assets explicitly removed by the user. The app-shell cache was bumped to v85 so existing booths receive the migration. Four focused theme/catalog tests pass.
 
 # Build status
 
