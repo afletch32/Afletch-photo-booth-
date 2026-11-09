@@ -747,6 +747,41 @@ export function createCatalogStorageModule(__appRuntimeContext) {
     }
   }
 
+  function migrateChristmasKidsCatalogAssets(themeCatalog) {
+    const theme = themeCatalog?.winter?.holidays?.christmasKids;
+    const defaults =
+      __appRuntimeContext.BUILTIN_THEMES?.winter?.holidays?.christmasKids;
+    if (!theme || !defaults) return false;
+
+    let migrated = false;
+    for (const [field, removedField] of [
+      ["overlays", "overlaysRemoved"],
+      ["templates", "templatesRemoved"],
+    ]) {
+      const existing = Array.isArray(theme[field]) ? theme[field] : [];
+      const existingSources = new Set(
+        existing.map(__appRuntimeContext.getAssetEntrySrc).filter(Boolean)
+      );
+      const removedSources = new Set(
+        (Array.isArray(theme[removedField]) ? theme[removedField] : [])
+          .map(__appRuntimeContext.getAssetEntrySrc)
+          .filter(Boolean)
+      );
+      const additions = (Array.isArray(defaults[field]) ? defaults[field] : [])
+        .filter((entry) => {
+          const src = __appRuntimeContext.getAssetEntrySrc(entry);
+          return src && !existingSources.has(src) && !removedSources.has(src);
+        })
+        .map(__appRuntimeContext.cloneThemeValue);
+
+      if (additions.length) {
+        theme[field] = [...existing, ...additions];
+        migrated = true;
+      }
+    }
+    return migrated;
+  }
+
   function hasOverlayDefinitionSource(entries) {
     return (
       Array.isArray(entries) &&
@@ -903,6 +938,9 @@ export function createCatalogStorageModule(__appRuntimeContext) {
         const migratedAmandaNorthScreens = migrateAmandaNorthScreenAssets(__appRuntimeContext.themes);
         const migratedSummerAssets = migrateSummerThemeAssets(__appRuntimeContext.themes);
         const migratedHalloweenAssets = __appRuntimeContext.migrateHalloweenThemeAssets(__appRuntimeContext.themes);
+        const migratedChristmasKidsAssets = migrateChristmasKidsCatalogAssets(
+          __appRuntimeContext.themes
+        );
         const migratedSpringHillHawks = migrateSpringHillHawksAssets(__appRuntimeContext.themes);
         const migratedSpringHillHawksStadium =
           migrateSpringHillHawksStadiumAssets(__appRuntimeContext.themes);
@@ -920,6 +958,7 @@ export function createCatalogStorageModule(__appRuntimeContext) {
           migratedAmandaNorthScreens ||
           migratedSummerAssets ||
           migratedHalloweenAssets ||
+          migratedChristmasKidsAssets ||
           migratedSpringHillHawks ||
           migratedSpringHillHawksStadium ||
           migratedSpringHillHawksCheer ||
@@ -1034,6 +1073,7 @@ export function createCatalogStorageModule(__appRuntimeContext) {
     applyBackgroundFallback,
     applyTemplatesFallback,
     applyOverlaysFallback,
+    migrateChristmasKidsCatalogAssets,
     hasOverlayDefinitionSource,
     hasCorruptedThemeOverlayEntries,
     applyArrayFallback,

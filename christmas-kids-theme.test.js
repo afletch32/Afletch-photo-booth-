@@ -16,13 +16,13 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.equal(theme.backgrounds.length, 2);
   assert.equal(theme.overlays.length, 10);
   assert.equal(theme.templates.length, 11);
+  assert.equal(theme.templates[1].layout, "double_column");
+  assert.ok(existsSync(`.${theme.templates[1].src}`), "missing minimal Christmas photo strip template");
   assert.deepEqual(theme.overlays.slice(2, 4).map((overlay) => overlay.photoSlots[0]), [
     { x: 0.075, y: 0.07, width: 0.85, height: 0.85, borderRadius: 0 },
     { x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 },
   ]);
   assert.equal(theme.templates[0].layout, "double_column");
-  assert.equal(theme.templates[1].layout, "double_column");
-  assert.ok(existsSync(`.${theme.templates[1].src}`), "missing minimal Christmas photo strip template");
   assert.equal(theme.templates[0].orientation, "portrait");
   assert.equal(theme.templates[0].photoSlots.length, 6);
   assert.deepEqual(theme.templates[0].photoSlots.map((slot) => slot.sourceIndex), [0, 0, 1, 1, 2, 2]);
@@ -61,4 +61,38 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   for (const screen of theme.idleScreens.filter((entry) => entry.role === "photo-choice")) {
     assert.deepEqual(Object.keys(screen.buttonZones).sort(), ["photoStrip", "singlePhoto"]);
   }
+});
+
+test("saved Christmas for Kids themes adopt new catalog assets without restoring removals", async () => {
+  const { createBuiltinThemeData } = await import("./scripts/app/themes/builtin-catalog.mjs");
+  const { createCatalogStorageModule } = await import("./scripts/app/themes/catalog-storage.mjs");
+  const { BUILTIN_THEMES } = createBuiltinThemeData({
+    pruneUnapprovedThemes() {},
+    approvedThemeKeys: new Set(),
+  });
+  const builtin = BUILTIN_THEMES.winter.holidays.christmasKids;
+  const removedSrc = builtin.overlays[2].src;
+  const savedThemes = {
+    winter: {
+      holidays: {
+        christmasKids: {
+          overlays: builtin.overlays.slice(0, 2),
+          overlaysRemoved: [removedSrc],
+          templates: builtin.templates.slice(0, 1),
+        },
+      },
+    },
+  };
+  const storage = createCatalogStorageModule({
+    BUILTIN_THEMES,
+    getAssetEntrySrc: (entry) => (typeof entry === "string" ? entry : entry?.src || ""),
+    cloneThemeValue: (value) => JSON.parse(JSON.stringify(value)),
+  });
+
+  assert.equal(storage.migrateChristmasKidsCatalogAssets(savedThemes), true);
+  const saved = savedThemes.winter.holidays.christmasKids;
+  assert.equal(saved.overlays.length, builtin.overlays.length - 1);
+  assert.equal(saved.templates.length, builtin.templates.length);
+  assert.ok(!saved.overlays.some((overlay) => overlay.src === removedSrc));
+  assert.equal(storage.migrateChristmasKidsCatalogAssets(savedThemes), false);
 });

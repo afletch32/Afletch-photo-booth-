@@ -9,6 +9,8 @@
 - Photo booth overlay-maker skill (2026-10-30): Added canonical dimensions, transparent slot rules, duplicate-strip geometry, and banner guidance.
 - Photo booth theme-builder skill (2026-11-02): Added the reusable theme workflow for matched screen art and invisible responsive hotspots.
 
+- Saved catalog migration (2026-11-09): Existing saved Christmas for Kids themes now adopt missing built-in overlays and templates while honoring assets explicitly removed by the user. Four focused theme/catalog tests pass.
+
 # Build status
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
