@@ -1,0 +1,59 @@
+[
+  {
+    "src": "christmas-kids-storybook-double-column-strip.png",
+    "name": "Christmas for Kids three-photo double strips, no banner",
+    "layout": "double_column",
+    "orientation": "portrait",
+    "photoSlots": [
+      {
+        "x": 0.041666666666666664,
+        "y": 0.19833333333333333,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 0,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.19833333333333333,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 0,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.041666666666666664,
+        "y": 0.4666666666666667,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 1,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.4666666666666667,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 1,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.041666666666666664,
+        "y": 0.735,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 2,
+        "borderRadius": 0
+      },
+      {
+        "x": 0.5416666666666666,
+        "y": 0.735,
+        "width": 0.4166666666666667,
+        "height": 0.23944444444444446,
+        "sourceIndex": 2,
+        "borderRadius": 0
+      }
+    ]
+  },
+  "christmas-kids-storybook-double-column-strip.thumb.webp"
+]

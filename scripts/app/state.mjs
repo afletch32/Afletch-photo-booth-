@@ -76,6 +76,7 @@ export function createAppState(dependencies = {}) {
     "general:summer",
     "fall:halloween",
     "fall:cuteHalloween",
+    "winter:christmasKids",
     "school:hawks",
     "school:hawksTitansStadium",
     "school:hawksCheer",
