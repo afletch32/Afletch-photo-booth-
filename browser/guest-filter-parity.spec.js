@@ -45,10 +45,16 @@ test("guest filter matches preview, single photo, and strip without Bridal Glow"
    const strip=await decoded(await api.composeStrip(template,[capture]));
    const stripDiff=difference(pixels(strip),expected);
    if(stripDiff!==0)throw Error(`Strip altered filtered pixels: ${option.value}: ${stripDiff}`);
-   const final=await decoded(await api.finalizeToPrint(capture,null));
+   // Compare the JPEG export against an independently encoded reference.
+   const output=await api.finalizeToPrint(capture,null);
+   const final=await decoded(output.previewUrl);
    const reference=document.createElement("canvas");reference.width=final.width;reference.height=final.height;
-   reference.getContext("2d").drawImage(capture,0,0,final.width,final.height);
-   const finalDiff=difference(pixels(final),pixels(reference));
+   const referenceContext=reference.getContext("2d",{alpha:false});
+   referenceContext.imageSmoothingQuality="high";
+   referenceContext.drawImage(capture,0,0,final.width,final.height);
+   const encodedReference=await decoded(reference.toDataURL("image/jpeg",0.94));
+   const finalDiff=difference(pixels(final),pixels(encodedReference));
+   URL.revokeObjectURL(output.previewUrl);
    if(finalDiff>1)throw Error(`Single output altered filtered pixels: ${option.value}: ${finalDiff}`);
    results.push({preset:option.value,previewCaptureMaxDifference:parity,stripMaxDifference:stripDiff,singleMaxDifference:finalDiff});
   }

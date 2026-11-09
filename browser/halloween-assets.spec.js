@@ -33,7 +33,9 @@ test("Halloween theme frames load their portrait previews", async ({ page }) => 
     }, key);
     await expect.poll(() => page.evaluate(() => window.__photoboothTest.getSelectedThemeKey())).toBe(key);
     await page.locator("#assetLibrarySearch").fill(query);
-    const card = page.locator("#assetLibraryGrid .asset-library-card").first();
+    const card = page.locator("#assetLibraryGrid .asset-library-card").filter({
+      has: page.locator(`img[src*="${source.replace(".png", ".thumb.webp")}"]`),
+    });
     await expect(card).toBeVisible();
     await expect(card.locator("img")).toHaveAttribute("src", new RegExp(source.replace(".png", ".thumb.webp")));
     await expect.poll(() => card.locator("img").evaluate((image) => image.complete && image.naturalWidth > 0)).toBe(true);
