@@ -1,0 +1,74 @@
+[
+  {
+    "src": "elf-scout-template-double-strip-corners-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-double-strip-corners-portrait.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-double-strip-garland-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-double-strip-garland-portrait.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-double-strip-minimal-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-double-strip-minimal-portrait.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-corners-landscape.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-corners-landscape.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-corners-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-corners-portrait.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-garland-landscape.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-garland-landscape.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-garland-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-garland-portrait.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-minimal-landscape.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-minimal-landscape.thumb.webp",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-minimal-portrait.png",
+    "layout": "double_column"
+  },
+  {
+    "src": "elf-scout-template-single-photo-minimal-portrait.thumb.webp",
+    "layout": "double_column"
+  }
+]

@@ -6,7 +6,13 @@
     "orientation": "portrait",
     "aspectRatio": "2:3",
     "photoSlots": [
-      { "x": 0.25, "y": 0.25, "width": 0.5, "height": 0.5, "borderRadius": 0 }
+      {
+        "x": 0.25,
+        "y": 0.25,
+        "width": 0.5,
+        "height": 0.5,
+        "borderRadius": 0
+      }
     ]
   },
   "christmas-kids-single-photo-portrait.thumb.webp",
@@ -17,7 +23,13 @@
     "orientation": "landscape",
     "aspectRatio": "3:2",
     "photoSlots": [
-      { "x": 0.25, "y": 0.25, "width": 0.5, "height": 0.5, "borderRadius": 0 }
+      {
+        "x": 0.075,
+        "y": 0.07,
+        "width": 0.85,
+        "height": 0.85,
+        "borderRadius": 0
+      }
     ]
   },
   "christmas-kids-single-photo-landscape.thumb.webp",
@@ -28,7 +40,13 @@
     "orientation": "portrait",
     "aspectRatio": "2:3",
     "photoSlots": [
-      { "x": 0.075, "y": 0.07, "width": 0.85, "height": 0.85, "borderRadius": 0 }
+      {
+        "x": 0.09,
+        "y": 0.09,
+        "width": 0.82,
+        "height": 0.82,
+        "borderRadius": 0
+      }
     ]
   },
   "christmas-kids-polar-bear-icy-portrait.thumb.webp",
@@ -39,7 +57,13 @@
     "orientation": "landscape",
     "aspectRatio": "3:2",
     "photoSlots": [
-      { "x": 0.09, "y": 0.09, "width": 0.82, "height": 0.82, "borderRadius": 0 }
+      {
+        "x": 0.21388888888888888,
+        "y": 0.3233333333333333,
+        "width": 0.5716666666666667,
+        "height": 0.5641666666666667,
+        "borderRadius": 0
+      }
     ]
   },
   "christmas-kids-polar-bear-icy-landscape.thumb.webp"

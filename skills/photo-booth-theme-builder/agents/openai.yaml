@@ -1,0 +1,4 @@
+interface:
+  display_name: "Photo Booth Theme Builder"
+  short_description: "Build cohesive themes with artwork-matched touch targets"
+  default_prompt: "Help create a Decemberbooth theme. Start by checking the repo's theme conventions and ask only for missing details needed to plan its screens and artwork."

@@ -76,12 +76,15 @@ export function createAppState(dependencies = {}) {
     "general:summer",
     "fall:halloween",
     "fall:cuteHalloween",
-    "winter:christmasKids",
+    "winter:christmas",
+    "wedding:eucalyptusGarden",
+    "wedding:minimalBotanical",
     "school:hawks",
     "school:hawksTitansStadium",
     "school:hawksCheer",
     "school:ane",
     "school:streamNight",
+    "winter:christmasKids",
   ]);
 
   const __builtinThemeData = createBuiltinThemeData({
@@ -402,7 +405,7 @@ export function createAppState(dependencies = {}) {
       "Valentine's Day",
       "St. Patrick's Day",
     ],
-    Wedding: ["Wedding"],
+    Wedding: ["Eucalyptus Garden Wedding", "Minimal Botanical Wedding"],
     Youth: [
       "Spring Hill Hawks",
       "Spring Hill Hawks at Titans Stadium",

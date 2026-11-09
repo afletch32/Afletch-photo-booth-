@@ -1,4 +1,5 @@
 import { migrateHalloweenThemeAssets } from "../../halloween-assets.mjs";
+import { createWeddingTheme } from "../events/wedding-themes.mjs";
 
 export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKeys }) {
   let themes = {
@@ -948,6 +949,8 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
           font: "'Comic Neue', cursive",
           logo: "",
           backgrounds: [
+            "/assets/themes/christmas/christmas-background-landscape.png",
+            "/assets/themes/christmas/christmas-background-portrait.png",
             "https://res.cloudinary.com/afletch32/image/upload/v1783788477/photobooth/events/assets/winter-christmas-background-christmas-background-1_rgvubw.png",
             "https://res.cloudinary.com/afletch32/image/upload/v1783788478/photobooth/events/assets/winter-christmas-background-christmas-background-2_eahwkm.png",
             "https://res.cloudinary.com/afletch32/image/upload/v1783788479/photobooth/events/assets/winter-christmas-background-christmas-background-3_huffgo.png",
@@ -955,6 +958,54 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
             "https://res.cloudinary.com/afletch32/image/upload/v1783788483/photobooth/events/assets/winter-christmas-background-christmas-background-5_rkzpcb.png",
             "https://res.cloudinary.com/afletch32/image/upload/v1783788485/photobooth/events/assets/winter-christmas-background-christmas_dn0mcm.png",
             "https://res.cloudinary.com/afletch32/image/upload/v1783788486/photobooth/events/assets/winter-christmas-background-winter_xents8.png",
+          ],
+          idleScreens: [
+            {
+              src: "/assets/themes/christmas/christmas-idle-portrait.png",
+              name: "Christmas idle screen portrait",
+              role: "idle",
+              orientation: "portrait",
+              buttonZones: { start: { x: 50, y: 67, width: 62, height: 16 } },
+            },
+            {
+              src: "/assets/themes/christmas/christmas-idle-landscape.png",
+              name: "Christmas idle screen landscape",
+              role: "idle",
+              orientation: "landscape",
+              buttonZones: { start: { x: 50, y: 60, width: 48, height: 20 } },
+            },
+            {
+              src: "/assets/themes/christmas/christmas-photo-choice-portrait.png",
+              name: "Christmas photo choice portrait",
+              role: "photo-choice",
+              orientation: "portrait",
+              buttonZones: {
+                singlePhoto: { x: 50, y: 37, width: 62, height: 24 },
+                photoStrip: { x: 50, y: 68, width: 62, height: 24 },
+              },
+            },
+            {
+              src: "/assets/themes/christmas/christmas-photo-choice-landscape.png",
+              name: "Christmas photo choice landscape",
+              role: "photo-choice",
+              orientation: "landscape",
+              buttonZones: {
+                singlePhoto: { x: 29, y: 50, width: 34, height: 52 },
+                photoStrip: { x: 71, y: 50, width: 34, height: 52 },
+              },
+            },
+          ],
+          thankYouScreens: [
+            {
+              src: "/assets/themes/christmas/christmas-thank-you-portrait.png",
+              name: "Christmas Thank You screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/christmas/christmas-thank-you-landscape.png",
+              name: "Christmas Thank You screen landscape",
+              orientation: "landscape",
+            },
           ],
           overlays: [],
           templates: [
@@ -965,7 +1016,7 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
             title: "Merry Christmas!",
             portrait: "",
             landscape: "",
-            prompt: "Touch to start the fun!",
+            prompt: "Tap to Start",
           },
         },
         winterWonderland: {
@@ -1131,6 +1182,7 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
               aspectRatio: "3:2",
               photoSlots: [{ x: 0.25, y: 0.25, width: 0.5, height: 0.5, borderRadius: 0 }],
             },
+
             {
               src: "/assets/themes/christmas-kids/overlays/christmas-kids-polar-bear-icy-portrait.png",
               name: "Christmas for Kids polar bear icy frame portrait",
@@ -1147,11 +1199,157 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
               aspectRatio: "3:2",
               photoSlots: [{ x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 }],
             },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-minimal-portrait.png",
+              name: "Elf Scout minimal border portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-minimal-landscape.png",
+              name: "Elf Scout minimal border landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-corners-portrait.png",
+              name: "Elf Scout decorated corners portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-corners-landscape.png",
+              name: "Elf Scout decorated corners landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-garland-portrait.png",
+              name: "Elf Scout evergreen garland portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-garland-landscape.png",
+              name: "Elf Scout evergreen garland landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
           ],
           templates: [
             {
               src: "/assets/themes/christmas-kids/templates/christmas-kids-storybook-double-column-strip.png",
               name: "Christmas for Kids three-photo double strips, no banner",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                { x: 0.041666666666666664, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+              ],
+            },
+            {
+              src: "/assets/themes/christmas-kids/templates/christmas-kids-minimal-double-column-strip.png",
+              name: "Christmas for Kids minimal three-photo double strips, no banner",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                { x: 0.041666666666666664, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+              ],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-minimal-portrait.png",
+              name: "Elf Scout minimal portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-minimal-landscape.png",
+              name: "Elf Scout minimal landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-corners-portrait.png",
+              name: "Elf Scout decorated corners portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-corners-landscape.png",
+              name: "Elf Scout decorated corners landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-garland-portrait.png",
+              name: "Elf Scout evergreen garland portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [{ x: 0.08333333333333333, y: 0.05555555555555555, width: 0.8333333333333334, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-garland-landscape.png",
+              name: "Elf Scout evergreen garland landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [{ x: 0.10555555555555556, y: 0.058333333333333334, width: 0.7888888888888889, height: 0.8333333333333334, borderRadius: 0 }],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-minimal-portrait.png",
+              name: "Elf Scout minimal double 2x6 strip",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                { x: 0.041666666666666664, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+              ],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-corners-portrait.png",
+              name: "Elf Scout decorated corners double 2x6 strip",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                { x: 0.041666666666666664, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.19833333333333333, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 0, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.4666666666666667, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 1, borderRadius: 0 },
+                { x: 0.041666666666666664, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+                { x: 0.5416666666666666, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
+              ],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-garland-portrait.png",
+              name: "Elf Scout evergreen garland double 2x6 strip",
               layout: "double_column",
               orientation: "portrait",
               photoSlots: [
@@ -1429,6 +1627,14 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
         },
       },
     ],
+  };
+
+  themes.wedding = {
+    name: "Wedding",
+    themes: {
+      eucalyptusGarden: createWeddingTheme("eucalyptus", "", "", ""),
+      minimalBotanical: createWeddingTheme("minimal", "", "", ""),
+    },
   };
 
   const holidayThemeCatalog = Object.entries(themes).flatMap(([rootKey, group]) =>

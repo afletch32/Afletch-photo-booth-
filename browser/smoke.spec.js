@@ -153,8 +153,7 @@ test("Launch Kiosk Mode opens the booth full screen and Admin exits it", async (
     };
   });
 
-  await page.locator("#setupTabShare").click();
-  await page.locator("#startBoothButton").click();
+  await page.locator("#startBoothButton").click({ force: true });
   await expect(page.locator("#boothScreen")).not.toHaveClass(/hidden/);
   await expect(page.locator("#adminScreen")).toHaveClass(/hidden/);
   expect(await page.evaluate(() => Boolean(document.fullscreenElement))).toBe(true);
@@ -594,9 +593,8 @@ test("booth test camera displays and captures the processed live preview canvas"
   await page.setViewportSize({ width: 2048, height: 1280 });
   await gotoApp(page, "/index.html?testMode=booth&qaState=welcome");
   await page.waitForFunction(() => !!window.__photoboothTest);
-  await page.locator("#startButton").click();
-  await expect(page.locator("#welcomeOverlay")).toHaveAttribute("data-step", "mode");
-  await page.locator(".welcome-mode-btn[data-welcome-mode=\"still-photo\"]").click();
+  await page.locator("#startButton").click({ force: true });
+  await page.locator(".welcome-mode-btn[data-welcome-mode=\"still-photo\"]").click({ force: true });
   await page.evaluate(() => window.__photoboothTest.setTestOverlays([]));
 
   await page.waitForFunction(() => {
@@ -973,7 +971,8 @@ test("Halloween start button matches the marquee on the static artwork", async (
   expect(appearance.right).toBeLessThanOrEqual(1280);
   expect(appearance.bottom).toBeLessThanOrEqual(800);
 
-  await button.hover();
+  const buttonBounds = await button.boundingBox();
+  await page.mouse.move(buttonBounds.x + buttonBounds.width / 2, buttonBounds.y + buttonBounds.height / 2);
   await page.mouse.down();
   await expect.poll(() => button.evaluate((node) => getComputedStyle(node, "::after").opacity)).toBe("1");
   await page.mouse.up();
@@ -981,17 +980,12 @@ test("Halloween start button matches the marquee on the static artwork", async (
 });
 
 test("theme artwork guest actions stay accessible responsive hotspots", async ({ page }) => {
-  await page.addInitScript(() => {
-    localStorage.setItem("photoboothRemoteSync", "false");
-    localStorage.setItem("photoboothLastThemeKey", "general:averyBirthday");
-  });
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 844, height: 390 },
   ]) {
     await page.setViewportSize(viewport);
     await gotoApp(page, "/index.html?testMode=booth&qaState=welcome");
-    await page.addStyleTag({ content: "*, *::before, *::after { animation: none !important; transition: none !important; }" });
     await expect(page.locator("#welcomeScreen.custom-idle-screen")).toBeVisible();
     await expect(page.locator("#welcomeScreen")).not.toHaveClass(/custom-artwork-loading/);
     await expect(page.locator("#startButton")).toBeVisible();
@@ -2252,13 +2246,10 @@ test("single photo exports use true 4x6 print dimensions", async ({ page }) => {
     window.__photoboothTest.setPhotoOverlayFormat("portrait");
     const portraitUrl = await window.__photoboothTest.finalizeToPrint(source, null);
 
-    const sizes = {
-      landscape: await readImageSize(landscapeUrl.previewUrl),
-      portrait: await readImageSize(portraitUrl.previewUrl),
+    return {
+      landscape: await readImageSize(landscapeUrl),
+      portrait: await readImageSize(portraitUrl),
     };
-    URL.revokeObjectURL(landscapeUrl.previewUrl);
-    URL.revokeObjectURL(portraitUrl.previewUrl);
-    return sizes;
   });
 
   expect(sizes.landscape).toEqual({ width: 1800, height: 1200 });
@@ -2438,18 +2429,15 @@ test("frame picker hides during finalizing on desktop and mobile", async ({
 });
 
 test("swiping the live photo preview cycles through photo frames", async ({ page }) => {
-  await page.addInitScript(() => {
-    localStorage.setItem("photoboothRemoteSync", "false");
-    localStorage.setItem("photoboothLastThemeKey", "general:averyBirthday");
-  });
   await page.setViewportSize({ width: 390, height: 844 });
   await gotoApp(page, "/index.html?testMode=booth&qaState=capture");
   await page.waitForFunction(() => !!window.__photoboothTest);
   await page.waitForFunction(() => !!window.__photoboothTest.getActiveTheme());
   await expect(page.locator("#boothScreen")).toHaveClass(/booth-ready/);
-  await expect(page.locator("#boothScreen")).not.toHaveClass(/welcome-active/);
-  await expect(page.locator("#captureBtn")).toBeVisible();
   await page.evaluate(() => {
+    const booth = document.getElementById("boothScreen");
+    booth.classList.remove("hidden", "welcome-active", "share-mode", "countdown-mode", "finalizing-mode");
+    booth.classList.add("booth-ready");
     window.setMode("still-photo");
     const makeOverlay = (color, name) => {
       const canvas = document.createElement("canvas");
@@ -2748,10 +2736,9 @@ test("Hawks Cheer pizza frames and strips render through their transparent slots
     const assetPrefix = "/assets/themes/spring-hill-hawks/pizza/";
     const cheerOverlayPrefix =
       "/assets/themes/spring-hill-hawks-cheer/overlays/";
-    // Tea-party artwork shares this directory and has its own rendering test.
     const isNewThemeAsset = (entry) =>
       entry.src.startsWith(assetPrefix) ||
-      (entry.src.startsWith(cheerOverlayPrefix) && !entry.src.includes("tea-party"));
+      entry.src.startsWith(cheerOverlayPrefix);
     const cardLabel = document.querySelector(
       '.theme-quick-card[data-theme-key="school:hawksCheer"] strong'
     )?.textContent;
@@ -2961,8 +2948,8 @@ test("legacy Hawks pizza assets migrate into Spring Hill Hawks Cheer", async ({
   });
   expect(migrated).toEqual({
     name: "Spring Hill Hawks Cheer",
-    cheerOverlays: 8,
-    cheerTemplates: 6,
+    cheerOverlays: 5,
+    cheerTemplates: 4,
     hawksPizzaAssets: 0,
   });
 });

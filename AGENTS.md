@@ -9,6 +9,7 @@
 - Update `BUILD_STATUS.md` after meaningful repo changes.
 - Keep overlay rendering slot-based: background, photo slots, foreground, optional logo.
 - Keep overlay-maker layout geometry canonical by layout class.
+- For booth overlay and print-template artwork, follow `skills/photo-booth-overlay-maker/SKILL.md`.
 - Keep new capabilities modular so weddings, schools, corporate events, sports teams, holidays, and future event types share one application.
 - Keep `/api/gallery` as the public gallery source and preserve stable `/share/{captureId}` links.
 - Keep guest pages mobile-first, bounded, and theme-aware; do not introduce a second photo store.

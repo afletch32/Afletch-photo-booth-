@@ -1,0 +1,4 @@
+interface:
+  display_name: "Photo Booth Overlay Maker"
+  short_description: "Make booth overlays and 4x6 strip templates"
+  default_prompt: "Ask whether the overlay needs a bottom banner and what it should say, then create the requested photo booth assets."

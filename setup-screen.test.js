@@ -355,7 +355,9 @@ test("setup presents a numbered flow with one share-stage launch action", () => 
   assert.ok(
     html.includes('class="admin-launch-dock" data-setup-section="share"') &&
       html.split('id="startBoothButton"').length - 1 === 1 &&
-      html.includes("Launch Kiosk Mode") && appScript.includes("requestFullscreen.call(root)") &&
+      html.includes("Launch Kiosk Mode") &&
+      appScript.includes('startBoothBtn.addEventListener("click", () => {') &&
+      appScript.includes("requestFullscreen.call(root)") &&
       appScript.includes('document.querySelectorAll("[data-setup-next]")'),
     "Share should own the only launch action and start the booth in kiosk full screen"
   );
@@ -430,12 +432,30 @@ test("setup theme picker groups themes by user-facing category", () => {
   );
 });
 
-test("built-in Wedding theme is retired while wedding event setup remains", () => {
+test("built-in wedding themes use their matching overlay and template packs", async () => {
   const appScript = readAppSource();
   const html = readProjectFile("index.html");
+  const { createWeddingTheme } = await import("./scripts/app/events/wedding-themes.mjs");
+  const eucalyptus = createWeddingTheme("eucalyptus", "", "", "");
+  const minimal = createWeddingTheme("minimal", "", "", "");
 
-  assert.ok(!appScript.includes('"wedding:romantic"'));
-  assert.ok(!appScript.includes('name: "Timeless Romance"'));
+  assert.ok(appScript.includes('"wedding:eucalyptusGarden"'));
+  assert.ok(appScript.includes('"wedding:minimalBotanical"'));
+  assert.ok(appScript.includes('eucalyptusGarden: createWeddingTheme("eucalyptus", "", "", "")'));
+  assert.ok(appScript.includes('minimalBotanical: createWeddingTheme("minimal", "", "", "")'));
+  assert.equal(eucalyptus.name, "Eucalyptus Garden Wedding");
+  assert.equal(minimal.name, "Minimal Botanical Wedding");
+  for (const theme of [eucalyptus, minimal]) {
+    assert.deepEqual(theme.eventTypes, ["wedding"]);
+    assert.equal(theme.idleScreens.filter((screen) => screen.role === "idle").length, 2);
+    assert.equal(theme.idleScreens.filter((screen) => screen.role === "photo-choice").length, 2);
+    assert.equal(theme.thankYouScreens.length, 2);
+    assert.equal(theme.overlays.length, 2);
+    assert.equal(theme.templates.length, 1);
+    assert.ok(theme.overlays.every((overlay) => overlay.category === "wedding"));
+  }
+  assert.ok(eucalyptus.overlays.every((overlay) => overlay.src.includes("eucalyptus-wedding")));
+  assert.ok(minimal.overlays.every((overlay) => overlay.src.includes("minimal-wedding")));
   assert.ok(!html.includes('data-demo-theme="wedding"'));
   assert.ok(!html.includes('id="eventTypeInput"'));
   assert.ok(html.includes('id="startWeddingSetupBtn">Set Up a Wedding</button>'));
@@ -586,7 +606,8 @@ test("launch booth starts directly without a confirmation modal", () => {
       html.includes("body:not(.admin-open) .admin-launch-dock") &&
       !appScript.includes("openBoothLaunchConfirm") &&
       !appScript.includes("confirmBoothLaunch") &&
-      html.includes("Launch Kiosk Mode") && appScript.includes("requestFullscreen.call(root)"),
+      html.includes("Launch Kiosk Mode") &&
+      appScript.includes("requestFullscreen.call(root)"),
     "launch should enter kiosk full screen without an intermediate confirmation"
   );
 });
