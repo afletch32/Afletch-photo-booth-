@@ -1,6 +1,7 @@
 - Christmas strip layout revision (2026-11-02): Removed the leftover empty footer by spreading three equal photo openings down the full strip. The template has no banner, text, or penguins.\n- Christmas strip revision (2026-11-02): Removed the banner and penguin footer, completed the third icy frame, and aligned all six transparent openings to canonical print slots.
 # Build status
 
+- Elf Scout overlay/template set (2026-11-09): Added six transparent portrait and landscape overlays, six single-photo templates, and three duplicated 2×6 strip templates to the Christmas for Kids booth catalog. The strips retain the canonical six-slot geometry across both copies; all artwork is banner-free.
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
 - Current goal: Keep setup theme browsing clear and make holiday assets discoverable by category.

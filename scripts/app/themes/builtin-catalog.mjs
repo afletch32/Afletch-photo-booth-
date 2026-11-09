@@ -1147,6 +1147,102 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
               aspectRatio: "3:2",
               photoSlots: [{ x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 }],
             },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-minimal-portrait.png",
+              name: "Elf Scout minimal border portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-minimal-landscape.png",
+              name: "Elf Scout minimal border landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-corners-portrait.png",
+              name: "Elf Scout decorated corners portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-corners-landscape.png",
+              name: "Elf Scout decorated corners landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-garland-portrait.png",
+              name: "Elf Scout evergreen garland portrait",
+              type: "photo",
+              orientation: "portrait",
+              aspectRatio: "2:3",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/overlays/elf-scout-overlay-garland-landscape.png",
+              name: "Elf Scout evergreen garland landscape",
+              type: "photo",
+              orientation: "landscape",
+              aspectRatio: "3:2",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
           ],
           templates: [
             {
@@ -1162,6 +1258,264 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
                 { x: 0.041666666666666664, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
                 { x: 0.5416666666666666, y: 0.735, width: 0.4166666666666667, height: 0.23944444444444445, sourceIndex: 2, borderRadius: 0 },
               ],
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-minimal-portrait.png",
+              name: "Elf Scout minimal border portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-minimal-portrait.png",
+              name: "Elf Scout minimal border double 2x6 strip",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.041666666666666664,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-minimal-landscape.png",
+              name: "Elf Scout minimal border landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-corners-portrait.png",
+              name: "Elf Scout decorated corners portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-corners-portrait.png",
+              name: "Elf Scout decorated corners double 2x6 strip",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.041666666666666664,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-corners-landscape.png",
+              name: "Elf Scout decorated corners landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-garland-portrait.png",
+              name: "Elf Scout evergreen garland portrait photo template",
+              layout: "single_photo",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.08333333333333333,
+                  y: 0.05555555555555555,
+                  width: 0.8333333333333334,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-double-strip-garland-portrait.png",
+              name: "Elf Scout evergreen garland double 2x6 strip",
+              layout: "double_column",
+              orientation: "portrait",
+              photoSlots: [
+                {
+                  x: 0.041666666666666664,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.19833333333333333,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 0,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.4666666666666667,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 1,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.041666666666666664,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                },
+                {
+                  x: 0.5416666666666666,
+                  y: 0.735,
+                  width: 0.4166666666666667,
+                  height: 0.23944444444444446,
+                  sourceIndex: 2,
+                  borderRadius: 0
+                }
+              ]
+            },
+            {
+              src: "/assets/themes/christmas-kids/elf-scout/templates/elf-scout-template-single-photo-garland-landscape.png",
+              name: "Elf Scout evergreen garland landscape photo template",
+              layout: "single_photo",
+              orientation: "landscape",
+              photoSlots: [
+                {
+                  x: 0.10555555555555556,
+                  y: 0.058333333333333334,
+                  width: 0.7888888888888889,
+                  height: 0.8333333333333334,
+                  borderRadius: 0
+                }
+              ]
             },
           ],
           welcome: {

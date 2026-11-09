@@ -14,19 +14,18 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
   assert.equal(theme.idleScreens.filter((screen) => screen.role === "photo-choice").length, 2);
   assert.equal(theme.thankYouScreens.length, 2);
   assert.equal(theme.backgrounds.length, 2);
-  assert.equal(theme.overlays.length, 4);
-  assert.deepEqual(theme.overlays.slice(2).map((overlay) => overlay.photoSlots[0]), [
+  assert.equal(theme.overlays.length, 10);
+  assert.equal(theme.templates.length, 10);
+  assert.deepEqual(theme.overlays.slice(2, 4).map((overlay) => overlay.photoSlots[0]), [
     { x: 0.075, y: 0.07, width: 0.85, height: 0.85, borderRadius: 0 },
     { x: 0.09, y: 0.09, width: 0.82, height: 0.82, borderRadius: 0 },
   ]);
-  assert.equal(theme.templates.length, 1);
-  const strip = theme.templates[0];
-  assert.equal(strip.layout, "double_column");
-  assert.equal(strip.orientation, "portrait");
-  assert.equal(strip.photoSlots.length, 6);
-  assert.deepEqual(strip.photoSlots.map((slot) => slot.sourceIndex), [0, 0, 1, 1, 2, 2]);
-  assert.equal(strip.textFields, undefined);
-  assert.deepEqual(strip.photoSlots.map(({ x, y, width, height }) => [x, y, width, height]), [
+  assert.equal(theme.templates[0].layout, "double_column");
+  assert.equal(theme.templates[0].orientation, "portrait");
+  assert.equal(theme.templates[0].photoSlots.length, 6);
+  assert.deepEqual(theme.templates[0].photoSlots.map((slot) => slot.sourceIndex), [0, 0, 1, 1, 2, 2]);
+  assert.equal(theme.templates[0].textFields, undefined);
+  assert.deepEqual(theme.templates[0].photoSlots.map(({ x, y, width, height }) => [x, y, width, height]), [
     [0.041666666666666664, 0.19833333333333333, 0.4166666666666667, 0.23944444444444445],
     [0.5416666666666666, 0.19833333333333333, 0.4166666666666667, 0.23944444444444445],
     [0.041666666666666664, 0.4666666666666667, 0.4166666666666667, 0.23944444444444445],
@@ -34,7 +33,8 @@ test("Christmas for Kids includes both orientations and artwork-aligned hotspots
     [0.041666666666666664, 0.735, 0.4166666666666667, 0.23944444444444445],
     [0.5416666666666666, 0.735, 0.4166666666666667, 0.23944444444444445],
   ]);
-  assert.ok(existsSync(`.${strip.src}`), "missing Christmas photo strip template");
+  assert.ok(existsSync(`.${theme.templates[0].src}`), "missing Christmas photo strip template");
+
   for (const overlay of theme.overlays) {
     assert.ok(existsSync(`.${overlay.src}`), `missing photo overlay: ${overlay.src}`);
   }
