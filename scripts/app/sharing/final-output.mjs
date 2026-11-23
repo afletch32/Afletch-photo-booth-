@@ -558,7 +558,26 @@ export function createFinalOutputModule(__appRuntimeContext) {
         __appRuntimeContext.DOM.requestPrintBtn.textContent = "Preparing…";
         try {
           const settings = __appRuntimeContext.getPrintSettings();
-          const item = await __appRuntimeContext.enqueueFinalPrintIfNeeded(__appRuntimeContext.pendingFinalPrintImageUrl, true);
+          let imageUrl = __appRuntimeContext.pendingFinalPrintImageUrl;
+          if (!/^https?:\/\//i.test(String(imageUrl || ""))) {
+            const uploadPromise = __appRuntimeContext.pendingFinalPrintUploadPromise;
+            if (!uploadPromise) {
+              throw new Error("Your photo is still uploading. Please wait for it to finish, then try printing again.");
+            }
+            let uploadResult;
+            try {
+              uploadResult = await uploadPromise;
+            } catch (_) {
+              throw new Error("Your photo could not finish uploading, so it could not be sent to the print queue. Please ask the attendant.");
+            }
+            imageUrl = uploadResult && uploadResult.resourceType === "image" ? uploadResult.publicUrl : "";
+            if (/^https?:\/\//i.test(String(imageUrl || ""))) {
+              __appRuntimeContext.pendingFinalPrintImageUrl = imageUrl;
+            } else {
+              throw new Error("Your photo is still uploading. Please wait for it to finish, then try printing again.");
+            }
+          }
+          const item = await __appRuntimeContext.enqueueFinalPrintIfNeeded(imageUrl, true);
           if (!item) throw new Error("Your print request could not be queued. Please ask the attendant.");
           if (settings.mode === "paid") {
             await __appRuntimeContext.showPayPalPrintCheckout(item);
@@ -618,6 +637,7 @@ export function createFinalOutputModule(__appRuntimeContext) {
 
   function showFinal(url, options = {}) {
     clearTimeout(__appRuntimeContext.hidePreviewTimer); // Clear any existing timer
+    __appRuntimeContext.pendingFinalPrintUploadPromise = null;
     __appRuntimeContext.updateOutputSurfaceTrace({
       localFinalUrl: url,
       remoteFinalUrl: options.shareUrl || "",

@@ -1577,7 +1577,7 @@ test("share-ready QR is large and only shows retake and print when printing is e
   assert.ok(appScript.includes("renderQrCodeAtWidth(canvas, text, 360)"));
   assert.ok(appScript.includes("new QRCode(stage, {"));
   assert.ok(appScript.includes('DOM.finalPrintActions.classList.toggle("hidden", !printEnabled)'));
-  assert.ok(appScript.includes("await enqueueFinalPrintIfNeeded(pendingFinalPrintImageUrl, true);"));
+  assert.ok(appScript.includes("await enqueueFinalPrintIfNeeded(imageUrl, true);"));
   assert.ok(!html.includes("Love your photos?"));
   assert.ok(!html.includes('id="paidPrintPanel"'));
 });

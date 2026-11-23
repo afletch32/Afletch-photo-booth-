@@ -634,6 +634,8 @@ export function createAppState(dependencies = {}) {
 
   let pendingFinalPrintImageUrl = "";
 
+  let pendingFinalPrintUploadPromise = null;
+
   let finalPrintPriceRequestId = 0;
 
   const EVENTS_STORAGE_KEY = "photoboothEvents";
@@ -883,6 +885,7 @@ export function createAppState(dependencies = {}) {
     "welcomeArtworkLoadId": { enumerable: true, get: () => welcomeArtworkLoadId, set: (value) => { welcomeArtworkLoadId = value; } },
     "COUNTDOWN_SCALE_KEY": { enumerable: true, get: () => COUNTDOWN_SCALE_KEY, set: (value) => { COUNTDOWN_SCALE_KEY = value; } },
     "pendingFinalPrintImageUrl": { enumerable: true, get: () => pendingFinalPrintImageUrl, set: (value) => { pendingFinalPrintImageUrl = value; } },
+    "pendingFinalPrintUploadPromise": { enumerable: true, get: () => pendingFinalPrintUploadPromise, set: (value) => { pendingFinalPrintUploadPromise = value; } },
     "finalPrintPriceRequestId": { enumerable: true, get: () => finalPrintPriceRequestId, set: (value) => { finalPrintPriceRequestId = value; } },
     "EVENTS_STORAGE_KEY": { enumerable: true, get: () => EVENTS_STORAGE_KEY, set: (value) => { EVENTS_STORAGE_KEY = value; } },
     "ACTIVE_EVENT_KEY": { enumerable: true, get: () => ACTIVE_EVENT_KEY, set: (value) => { ACTIVE_EVENT_KEY = value; } },

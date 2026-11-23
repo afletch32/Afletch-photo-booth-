@@ -72,11 +72,17 @@ test("capture modes share one canonical upload pipeline", () => {
     "final screens should receive the uploaded URL instead of uploading again"
   );
   assert.ok(
-    appScript.includes("enqueueFinalPrintIfNeeded(pendingFinalPrintImageUrl, true)") &&
+    appScript.includes("enqueueFinalPrintIfNeeded(imageUrl, true)") &&
       appScript.includes('shareType === "image"') &&
       appScript.includes("Print queue waiting for shared upload") &&
       appScript.includes("Print queue failed"),
     "print queue submissions should use remote image uploads, skip live/video captures, and surface failures"
+  );
+  assert.ok(
+    appScript.includes("pendingFinalPrintUploadPromise = uploadPromise") &&
+      appScript.includes("await uploadPromise") &&
+      appScript.includes('uploadResult.resourceType === "image" ? uploadResult.publicUrl : ""'),
+    "print requests should wait for the final image upload and queue its public URL"
   );
   assert.ok(
     !appScript.includes("handleCaptureUpload("),

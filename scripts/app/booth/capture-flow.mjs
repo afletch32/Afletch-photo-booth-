@@ -31,13 +31,20 @@ export function createCaptureFlowModule(__appRuntimeContext) {
       __appRuntimeContext.addToGallery(finalUrl);
 
       const uploadToken = ++__appRuntimeContext.activeFinalUploadToken;
-      void __appRuntimeContext.uploadCaptureOnce({
+      const uploadPromise = __appRuntimeContext.uploadCaptureOnce({
         previewUrl: finalUrl,
         mediaBlob: livePhotoEnabled && __appRuntimeContext.lastLiveClipBlob ? __appRuntimeContext.lastLiveClipBlob : finalized.blob,
         resourceType: livePhotoEnabled && __appRuntimeContext.lastLiveClipBlob ? "video" : "image",
         modeName: livePhotoEnabled ? "live-photo" : "photo",
-      }).then((uploadResult) => {
-        if (uploadToken !== __appRuntimeContext.activeFinalUploadToken || !__appRuntimeContext.DOM.qrHint) return;
+      });
+      __appRuntimeContext.pendingFinalPrintUploadPromise = uploadPromise;
+      void uploadPromise.then((uploadResult) => {
+        if (uploadToken !== __appRuntimeContext.activeFinalUploadToken) return;
+        if (uploadResult.resourceType === "image" && uploadResult.publicUrl) {
+          __appRuntimeContext.pendingFinalPrintImageUrl = uploadResult.publicUrl;
+        }
+        __appRuntimeContext.pendingFinalPrintUploadPromise = null;
+        if (!__appRuntimeContext.DOM.qrHint) return;
         if (uploadResult.queued) {
           __appRuntimeContext.DOM.qrHint.textContent = "Photo queued; it will appear in the gallery after upload.";
           __appRuntimeContext.DOM.qrHint.style.display = "block";

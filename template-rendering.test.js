@@ -147,7 +147,7 @@ test("photo capture freezes the completed print while upload is prepared", () =>
       photoFlow.indexOf("enterFinalizingState(finalUrl);") >
         photoFlow.indexOf("const finalUrl = finalized.previewUrl;") &&
       photoFlow.indexOf("enterFinalizingState(finalUrl);") <
-        photoFlow.indexOf("void uploadCaptureOnce({"),
+        photoFlow.indexOf("const uploadPromise = uploadCaptureOnce({"),
     "single-photo capture should show the composed print before upload begins"
   );
   assert.ok(
