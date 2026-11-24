@@ -15,11 +15,11 @@
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
-- Current goal: Keep paid-print checkout on each guest's personal phone, not on the booth iPad.
-- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. The next-guest action releases the booth immediately, with an automatic 20-second return as a fallback; PayPal checkout continues on the phone and updates the queue independently. PayPal returns directly to `/pay-print` for capture confirmation. App-shell cache is v89.
-- In progress: Validate the phone checkout and booth release behavior with mocked browser routes; a sandbox order is still needed to confirm PayPal's real redirect behavior.
-- Next steps: Verify PayPal's phone return/capture behavior in sandbox, then confirm the booth is ready for the next guest while payment remains open on the phone.
-- Known bugs/blockers: No real queue POST or payment has been made for this new handoff; printer output still needs device verification.
+- Current goal: Keep staff print previews in sync with the selected session or photo orientation.
+- Done: Expanded queue cards now drive the main preview from that photo's layout and orientation override; collapsed cards return the preview to session defaults. Focused staff-print browser checks pass (2/2).
+- In progress: Validate this preview behavior in the full unit suite and release it.
+- Next steps: Verify orientation changes on the deployed staff print queue with a real queued photo.
+- Known bugs/blockers: Production iPad printer output still needs device verification.
 - Important decisions: Keep the existing Cloudinary upload and print-queue path; do not queue local blob URLs.
 - Production target: Cloudflare Pages project `decemeberbooth`, branch `main`, `https://decemeberbooth.pages.dev/`.
 - Face tracking performance (2026-10-28): Moved MediaPipe inference into a module worker, capped scheduling at about 3.3 frames/second, downsized analysis frames to 320px, and kept preview processing nonblocking with a fallback when worker support or loading fails. Focused tracker tests pass (2/2); focused browser checks pass (2/2). Full suite currently has one unrelated setup-picker assertion failure; physical camera/iPad performance remains unverified.

@@ -6,6 +6,7 @@
   const layoutInput = document.getElementById("printLayout");
   const orientationInput = document.getElementById("printOrientation");
   const previewSheet = document.getElementById("printPreviewSheet");
+  const previewLabel = document.getElementById("printPreviewLabel");
   const previewSummary = document.getElementById("printPreviewSummary");
   const previewDetails = document.getElementById("printPreviewDetails");
   const list = document.getElementById("queueList");
@@ -140,15 +141,27 @@
 
   function renderPrintPreview() {
     if (!previewSheet || !previewSummary || !previewDetails) return;
-    const item = items.find(
+    const activeItems = items.filter(
       (candidate) =>
         candidate.printStatus !== "void" &&
         (candidate.thumbnailUrl || candidate.imageUrl)
     );
+    const selectedItem = activeItems.find((candidate) =>
+      expandedPrintSettings.has(String(candidate.id))
+    );
+    const item = selectedItem || activeItems[0];
+    const settings = selectedItem
+      ? getResolvedPrintSettings(selectedItem)
+      : { layout: getPrintLayout(), orientation: getPrintOrientation() };
+    if (previewLabel) {
+      previewLabel.textContent = selectedItem
+        ? "Selected photo preview"
+        : "Session default preview";
+    }
     if (!item) {
-      const layout = getPrintLayout();
+      const layout = settings.layout;
       const count = layout === "double" ? 2 : 1;
-      const requestedOrientation = getPrintOrientation();
+      const requestedOrientation = settings.orientation;
       const sheetOrientation =
         requestedOrientation === "auto" ? "landscape" : requestedOrientation;
       const sheetSize = sheetOrientation === "landscape" ? "6×4" : "4×6";
@@ -174,7 +187,7 @@
       return;
     }
 
-    const layout = getPrintLayout();
+    const layout = settings.layout;
     const count = layout === "double" ? 2 : 1;
     const source = escapeText(item.thumbnailUrl || item.imageUrl);
     const slots = Array.from(
@@ -191,7 +204,7 @@
       if (!first || !first.naturalWidth || !first.naturalHeight) return;
       const photoOrientation =
         first.naturalWidth >= first.naturalHeight ? "landscape" : "portrait";
-      const requestedOrientation = getPrintOrientation();
+      const requestedOrientation = settings.orientation;
       const sheetOrientation =
         requestedOrientation === "auto"
           ? photoOrientation
@@ -206,8 +219,12 @@
       }${arrangement} on a ${sheetOrientation} ${sheetSize} sheet.`;
       previewDetails.textContent =
         requestedOrientation === "auto"
-          ? "Automatic paper direction follows the next queued photo."
-          : "This is the exact sheet arrangement that Open/Print will send to the print dialog.";
+          ? selectedItem
+            ? "Automatic paper direction follows this photo's orientation."
+            : "Automatic paper direction follows the next queued photo."
+          : selectedItem
+            ? "This is the exact sheet arrangement for this photo."
+            : "This is the exact sheet arrangement that Open/Print will send to the print dialog.";
     };
 
     if (first) {
