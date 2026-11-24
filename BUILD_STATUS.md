@@ -15,11 +15,12 @@
 
 - Current goal: Make event setup easier to scan and keep the guest-option selections across sessions.
 - Done: Grouped the event asset summary, asset library, and photo backgrounds/logo controls in one Event Assets section. Moved Wedding Setup beside theme selection. Guest Options already persist in this booth's browser storage; added an explanatory note and expanded reload coverage.
-- In progress: Prepare the scoped admin-layout release.
-- Next steps: Commit and push the scoped files, then verify the Pages deployment.
+- In progress: None.
+- Next steps: Continue with the next booth improvement.
 - Known bugs/blockers: None identified for this change. Physical iPad behavior still needs device verification.
 - Important decisions: Keep booth settings local to this device; keep event text customization separate from asset management.
 - Validation: `npm test` passes 314/314; the focused guest-options Playwright check passes; rendered browser check confirms the asset controls are grouped and Wedding Setup still opens correctly.
+- Release: Commit `efb1ad9` pushed to `main`; Cloudflare Pages production deployment `63e1b562-57ed-4b44-8c2d-c055c517bdc4` is active. The live site serves the updated admin labels.
 - Previous release: Paid photo-share print checkout shipped in `cb566a9`; Cloudflare Pages deployment succeeded.
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
