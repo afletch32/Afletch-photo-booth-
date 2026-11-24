@@ -16,9 +16,9 @@
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
 - Current goal: Keep paid-print checkout on each guest's personal phone, not on the booth iPad.
-- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. PayPal returns directly to the clean `/pay-print` route, which captures and confirms payment; the booth watches for the paid queue status. App-shell cache is v89.
-- In progress: Validate the complete phone-to-booth payment handoff with a sandbox order before using live payments.
-- Next steps: Verify order links and phone return/capture behavior in sandbox, then test on the iPad without completing a live charge.
+- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. The next-guest action releases the booth immediately, with an automatic 20-second return as a fallback; PayPal checkout continues on the phone and updates the queue independently. PayPal returns directly to `/pay-print` for capture confirmation. App-shell cache is v89.
+- In progress: Validate the phone checkout and booth release behavior with mocked browser routes; a sandbox order is still needed to confirm PayPal's real redirect behavior.
+- Next steps: Verify PayPal's phone return/capture behavior in sandbox, then confirm the booth is ready for the next guest while payment remains open on the phone.
 - Known bugs/blockers: No real queue POST or payment has been made for this new handoff; printer output still needs device verification.
 - Important decisions: Keep the existing Cloudinary upload and print-queue path; do not queue local blob URLs.
 - Production target: Cloudflare Pages project `decemeberbooth`, branch `main`, `https://decemeberbooth.pages.dev/`.

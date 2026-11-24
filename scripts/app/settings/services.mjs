@@ -356,9 +356,12 @@ export function createServicesModule(__appRuntimeContext) {
       correctLevel: QRCode.CorrectLevel.M,
     });
     if (__appRuntimeContext.DOM.shareStatus) {
-      __appRuntimeContext.DOM.shareStatus.textContent = "Scan the payment code with your phone. This booth will confirm when payment is complete.";
+      __appRuntimeContext.DOM.shareStatus.textContent = "Scan to pay on your phone, then continue. The booth will be ready for the next guest before checkout finishes.";
       __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
     }
+    if (__appRuntimeContext.DOM.finishBoothBtn) __appRuntimeContext.DOM.finishBoothBtn.textContent = "Next Guest";
+    clearTimeout(__appRuntimeContext.hidePreviewTimer);
+    __appRuntimeContext.hidePreviewTimer = window.setTimeout(__appRuntimeContext.finishBoothFlow, 20000);
     paidPrintWatchInterval = window.setInterval(async () => {
       try {
         const queueResponse = await fetch(`/api/print-queue?eventId=${encodeURIComponent(item.eventId || "default")}`, { cache: "no-store" });

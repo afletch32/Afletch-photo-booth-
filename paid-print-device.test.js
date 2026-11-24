@@ -12,7 +12,9 @@ test("paid booth checkout shows a phone-scannable approval QR instead of PayPal 
 
   assert.ok(services.includes("text: result.approvalUrl"));
   assert.ok(services.includes("Scan with your phone to pay"));
-  assert.ok(services.includes("Payment confirmed. Your print is ready with the attendant."));
+  assert.ok(services.includes("The booth will be ready for the next guest before checkout finishes."));
+  assert.ok(services.includes('finishBoothBtn.textContent = "Next Guest"'));
+  assert.ok(services.includes("setTimeout(__appRuntimeContext.finishBoothFlow, 20000)"));
   assert.ok(!services.includes("paypal.com/sdk/js"));
   assert.ok(!services.includes("paypal.Buttons("));
   assert.ok(finalOutput.includes('requestPrintBtn.textContent = "Scan to Pay"'));

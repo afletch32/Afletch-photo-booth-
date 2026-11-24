@@ -637,6 +637,7 @@ export function createFinalOutputModule(__appRuntimeContext) {
 
   function showFinal(url, options = {}) {
     clearTimeout(__appRuntimeContext.hidePreviewTimer); // Clear any existing timer
+    if (__appRuntimeContext.DOM.finishBoothBtn) __appRuntimeContext.DOM.finishBoothBtn.textContent = "Done";
     __appRuntimeContext.pendingFinalPrintUploadPromise = null;
     __appRuntimeContext.updateOutputSurfaceTrace({
       localFinalUrl: url,

@@ -223,5 +223,8 @@ test("paid print shows a PayPal approval QR on the booth without loading checkou
     .toContainText("Scan with your phone to pay");
   await expect(page.locator('#paypalPrintCheckout img[alt="Scan me!"]')).toBeVisible();
   await expect(page.locator("#requestPrintBtn")).toHaveText("Scan to Pay");
+  await expect(page.locator("#finishBoothBtn")).toHaveText("Next Guest");
   await expect(page.locator('script[src*="paypal.com/sdk"]')).toHaveCount(0);
+  await page.locator("#finishBoothBtn").click();
+  await expect(page.locator("#finalPreview")).not.toHaveClass(/show/);
 });
