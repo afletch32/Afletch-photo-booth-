@@ -1,5 +1,5 @@
 // Bump these to force one-time invalidation when changing strategies.
-const APP_SHELL_CACHE = "pb-app-shell-v88";
+const APP_SHELL_CACHE = "pb-app-shell-v89";
 const RUNTIME_CACHE = "pb-runtime-v5";
 const SHARE_CACHE = "pb-share-v1";
 const OFFLINE_ASSETS_CACHE = "pb-offline-assets-v1";
@@ -9,6 +9,9 @@ const OFFLINE_ASSETS_CACHE = "pb-offline-assets-v1";
 const APP_SHELL_ASSETS = [
   "",
   "index.html",
+  "pay-print.html",
+  "scripts/pay-print-page.mjs",
+  "styles/pay-print.css",
   "manifest.json",
   "appicon.png",
   "fonts.css",

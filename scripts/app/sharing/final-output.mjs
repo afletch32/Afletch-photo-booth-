@@ -581,7 +581,7 @@ export function createFinalOutputModule(__appRuntimeContext) {
           if (!item) throw new Error("The print queue returned no item. Please ask the attendant.");
           if (settings.mode === "paid") {
             await __appRuntimeContext.showPayPalPrintCheckout(item);
-            __appRuntimeContext.DOM.requestPrintBtn.textContent = "Checkout Below";
+              __appRuntimeContext.DOM.requestPrintBtn.textContent = "Scan to Pay";
             return;
           }
           __appRuntimeContext.DOM.requestPrintBtn.textContent = "Print Requested";

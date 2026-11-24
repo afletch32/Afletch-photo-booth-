@@ -15,11 +15,11 @@
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
-- Current goal: Diagnose and resolve paid-print queue failures reported on the iPad booth.
-- Done: Print requests await the in-flight capture upload and queue the public image URL. Confirmed production queue GET is healthy. Diagnostic error details are deployed on app-shell v88.
-- In progress: Validate the queue failure reason with the iPad's next safe retry; the failed request stops before PayPal checkout.
-- Next steps: Use the displayed API error to fix the queue failure. After queueing works, verify PayPal handoff and printer output.
-- Known bugs/blockers: Real queue POST and printer output remain unverified. No production queue writes or payment attempts were performed during diagnosis.
+- Current goal: Keep paid-print checkout on each guest's personal phone, not on the booth iPad.
+- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. PayPal returns to a small hosted page that captures and confirms payment; the booth watches for the paid queue status. App-shell cache is v89.
+- In progress: Validate the complete phone-to-booth payment handoff with a sandbox order before using live payments.
+- Next steps: Verify order links and phone return/capture behavior in sandbox, then test on the iPad without completing a live charge.
+- Known bugs/blockers: No real queue POST or payment has been made for this new handoff; printer output still needs device verification.
 - Important decisions: Keep the existing Cloudinary upload and print-queue path; do not queue local blob URLs.
 - Production target: Cloudflare Pages project `decemeberbooth`, branch `main`, `https://decemeberbooth.pages.dev/`.
 - Face tracking performance (2026-10-28): Moved MediaPipe inference into a module worker, capped scheduling at about 3.3 frames/second, downsized analysis frames to 320px, and kept preview processing nonblocking with a fallback when worker support or loading fails. Focused tracker tests pass (2/2); focused browser checks pass (2/2). Full suite currently has one unrelated setup-picker assertion failure; physical camera/iPad performance remains unverified.

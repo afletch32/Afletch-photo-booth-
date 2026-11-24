@@ -22,7 +22,18 @@
       grid-column: 1 / -1;
       width: min(100%, 340px);
       margin: 0 auto;
+      padding: 16px;
+      border: 1px solid rgba(23, 73, 68, 0.16);
+      border-radius: 18px;
+      background: #ffffff;
+      color: #173f3b;
+      text-align: center;
+      line-height: 1.4;
     }
+
+    #paypalPrintCheckout p { margin: 8px 0 12px; }
+    .mobile-print-payment-qr { display: flex; justify-content: center; }
+    .mobile-print-payment-qr img, .mobile-print-payment-qr canvas { display: block; max-width: 100%; }
 
     #paypalPrintCheckout.hidden {
       display: none;

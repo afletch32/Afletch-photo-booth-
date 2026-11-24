@@ -618,7 +618,6 @@ export function createAppState(dependencies = {}) {
     noPaymentRequired: false,
   };
 
-  let paypalPrintSdkPromise = null;
 
   const SPOT_MASK = {
     enabled: true,
@@ -879,7 +878,6 @@ export function createAppState(dependencies = {}) {
     "CLOUDINARY_FOLDER_BASE_DEFAULT": { enumerable: true, get: () => CLOUDINARY_FOLDER_BASE_DEFAULT, set: (value) => { CLOUDINARY_FOLDER_BASE_DEFAULT = value; } },
     "PRINT_SETTINGS_STORAGE_KEY": { enumerable: true, get: () => PRINT_SETTINGS_STORAGE_KEY, set: (value) => { PRINT_SETTINGS_STORAGE_KEY = value; } },
     "DEFAULT_PRINT_SETTINGS": { enumerable: true, get: () => DEFAULT_PRINT_SETTINGS, set: (value) => { DEFAULT_PRINT_SETTINGS = value; } },
-    "paypalPrintSdkPromise": { enumerable: true, get: () => paypalPrintSdkPromise, set: (value) => { paypalPrintSdkPromise = value; } },
     "SPOT_MASK": { enumerable: true, get: () => SPOT_MASK, set: (value) => { SPOT_MASK = value; } },
     "customArtworkLoadTimer": { enumerable: true, get: () => customArtworkLoadTimer, set: (value) => { customArtworkLoadTimer = value; } },
     "welcomeArtworkLoadId": { enumerable: true, get: () => welcomeArtworkLoadId, set: (value) => { welcomeArtworkLoadId = value; } },

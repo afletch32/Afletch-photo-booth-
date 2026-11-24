@@ -1,4 +1,6 @@
 export function createServicesModule(__appRuntimeContext) {
+  let paidPrintWatchInterval = null;
+
   function loadCloudinarySettings() {
     const cloud =
       localStorage.getItem("cloudinaryCloudName") || __appRuntimeContext.CLOUDINARY_CLOUD_NAME;
@@ -324,87 +326,55 @@ export function createServicesModule(__appRuntimeContext) {
     }
   }
 
-  function loadPayPalPrintSdk(clientId, currency) {
-    if (window.paypal && typeof window.paypal.Buttons === "function") return Promise.resolve(window.paypal);
-    if (__appRuntimeContext.paypalPrintSdkPromise) return __appRuntimeContext.paypalPrintSdkPromise;
-    __appRuntimeContext.paypalPrintSdkPromise = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      const url = new URL("https://www.paypal.com/sdk/js");
-      url.searchParams.set("client-id", clientId);
-      url.searchParams.set("currency", currency);
-      url.searchParams.set("intent", "capture");
-      url.searchParams.set("components", "buttons");
-      script.src = url.toString();
-      script.async = true;
-      script.onload = () => window.paypal && window.paypal.Buttons
-        ? resolve(window.paypal)
-        : reject(new Error("PayPal checkout did not load."));
-      script.onerror = () => reject(new Error("PayPal checkout could not load. Check the booth internet connection."));
-      document.head.appendChild(script);
-    }).catch((error) => {
-      __appRuntimeContext.paypalPrintSdkPromise = null;
-      throw error;
-    });
-    return __appRuntimeContext.paypalPrintSdkPromise;
-  }
-
   async function showPayPalPrintCheckout(item) {
     if (!item || !__appRuntimeContext.DOM.paypalPrintCheckout) throw new Error("The print request could not be loaded.");
-    const config = await __appRuntimeContext.fetchPayPalPrintConfig(item.eventId);
-    if (__appRuntimeContext.DOM.printPriceNotice) __appRuntimeContext.DOM.printPriceNotice.textContent = `Print price: ${__appRuntimeContext.formatPayPalPrintPrice(config.amount, config.currency)}`;
-    const paypal = await loadPayPalPrintSdk(config.clientId, config.currency);
+    if (paidPrintWatchInterval) window.clearInterval(paidPrintWatchInterval);
+    const response = await fetch("/api/paypal/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ eventId: item.eventId, printItemId: item.id }),
+    });
+    const result = await response.json();
+    if (!response.ok || !result.approvalUrl) throw new Error(result.error || "PayPal did not provide a phone checkout link.");
     const checkout = __appRuntimeContext.DOM.paypalPrintCheckout;
-    checkout.innerHTML = "";
+    checkout.replaceChildren();
+    const title = document.createElement("strong");
+    title.textContent = "Scan with your phone to pay";
+    const copy = document.createElement("p");
+    copy.textContent = "Checkout will open on your personal device, not this booth.";
+    const qrTarget = document.createElement("div");
+    qrTarget.className = "mobile-print-payment-qr";
+    checkout.append(title, copy, qrTarget);
     checkout.classList.remove("hidden");
+    const QRCode = await __appRuntimeContext.loadQrCodeLibrary();
+    new QRCode(qrTarget, {
+      text: result.approvalUrl,
+      width: 220,
+      height: 220,
+      colorDark: "#173f3b",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M,
+    });
     if (__appRuntimeContext.DOM.shareStatus) {
-      __appRuntimeContext.DOM.shareStatus.textContent = `Pay ${config.amount} ${config.currency} to request this print.`;
+      __appRuntimeContext.DOM.shareStatus.textContent = "Scan the payment code with your phone. This booth will confirm when payment is complete.";
       __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
     }
-    await paypal.Buttons({
-      style: { layout: "vertical", shape: "pill", label: "paypal" },
-      createOrder: async () => {
-        const response = await fetch("/api/paypal/create-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId: item.eventId, printItemId: item.id }),
-        });
-        const result = await response.json();
-        if (!response.ok || !result.orderId) throw new Error(result.error || "Could not start PayPal checkout.");
-        return result.orderId;
-      },
-      onApprove: async (data) => {
-        if (__appRuntimeContext.DOM.shareStatus) __appRuntimeContext.DOM.shareStatus.textContent = "Confirming payment…";
-        const response = await fetch("/api/paypal/capture-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId: item.eventId, printItemId: item.id, orderId: data.orderID }),
-        });
-        const result = await response.json();
-        if (!response.ok || result.paid !== true) throw new Error(result.error || "PayPal has not confirmed payment yet.");
-        checkout.classList.add("hidden");
-        if (__appRuntimeContext.DOM.shareStatus) {
-          __appRuntimeContext.DOM.shareStatus.textContent = "Payment confirmed. Your print is ready with the attendant.";
-          __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
+    paidPrintWatchInterval = window.setInterval(async () => {
+      try {
+        const queueResponse = await fetch(`/api/print-queue?eventId=${encodeURIComponent(item.eventId || "default")}`, { cache: "no-store" });
+        const queue = await queueResponse.json();
+        const paidItem = queue.items && queue.items.find((entry) => entry.id === item.id);
+        if (paidItem && paidItem.paymentStatus === "paid") {
+          window.clearInterval(paidPrintWatchInterval);
+          paidPrintWatchInterval = null;
+          if (__appRuntimeContext.DOM.shareStatus) __appRuntimeContext.DOM.shareStatus.textContent = "Payment confirmed. Your print is ready with the attendant.";
+          if (__appRuntimeContext.DOM.requestPrintBtn) __appRuntimeContext.DOM.requestPrintBtn.textContent = "Payment Complete";
+          __appRuntimeContext.playThemeCue("success", "success");
         }
-        if (__appRuntimeContext.DOM.requestPrintBtn) __appRuntimeContext.DOM.requestPrintBtn.textContent = "Payment Complete";
-        __appRuntimeContext.playThemeCue("success", "success");
-      },
-      onCancel: () => {
-        if (__appRuntimeContext.DOM.shareStatus) {
-          __appRuntimeContext.DOM.shareStatus.textContent = "Checkout canceled. Your print is still waiting for payment.";
-          __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-        }
-      },
-      onError: (error) => {
-        console.warn("PayPal print checkout error", error);
-        if (__appRuntimeContext.DOM.shareStatus) {
-          __appRuntimeContext.DOM.shareStatus.textContent = error && error.message
-            ? error.message
-            : "PayPal checkout failed. Ask the attendant for help.";
-          __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-        }
-      },
-    }).render(checkout);
+      } catch (error) {
+        console.warn("Paid print status check failed", error);
+      }
+    }, 3000);
   }
 
   return {
@@ -426,7 +396,6 @@ export function createServicesModule(__appRuntimeContext) {
     savePrintSettings,
     copyStaffPrintQueueUrl,
     enqueueFinalPrintIfNeeded,
-    loadPayPalPrintSdk,
     showPayPalPrintCheckout,
   };
 }

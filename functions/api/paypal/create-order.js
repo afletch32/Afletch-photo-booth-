@@ -27,6 +27,13 @@ export async function onRequest({ request, env }) {
     if (!config.configured) return jsonResponse({ ok: false, error: "PayPal checkout is not configured yet." }, 503);
     const accessToken = await getPayPalAccessToken(config);
     let order;
+    if (item.paypalOrderId && !item.paypalMobileCheckout) {
+      delete item.paypalOrderId;
+      delete item.paypalAmount;
+      delete item.paypalUnitAmount;
+      delete item.paypalCurrency;
+      delete item.paypalEnvironment;
+    }
     if (item.paypalOrderId && (
       item.paypalEnvironment !== config.environment ||
       item.paypalUnitAmount !== config.amount ||
@@ -48,21 +55,36 @@ export async function onRequest({ request, env }) {
       }
     } else {
       const priceKey = config.amount.replace(".", "");
-      const idempotencyKey = `${String(item.id).slice(0, 28)}-${priceKey}`;
+      const paymentReturnUrl = new URL("/pay-print.html", request.url);
+      paymentReturnUrl.searchParams.set("eventId", eventId);
+      paymentReturnUrl.searchParams.set("printItemId", item.id);
+      const paymentCancelUrl = new URL(paymentReturnUrl);
+      paymentCancelUrl.searchParams.set("flow", "cancel");
+      paymentReturnUrl.searchParams.set("flow", "return");
+      const idempotencyKey = `${String(item.id).slice(0, 25)}-${priceKey}-mobile1`;
       order = await paypalRequest(config, accessToken, "/v2/checkout/orders", {
         method: "POST",
         headers: { "PayPal-Request-Id": idempotencyKey },
-        body: JSON.stringify(buildPayPalPrintOrder({ eventId, item, config })),
+        body: JSON.stringify(buildPayPalPrintOrder({
+          eventId,
+          item,
+          config,
+          returnUrl: paymentReturnUrl.toString(),
+          cancelUrl: paymentCancelUrl.toString(),
+        })),
       });
       if (!order.id) throw new Error("PayPal did not return an order ID.");
       item.paypalOrderId = order.id;
+      item.paypalMobileCheckout = true;
       item.paypalUnitAmount = config.amount;
       item.paypalAmount = (Number(config.amount) * Math.max(1, Number.parseInt(item.quantity, 10) || 1)).toFixed(2);
       item.paypalCurrency = config.currency;
       item.paypalEnvironment = config.environment;
       await savePrintItem(env, eventId, items, index, item);
     }
-    return jsonResponse({ ok: true, orderId: order.id });
+    const approvalLink = (order.links || []).find((link) => link.rel === "approve" || link.rel === "payer-action");
+    if (!approvalLink || !approvalLink.href) throw new Error("PayPal did not return a personal-device checkout link.");
+    return jsonResponse({ ok: true, orderId: order.id, approvalUrl: approvalLink.href });
   } catch (error) {
     console.error("PayPal order creation failed", error && error.message);
     return jsonResponse({ ok: false, error: error.message || "Could not start PayPal checkout." }, 502);

@@ -63,6 +63,20 @@ test("PayPal orders use server price and bind the print item and event", () => {
   assert.deepEqual(order.purchase_units[0].amount, { currency_code: "USD", value: "9.00" });
 });
 
+test("PayPal print orders return phone buyers to the hosted payment confirmation page", () => {
+  const order = buildPayPalPrintOrder({
+    eventId: "summer-fair",
+    item: { id: "print-123", quantity: 1 },
+    config: { amount: "3.00", currency: "USD" },
+    returnUrl: "https://booth.example/pay-print.html?flow=return",
+    cancelUrl: "https://booth.example/pay-print.html?flow=cancel",
+  });
+
+  assert.equal(order.application_context.user_action, "PAY_NOW");
+  assert.equal(order.application_context.return_url, "https://booth.example/pay-print.html?flow=return");
+  assert.equal(order.application_context.cancel_url, "https://booth.example/pay-print.html?flow=cancel");
+});
+
 test("PayPal captures must match the queued item, event, amount, and currency", () => {
   const item = { id: "print-123", quantity: 2, paypalAmount: "6.00", paypalCurrency: "USD" };
   const config = { amount: "3.00", currency: "USD" };

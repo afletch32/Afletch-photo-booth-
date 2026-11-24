@@ -46,11 +46,11 @@ export function resolvePayPalEventPrintPrice(events, eventIdValue, fallback = "3
       : "3.00";
 }
 
-export function buildPayPalPrintOrder({ eventId, item, config }) {
+export function buildPayPalPrintOrder({ eventId, item, config, returnUrl, cancelUrl }) {
   const quantity = Math.max(1, Math.min(99, Number.parseInt(item.quantity, 10) || 1));
   const unitAmount = Number(item.paypalUnitAmount || config.amount);
   const total = (unitAmount * quantity).toFixed(2);
-  return {
+  const order = {
     intent: "CAPTURE",
     purchase_units: [{
       reference_id: String(eventId),
@@ -62,6 +62,14 @@ export function buildPayPalPrintOrder({ eventId, item, config }) {
       },
     }],
   };
+  if (returnUrl && cancelUrl) {
+    order.application_context = {
+      user_action: "PAY_NOW",
+      return_url: returnUrl,
+      cancel_url: cancelUrl,
+    };
+  }
+  return order;
 }
 
 export function verifyPayPalCapture(order, { orderId, eventId, item, config }) {
