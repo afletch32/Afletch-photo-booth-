@@ -578,7 +578,7 @@ export function createFinalOutputModule(__appRuntimeContext) {
             }
           }
           const item = await __appRuntimeContext.enqueueFinalPrintIfNeeded(imageUrl, true);
-          if (!item) throw new Error("Your print request could not be queued. Please ask the attendant.");
+          if (!item) throw new Error("The print queue returned no item. Please ask the attendant.");
           if (settings.mode === "paid") {
             await __appRuntimeContext.showPayPalPrintCheckout(item);
             __appRuntimeContext.DOM.requestPrintBtn.textContent = "Checkout Below";

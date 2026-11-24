@@ -301,8 +301,15 @@ export function createServicesModule(__appRuntimeContext) {
           paymentRequired: settings.mode === "paid",
         }),
       });
-      const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.error || "Print queue request failed.");
+      let result;
+      try {
+        result = await response.json();
+      } catch (_) {
+        throw new Error(`Print queue returned an unreadable response (HTTP ${response.status}).`);
+      }
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || `Print queue rejected the request (HTTP ${response.status}).`);
+      }
       if (__appRuntimeContext.DOM.shareStatus && __appRuntimeContext.DOM.shareStatus.textContent === "Print queue waiting for shared upload") {
         __appRuntimeContext.DOM.shareStatus.style.display = "none";
       }
@@ -310,11 +317,10 @@ export function createServicesModule(__appRuntimeContext) {
     } catch (error) {
       console.warn("Print queue enqueue failed", error);
       if (__appRuntimeContext.DOM.shareStatus) {
-        __appRuntimeContext.DOM.shareStatus.textContent = "Print queue failed";
+        __appRuntimeContext.DOM.shareStatus.textContent = error.message || "Print queue failed";
         __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
       }
-      __appRuntimeContext.showToast("Print queue failed. Staff may need to refresh and retry.");
-      return null;
+      throw error;
     }
   }
 

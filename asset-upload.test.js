@@ -75,8 +75,10 @@ test("capture modes share one canonical upload pipeline", () => {
     appScript.includes("enqueueFinalPrintIfNeeded(imageUrl, true)") &&
       appScript.includes('shareType === "image"') &&
       appScript.includes("Print queue waiting for shared upload") &&
-      appScript.includes("Print queue failed"),
-    "print queue submissions should use remote image uploads, skip live/video captures, and surface failures"
+      appScript.includes("Print queue failed") &&
+      appScript.includes("Print queue rejected the request (HTTP") &&
+      appScript.includes("throw error;"),
+    "print queue submissions should use remote image uploads, skip live/video captures, and surface API failure details"
   );
   assert.ok(
     appScript.includes("pendingFinalPrintUploadPromise = uploadPromise") &&
