@@ -13,13 +13,14 @@
 
 # Build status
 
-- Current goal: Let guests start paid print checkout from the photo-share page on their own phone.
-- Done: Share records now retain event/paid-print metadata; eligible photo pages show a price and Order a print action that reuses the existing queue and PayPal return flow. Booth-side print checkout was removed; staff print tools remain.
-- In progress: Guest verification on a fresh paid-print photo share.
-- Next steps: Capture a new photo in paid-print mode, scan its QR on a phone, then complete a real PayPal checkout.
-- Known bugs/blockers: The full browser suite had parallel-run timeouts; focused relevant checks passed. Real PayPal payment and physical iPad behavior still need verification.
-- Important decisions: Old share links remain download-only; one print per guest request; CTA is hidden without paid-print metadata or configured PayPal.
-- Release: Commit `cb566a9` is pushed to `main`; Cloudflare Pages production deployment succeeded. PayPal config reports live checkout configured at $3.00 USD.
+- Current goal: Make event setup easier to scan and keep the guest-option selections across sessions.
+- Done: Grouped the event asset summary, asset library, and photo backgrounds/logo controls in one Event Assets section. Moved Wedding Setup beside theme selection. Guest Options already persist in this booth's browser storage; added an explanatory note and expanded reload coverage.
+- In progress: Prepare the scoped admin-layout release.
+- Next steps: Commit and push the scoped files, then verify the Pages deployment.
+- Known bugs/blockers: None identified for this change. Physical iPad behavior still needs device verification.
+- Important decisions: Keep booth settings local to this device; keep event text customization separate from asset management.
+- Validation: `npm test` passes 314/314; the focused guest-options Playwright check passes; rendered browser check confirms the asset controls are grouped and Wedding Setup still opens correctly.
+- Previous release: Paid photo-share print checkout shipped in `cb566a9`; Cloudflare Pages deployment succeeded.
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 

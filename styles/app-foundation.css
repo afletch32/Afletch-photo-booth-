@@ -300,12 +300,24 @@
       grid-column: span 2;
     }
 
-    .wedding-setup-action {
-      grid-column: 1 / -1;
-      max-width: 280px;
+    .theme-quick-picker-heading-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
-    .wedding-setup-action button { width: 100%; min-height: 48px; }
+    .theme-quick-picker-heading-copy { min-width: 0; }
+
+    .wedding-setup-action {
+      flex: 0 0 min(220px, 40%);
+      display: grid;
+      gap: 6px;
+      align-self: center;
+    }
+
+    .wedding-setup-action button { width: 100%; min-height: 44px; }
 
     .wedding-event-setup {
       grid-column: 1 / -1;
@@ -355,6 +367,10 @@
     .wedding-theme-choice strong { display: block; color: #345c4b; }
     .wedding-theme-choice-copy { display: block; color: #617268; font-size: .9rem; }
     @media (max-width: 640px) { .wedding-theme-choices { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) {
+      .theme-quick-picker-heading-row { flex-direction: column; }
+      .wedding-setup-action { width: 100%; max-width: none; flex-basis: auto; }
+    }
 
     #createWeddingEventBtn { justify-self: start; min-height: 48px; }
 
@@ -1354,6 +1370,12 @@
       margin: 0;
       font-size: 1rem;
       color: #294640;
+    }
+
+    .capture-settings-note {
+      margin: -8px 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
     }
 
     .capture-settings-grid {

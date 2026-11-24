@@ -73,9 +73,10 @@ test("setup screen uses a compact toolbar for section controls", () => {
   );
   assert.ok(
     html.includes('<details class="event-library-section" id="eventDetailsPanel">') &&
+      html.includes('<details class="event-library-section" id="eventAssetsPanel">') &&
       html.includes('<details class="event-library-section" id="uploadedAssetLibraryPanel">') &&
-      html.includes("<summary>Advanced Asset Selections</summary>"),
-    "optional event details and asset tools should stay collapsed by default"
+      html.includes("<summary>Photo Backgrounds and Logo</summary>"),
+    "event details and the grouped event asset tools should stay collapsed by default"
   );
   assert.ok(
     appScript.includes("function renderAssetLibrary()"),
@@ -362,9 +363,10 @@ test("setup presents a numbered flow with one share-stage launch action", () => 
     "Share should own the only launch action and start the booth in kiosk full screen"
   );
   assert.ok(
-    html.includes('<summary>Customize Event Details</summary>') &&
+    html.includes('<summary>Guest Screen and Event Details</summary>') &&
       html.includes('<h3>Guest Screen Text</h3>') &&
-      html.includes('<summary>Customize Assets</summary>') &&
+      html.includes('<summary>Event Assets</summary>') &&
+      html.includes("Your choices are saved on this booth and reused for the next session.") &&
       !html.includes('id="uploadedAssetLibraryPanel" open') &&
       html.includes('<h3>Guest Options</h3>') &&
       html.includes('<h3>Capture Timing</h3>') &&
@@ -1139,6 +1141,16 @@ test("setup exposes selected assets in individually expandable groups", () => {
       html.includes('<summary class="setup-session-assets-summary-chip">Overlays') &&
       html.includes('<summary class="setup-session-assets-summary-chip">Templates'),
     "setup should let each selected asset category expand directly to its full asset list"
+  );
+  const eventAssetsStart = html.indexOf('id="eventAssetsPanel"');
+  const eventAssetsEnd = html.indexOf('<div class="setup-next-actions">', eventAssetsStart);
+  assert.ok(
+    eventAssetsStart >= 0 &&
+      eventAssetsEnd > eventAssetsStart &&
+      html.indexOf('id="setupSessionAssetsToggle"', eventAssetsStart) < eventAssetsEnd &&
+      html.indexOf('id="uploadedAssetLibraryPanel"', eventAssetsStart) < eventAssetsEnd &&
+      html.indexOf("Photo Backgrounds and Logo", eventAssetsStart) < eventAssetsEnd,
+    "asset summary, library, and photo background controls should be grouped under Event Assets"
   );
   assert.ok(
     appScript.includes(

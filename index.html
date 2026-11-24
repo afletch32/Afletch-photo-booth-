@@ -57,10 +57,33 @@
         >
       </div>
       <div class="setup-session-grid">
-        <div class="setup-session-item wedding-setup-action" id="weddingSetupAction">
-          <span class="setup-session-item-label">Special event</span>
-          <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
-        </div>
+        <section id="themeQuickPicker" class="theme-quick-picker setup-session-theme" aria-labelledby="themeQuickPickerHeading">
+          <div>
+            <div class="theme-quick-picker-heading-row">
+              <div class="theme-quick-picker-heading-copy">
+                <h2 id="themeQuickPickerHeading" class="theme-quick-picker-heading">Choose a look</h2>
+                <p class="theme-quick-picker-note">Choose a theme. Scroll sideways to see more.</p>
+              </div>
+              <div class="wedding-setup-action" id="weddingSetupAction">
+                <span class="setup-session-item-label">Special event</span>
+                <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
+              </div>
+            </div>
+            <div id="themeQuickFilters" class="theme-quick-filters" aria-label="Theme categories"></div>
+            <div id="themeQuickGrid" class="theme-quick-grid" aria-live="polite"></div>
+          </div>
+          <aside class="theme-quick-selection" aria-live="polite">
+            <div>
+              <p class="theme-quick-selection-label">Selected theme</p>
+              <h3 id="themeQuickSelectionName">Choose a theme</h3>
+              <p id="themeQuickSelectionMeta">Choose a look to see the included guest screens and photo styling.</p>
+            </div>
+            <div class="btn-row" style="margin:0;">
+              <button type="button" id="cacheAssetsBtn" onclick="makeAvailableOffline()">Make Selected Theme Available Offline</button>
+              <button type="button" data-setup-next="capture">Continue to Capture</button>
+            </div>
+          </aside>
+        </section>
         <section id="weddingEventSetup" class="wedding-event-setup" aria-labelledby="weddingEventSetupHeading" hidden>
           <div>
             <h2 id="weddingEventSetupHeading">Wedding Setup</h2>
@@ -100,25 +123,6 @@
             <button type="button" id="cancelWeddingSetupBtn">Back to Event Setup</button>
             <button type="button" class="setup-session-save-btn" id="createWeddingEventBtn">Create Wedding Theme</button>
           </div>
-        </section>
-        <section id="themeQuickPicker" class="theme-quick-picker setup-session-theme" aria-labelledby="themeQuickPickerHeading">
-          <div>
-            <h2 id="themeQuickPickerHeading" class="theme-quick-picker-heading">Choose a look</h2>
-            <p class="theme-quick-picker-note">Choose a theme. Scroll sideways to see more.</p>
-            <div id="themeQuickFilters" class="theme-quick-filters" aria-label="Theme categories"></div>
-            <div id="themeQuickGrid" class="theme-quick-grid" aria-live="polite"></div>
-          </div>
-          <aside class="theme-quick-selection" aria-live="polite">
-            <div>
-              <p class="theme-quick-selection-label">Selected theme</p>
-              <h3 id="themeQuickSelectionName">Choose a theme</h3>
-              <p id="themeQuickSelectionMeta">Choose a look to see the included guest screens and photo styling.</p>
-            </div>
-            <div class="btn-row" style="margin:0;">
-              <button type="button" id="cacheAssetsBtn" onclick="makeAvailableOffline()">Make Selected Theme Available Offline</button>
-              <button type="button" data-setup-next="capture">Continue to Capture</button>
-            </div>
-          </aside>
         </section>
       <div class="setup-session-secondary">
           <select id="createPathThemeSelect" class="hidden" aria-hidden="true" tabindex="-1"></select>
@@ -167,31 +171,6 @@
           </div>
         </div>
       </div>
-      <section class="setup-session-assets-toggle" id="setupSessionAssetsToggle" aria-labelledby="selectedAssetsHeading">
-        <div class="setup-session-assets-summary-label" id="selectedAssetsHeading">Selected assets</div>
-        <div class="setup-session-assets-summary-row">
-          <details class="setup-session-asset-detail">
-            <summary class="setup-session-assets-summary-chip">Backgrounds <strong id="launchBackgroundSummary">0 selected</strong></summary>
-            <div id="launchBackgroundAssets" class="setup-session-asset-grid"></div>
-          </details>
-          <details class="setup-session-asset-detail">
-            <summary class="setup-session-assets-summary-chip">Overlays <strong id="launchOverlaySummary">0 selected</strong></summary>
-            <div id="launchOverlayAssets" class="setup-session-asset-grid"></div>
-          </details>
-          <details class="setup-session-asset-detail">
-            <summary class="setup-session-assets-summary-chip">Templates <strong id="launchTemplateSummary">0 selected</strong></summary>
-            <div id="launchTemplateAssets" class="setup-session-asset-grid"></div>
-          </details>
-        </div>
-        <div class="hidden" aria-hidden="true">
-          <div id="launchBackgroundThumb"></div>
-          <div id="launchOverlayThumb"></div>
-          <div id="launchTemplateThumb"></div>
-          <strong id="launchBackgroundCount"></strong>
-          <strong id="launchOverlayCount"></strong>
-          <strong id="launchStripStatus"></strong>
-        </div>
-      </section>
     </div>
     <div class="capture-mode-bar" data-setup-section="capture">
       <div class="capture-mode-copy">
@@ -207,6 +186,7 @@
           <div class="section-content">
             <section class="setup-flow-card">
               <h3>Guest Options</h3>
+              <p class="capture-settings-note">Your choices are saved on this booth and reused for the next session.</p>
               <div class="capture-settings-grid">
                 <label style="display:inline-flex; align-items:center; gap:8px; margin:0;">
                   <input type="checkbox" id="allowRetakes" checked>
@@ -412,10 +392,10 @@
           </div>
         </details>
         <details class="panel-section" id="currentAssetsSection" data-setup-section="event">
-          <summary>Event Setup</summary>
+          <summary>Event Details and Assets</summary>
           <div id="currentAssetsContent" class="section-content">
             <details class="event-library-section" id="eventDetailsPanel">
-              <summary>Customize Event Details</summary>
+              <summary>Guest Screen and Event Details</summary>
               <div class="event-library-section-content">
               <div class="setup-session-item setup-combobox" data-setup-combobox="font">
                 <label for="sessionFontSearch">Font pairing</label>
@@ -490,8 +470,36 @@
               </div>
               </div>
             </details>
+            <details class="event-library-section" id="eventAssetsPanel">
+              <summary>Event Assets</summary>
+              <div class="event-library-section-content">
+                <section class="setup-session-assets-toggle" id="setupSessionAssetsToggle" aria-labelledby="selectedAssetsHeading">
+                  <div class="setup-session-assets-summary-label" id="selectedAssetsHeading">Assets included with this event</div>
+                  <div class="setup-session-assets-summary-row">
+                    <details class="setup-session-asset-detail">
+                      <summary class="setup-session-assets-summary-chip">Backgrounds <strong id="launchBackgroundSummary">0 selected</strong></summary>
+                      <div id="launchBackgroundAssets" class="setup-session-asset-grid"></div>
+                    </details>
+                    <details class="setup-session-asset-detail">
+                      <summary class="setup-session-assets-summary-chip">Overlays <strong id="launchOverlaySummary">0 selected</strong></summary>
+                      <div id="launchOverlayAssets" class="setup-session-asset-grid"></div>
+                    </details>
+                    <details class="setup-session-asset-detail">
+                      <summary class="setup-session-assets-summary-chip">Templates <strong id="launchTemplateSummary">0 selected</strong></summary>
+                      <div id="launchTemplateAssets" class="setup-session-asset-grid"></div>
+                    </details>
+                  </div>
+                  <div class="hidden" aria-hidden="true">
+                    <div id="launchBackgroundThumb"></div>
+                    <div id="launchOverlayThumb"></div>
+                    <div id="launchTemplateThumb"></div>
+                    <strong id="launchBackgroundCount"></strong>
+                    <strong id="launchOverlayCount"></strong>
+                    <strong id="launchStripStatus"></strong>
+                  </div>
+                </section>
             <details class="event-library-section" id="uploadedAssetLibraryPanel">
-              <summary>Customize Assets</summary>
+              <summary>Browse and Manage Assets</summary>
               <div class="event-library-section-content">
                 <div class="asset-actions">
                 <button type="button" id="addLogoBtn">Add Logo</button>
@@ -578,7 +586,7 @@
               </div>
             </div>
             <details class="event-library-section">
-              <summary>Advanced Asset Selections</summary>
+              <summary>Photo Backgrounds and Logo</summary>
               <div id="currentAssets" class="current-assets event-library-section-content">
               <div
                 style="display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:16px;">
@@ -595,6 +603,8 @@
                 <label>Logo:</label>
                 <div id="currentLogo" class="asset-single"></div>
               </div>
+              </div>
+            </details>
               </div>
             </details>
             <div class="setup-next-actions">
