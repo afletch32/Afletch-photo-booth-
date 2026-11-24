@@ -1,5 +1,4 @@
 export function createServicesModule(__appRuntimeContext) {
-  let paidPrintWatchInterval = null;
 
   function loadCloudinarySettings() {
     const cloud =
@@ -167,16 +166,6 @@ export function createServicesModule(__appRuntimeContext) {
       localStorage.setItem(__appRuntimeContext.PRINT_SETTINGS_STORAGE_KEY, JSON.stringify(settings));
     } catch (_) {}
     syncEventPrintPriceVisibility();
-    if (mode !== "paid") {
-      __appRuntimeContext.finalPrintPriceRequestId += 1;
-      if (__appRuntimeContext.DOM.printPriceNotice) {
-        __appRuntimeContext.DOM.printPriceNotice.textContent = "";
-        __appRuntimeContext.DOM.printPriceNotice.classList.add("hidden");
-      }
-      if (mode === "off" && __appRuntimeContext.DOM.finalPrintActions) {
-        __appRuntimeContext.DOM.finalPrintActions.classList.add("hidden");
-      }
-    }
   }
 
   function syncEventPrintPriceVisibility() {
@@ -280,106 +269,6 @@ export function createServicesModule(__appRuntimeContext) {
     }
   }
 
-  async function enqueueFinalPrintIfNeeded(imageUrl, printEligible = true) {
-    const settings = getPrintSettings();
-    if (settings.mode === "off" || !printEligible) return null;
-    if (!/^https?:\/\//i.test(String(imageUrl || ""))) {
-      if (__appRuntimeContext.DOM.shareStatus) {
-        __appRuntimeContext.DOM.shareStatus.textContent = "Print queue waiting for shared upload";
-        __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-      }
-      __appRuntimeContext.showToast("Print queue needs an uploaded image before staff can print.");
-      return null;
-    }
-    try {
-      const response = await fetch("/api/print-queue", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: getPrintQueueEventId(),
-          imageUrl,
-          thumbnailUrl: imageUrl,
-          quantity: 1,
-          paymentRequired: settings.mode === "paid",
-        }),
-      });
-      let result;
-      try {
-        result = await response.json();
-      } catch (_) {
-        throw new Error(`Print queue returned an unreadable response (HTTP ${response.status}).`);
-      }
-      if (!response.ok || !result.ok) {
-        throw new Error(result.error || `Print queue rejected the request (HTTP ${response.status}).`);
-      }
-      if (__appRuntimeContext.DOM.shareStatus && __appRuntimeContext.DOM.shareStatus.textContent === "Print queue waiting for shared upload") {
-        __appRuntimeContext.DOM.shareStatus.style.display = "none";
-      }
-      return result.item || null;
-    } catch (error) {
-      console.warn("Print queue enqueue failed", error);
-      if (__appRuntimeContext.DOM.shareStatus) {
-        __appRuntimeContext.DOM.shareStatus.textContent = error.message || "Print queue failed";
-        __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-      }
-      throw error;
-    }
-  }
-
-  async function showPayPalPrintCheckout(item) {
-    if (!item || !__appRuntimeContext.DOM.paypalPrintCheckout) throw new Error("The print request could not be loaded.");
-    if (paidPrintWatchInterval) window.clearInterval(paidPrintWatchInterval);
-    const response = await fetch("/api/paypal/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ eventId: item.eventId, printItemId: item.id }),
-    });
-    const result = await response.json();
-    if (!response.ok || !result.approvalUrl) throw new Error(result.error || "PayPal did not provide a phone checkout link.");
-    const checkout = __appRuntimeContext.DOM.paypalPrintCheckout;
-    checkout.replaceChildren();
-    const title = document.createElement("strong");
-    title.textContent = "Scan with your phone to pay";
-    const copy = document.createElement("p");
-    copy.textContent = "Checkout will open on your personal device, not this booth.";
-    const qrTarget = document.createElement("div");
-    qrTarget.className = "mobile-print-payment-qr";
-    checkout.append(title, copy, qrTarget);
-    checkout.classList.remove("hidden");
-    const QRCode = await __appRuntimeContext.loadQrCodeLibrary();
-    new QRCode(qrTarget, {
-      text: result.approvalUrl,
-      width: 220,
-      height: 220,
-      colorDark: "#173f3b",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M,
-    });
-    if (__appRuntimeContext.DOM.shareStatus) {
-      __appRuntimeContext.DOM.shareStatus.textContent = "Scan to pay on your phone, then continue. The booth will be ready for the next guest before checkout finishes.";
-      __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-    }
-    if (__appRuntimeContext.DOM.finishBoothBtn) __appRuntimeContext.DOM.finishBoothBtn.textContent = "Next Guest";
-    clearTimeout(__appRuntimeContext.hidePreviewTimer);
-    __appRuntimeContext.hidePreviewTimer = window.setTimeout(__appRuntimeContext.finishBoothFlow, 20000);
-    paidPrintWatchInterval = window.setInterval(async () => {
-      try {
-        const queueResponse = await fetch(`/api/print-queue?eventId=${encodeURIComponent(item.eventId || "default")}`, { cache: "no-store" });
-        const queue = await queueResponse.json();
-        const paidItem = queue.items && queue.items.find((entry) => entry.id === item.id);
-        if (paidItem && paidItem.paymentStatus === "paid") {
-          window.clearInterval(paidPrintWatchInterval);
-          paidPrintWatchInterval = null;
-          if (__appRuntimeContext.DOM.shareStatus) __appRuntimeContext.DOM.shareStatus.textContent = "Payment confirmed. Your print is ready with the attendant.";
-          if (__appRuntimeContext.DOM.requestPrintBtn) __appRuntimeContext.DOM.requestPrintBtn.textContent = "Payment Complete";
-          __appRuntimeContext.playThemeCue("success", "success");
-        }
-      } catch (error) {
-        console.warn("Paid print status check failed", error);
-      }
-    }, 3000);
-  }
-
   return {
     loadCloudinarySettings,
     saveCloudinarySettings,
@@ -398,7 +287,5 @@ export function createServicesModule(__appRuntimeContext) {
     loadPayPalPrintConfigStatus,
     savePrintSettings,
     copyStaffPrintQueueUrl,
-    enqueueFinalPrintIfNeeded,
-    showPayPalPrintCheckout,
   };
 }

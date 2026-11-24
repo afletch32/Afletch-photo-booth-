@@ -13,6 +13,13 @@
 
 # Build status
 
+- Current goal: Let guests start paid print checkout from the photo-share page on their own phone.
+- Done: Share records now retain event/paid-print metadata; eligible photo pages show a price and Order a print action that reuses the existing queue and PayPal return flow. Booth-side print checkout was removed; staff print tools remain.
+- In progress: Scoped release to main and production verification.
+- Next steps: Push the committed change, then confirm the live photo page and payment handoff.
+- Known bugs/blockers: The full browser suite had unrelated parallel-run timeouts; the focused relevant set passed. Real PayPal payment and physical iPad behavior still require device/provider verification.
+- Important decisions: Old share links remain download-only; one print per guest request; CTA is hidden without paid-print metadata or configured PayPal.
+
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
 - Current goal: Keep staff print previews in sync with the selected session or photo orientation.

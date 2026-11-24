@@ -143,12 +143,17 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
 
   function getCaptureUploadMeta(options = {}) {
     const slug = options.slug || __appRuntimeContext.getEventUploadSlug();
+    const printSettings = __appRuntimeContext.getPrintSettings();
     return {
       captureId: options.captureId || createCaptureUploadId(options.modeName),
       slug,
       folder: options.folder || __appRuntimeContext.getEventUploadFolderPath(),
       title: options.title || __appRuntimeContext.getEventGalleryTitle(),
       galleryUrl: options.galleryUrl || __appRuntimeContext.getEventGalleryUrl(),
+      eventId: options.eventId || __appRuntimeContext.getPrintQueueEventId(),
+      paidPrintEnabled: options.paidPrintEnabled === undefined
+        ? printSettings.mode === "paid"
+        : options.paidPrintEnabled === true,
     };
   }
 
@@ -191,6 +196,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
       email: meta.email || "",
       createdAt: meta.createdAt || new Date().toISOString(),
       galleryUrl: meta.galleryUrl || __appRuntimeContext.getEventGalleryUrl(),
+      eventId: meta.eventId,
+      paidPrintEnabled: meta.paidPrintEnabled === true,
     };
     if (mediaBlob && offlineQueueSupported()) {
       try {
@@ -224,6 +231,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
       resourceType: retryResourceType,
       modeName,
       title: meta.title,
+      eventId: meta.eventId,
+      paidPrintEnabled: meta.paidPrintEnabled === true,
     });
     if (!queued && retryResourceType === "video" && previewUrl) {
       console.warn("Video retry queue was too large; falling back to poster");
@@ -236,6 +245,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
         modeName,
         title: meta.title,
         galleryUrl: meta.galleryUrl,
+        eventId: meta.eventId,
+        paidPrintEnabled: meta.paidPrintEnabled === true,
       });
     }
     return queued;
@@ -372,6 +383,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
       resourceType,
       modeName,
       galleryUrl: meta.galleryUrl,
+      eventId: meta.eventId,
+      paidPrintEnabled: meta.paidPrintEnabled,
     });
     if (!galleryOk) {
       const queued = queuePendingGalleryRecord({
@@ -382,6 +395,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
         galleryUrl: meta.galleryUrl,
         resourceType,
         modeName,
+        eventId: meta.eventId,
+        paidPrintEnabled: meta.paidPrintEnabled === true,
       });
       result.galleryQueued = queued;
       if (queued) __appRuntimeContext.showToast("Photo uploaded; gallery update queued for retry");
@@ -423,6 +438,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
       type: resourceType,
       mode: options.modeName || "",
       gallery_url: options.galleryUrl || __appRuntimeContext.getEventGalleryUrl(),
+      event_id: options.eventId || __appRuntimeContext.getPrintQueueEventId(),
+      paid_print_enabled: options.paidPrintEnabled === true,
     };
     for (let attempt = 1; attempt <= 2; attempt++) {
       try {
@@ -520,17 +537,6 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
       __appRuntimeContext.DOM.qrCodeContainer.dataset.pending = "false";
       __appRuntimeContext.DOM.qrCodeContainer.dataset.error = "false";
     }
-    if (__appRuntimeContext.DOM.finalPrintActions) __appRuntimeContext.DOM.finalPrintActions.classList.add("hidden");
-    __appRuntimeContext.finalPrintPriceRequestId += 1;
-    if (__appRuntimeContext.DOM.printPriceNotice) {
-      __appRuntimeContext.DOM.printPriceNotice.textContent = "";
-      __appRuntimeContext.DOM.printPriceNotice.classList.add("hidden");
-    }
-    if (__appRuntimeContext.DOM.paypalPrintCheckout) {
-      __appRuntimeContext.DOM.paypalPrintCheckout.innerHTML = "";
-      __appRuntimeContext.DOM.paypalPrintCheckout.classList.add("hidden");
-    }
-    __appRuntimeContext.pendingFinalPrintImageUrl = "";
     __appRuntimeContext.setFinalPreviewSharePanelVisible(false);
     if (__appRuntimeContext.DOM.shareStatus) __appRuntimeContext.DOM.shareStatus.style.display = "none";
     __appRuntimeContext.clearLiveClip();
@@ -712,6 +718,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
         resourceType: meta.resourceType === "video" ? "video" : "image",
         modeName: meta.modeName || "pending",
         galleryUrl: meta.galleryUrl || __appRuntimeContext.getEventGalleryUrl(),
+        eventId: meta.eventId,
+        paidPrintEnabled: meta.paidPrintEnabled === true,
         attempts: Number(meta.attempts || 0),
       };
       const existingIndex = q.findIndex(
@@ -765,6 +773,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
         resourceType: record.resourceType === "video" ? "video" : "image",
         modeName: record.modeName || "",
         galleryUrl: record.galleryUrl || __appRuntimeContext.getEventGalleryUrl(),
+        eventId: record.eventId,
+        paidPrintEnabled: record.paidPrintEnabled === true,
         attempts: Number(record.attempts || 0),
       };
       const existingIndex = q.findIndex(
@@ -884,6 +894,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
           modeName: metadata.modeName,
           createdAt: metadata.createdAt,
           galleryUrl: metadata.galleryUrl,
+          eventId: metadata.eventId,
+          paidPrintEnabled: metadata.paidPrintEnabled === true,
         });
         if (!galleryOk) {
           queuePendingGalleryRecord({
@@ -895,6 +907,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
             modeName: metadata.modeName,
             createdAt: metadata.createdAt,
             galleryUrl: metadata.galleryUrl,
+            eventId: metadata.eventId,
+            paidPrintEnabled: metadata.paidPrintEnabled === true,
           });
         }
       }
@@ -926,6 +940,8 @@ export function createOfflineDeliveryModule(__appRuntimeContext) {
             modeName: item.modeName,
             createdAt: item.createdAt,
             galleryUrl: item.galleryUrl,
+            eventId: item.eventId,
+            paidPrintEnabled: item.paidPrintEnabled === true,
           });
           if (!ok) throw new Error("Gallery API rejected retry");
           sent++;

@@ -140,6 +140,8 @@ export async function onRequest(context) {
             title: next.title,
             created_at: nextResource.created_at,
             gallery_url: nextResource.gallery_url,
+            event_id: String(body.event_id || ""),
+            paid_print_enabled: body.paid_print_enabled === true,
           })
         );
       }

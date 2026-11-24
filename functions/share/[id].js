@@ -1,3 +1,5 @@
+import { getPayPalEventConfig } from "../api/paypal/_shared.js";
+
 function escapeHtml(value) {
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -8,7 +10,44 @@ function escapeHtml(value) {
 }
 
 function page(body, status = 200) {
-  return new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DecemberBooth photo</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f4f7fb;color:#162033;font:16px system-ui,sans-serif;text-align:center}main{width:min(92vw,720px);padding:28px}img,video{max-width:100%;max-height:78vh;border-radius:16px;box-shadow:0 12px 36px #17233a22}a{display:inline-block;margin-top:18px;padding:12px 18px;border-radius:999px;background:#162033;color:white;text-decoration:none}</style></head><body><main>${body}</main></body></html>`, { status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+  return new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173f3b"><title>DecemberBooth photo</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f4f7fb;color:#162033;font:16px system-ui,sans-serif;text-align:center}main{width:min(92vw,720px);padding:28px 18px}img,video{max-width:100%;max-height:65vh;border-radius:16px;box-shadow:0 12px 36px #17233a22}a,.order-button{display:inline-block;margin:14px 5px 0;padding:12px 18px;border:0;border-radius:999px;background:#162033;color:white;text-decoration:none;font:inherit;cursor:pointer}.order-button{background:#176d61}.order-button:disabled{opacity:.65;cursor:wait}#order-status{min-height:1.5em;color:#52605d}</style></head><body><main>${body}</main></body></html>`, {
+    status,
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" },
+  });
+}
+
+function orderButton(eventId, url, amount, currency) {
+  const safeEventId = escapeHtml(eventId);
+  const safeUrl = escapeHtml(url);
+  const price = new Intl.NumberFormat("en-US", { style: "currency", currency }).format(Number(amount));
+  return `<section aria-label="Print ordering"><p>Order a print for ${price}</p><button id="order-print" class="order-button" type="button" data-event-id="${safeEventId}" data-photo-url="${safeUrl}">Order a print</button><p id="order-status" role="status" aria-live="polite"></p></section><script>
+    const button = document.getElementById("order-print");
+    const status = document.getElementById("order-status");
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      status.textContent = "Preparing secure checkout…";
+      try {
+        const queueResponse = await fetch("/api/print-queue?eventId=" + encodeURIComponent(button.dataset.eventId), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId: button.dataset.eventId, imageUrl: button.dataset.photoUrl, quantity: 1, paymentRequired: true, notes: "Ordered from photo share page" }),
+        });
+        const queued = await queueResponse.json();
+        if (!queueResponse.ok || !queued.ok || !queued.item) throw new Error(queued.error || "Could not create the print request.");
+        const orderResponse = await fetch("/api/paypal/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId: button.dataset.eventId, printItemId: queued.item.id }),
+        });
+        const order = await orderResponse.json();
+        if (!orderResponse.ok || !order.ok || !order.approvalUrl) throw new Error(order.error || "Checkout could not start.");
+        window.location.assign(order.approvalUrl);
+      } catch (error) {
+        status.textContent = error.message || "Checkout could not start. Please try again.";
+        button.disabled = false;
+      }
+    });
+  </script>`;
 }
 
 export async function onRequest(context) {
@@ -28,5 +67,17 @@ export async function onRequest(context) {
   const media = item.resource_type === "video"
     ? `<video controls playsinline src="${safeUrl}"></video>`
     : `<img src="${safeUrl}" alt="Your DecemberBooth photo">`;
-  return page(`<h1>Your photo is ready</h1>${media}<br><a href="${safeUrl}" download>Download photo</a>${galleryLink}`);
+  let orderAction = "";
+  const eventId = String(item && item.event_id || "").trim();
+  if (item && item.paid_print_enabled === true && eventId && item.resource_type !== "video") {
+    try {
+      const config = await getPayPalEventConfig(context.env, eventId);
+      if (config.configured && config.amount && config.currency) {
+        orderAction = orderButton(eventId, url, config.amount, config.currency);
+      }
+    } catch (error) {
+      console.error("Could not load share page print checkout config", error && error.message);
+    }
+  }
+  return page(`<h1>Your photo is ready</h1>${media}<br><a href="${safeUrl}" download>Download photo</a>${orderAction}${galleryLink}`);
 }

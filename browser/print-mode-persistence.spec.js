@@ -34,10 +34,9 @@ test("Digital Only saves immediately and does not show a print price to guests",
     canvas.getContext("2d").fillRect(0, 0, canvas.width, canvas.height);
     window.__photoboothQA.showFinal(canvas.toDataURL(), { skipShare: true });
   });
-  const finalPrintState = await page.evaluate(() => ({
-    controlsHidden: document.querySelector("#finalPrintActions").classList.contains("hidden"),
-    priceHidden: document.querySelector("#printPriceNotice").classList.contains("hidden"),
-    priceText: document.querySelector("#printPriceNotice").textContent,
+  const boothPrintControls = await page.evaluate(() => ({
+    orderButton: document.querySelector("#requestPrintBtn"),
+    priceNotice: document.querySelector("#printPriceNotice"),
   }));
-  assert.deepEqual(finalPrintState, { controlsHidden: true, priceHidden: true, priceText: "" });
+  assert.deepEqual(boothPrintControls, { orderButton: null, priceNotice: null });
 });

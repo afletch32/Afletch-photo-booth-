@@ -824,7 +824,6 @@ test("final share photo and QR stay inside supported kiosk viewports", async ({ 
       document.querySelector("#qrCodeContainer").classList.remove("hidden");
     });
     await expect(page.locator("#qrCodeContainer")).toBeVisible();
-    await page.locator("#finalPrintActions").evaluate((panel) => panel.classList.add("show"));
 
     const bounds = await page.evaluate(() => {
       const selectors = [
@@ -834,7 +833,6 @@ test("final share photo and QR stay inside supported kiosk viewports", async ({ 
         "#qrCodeContainer",
         "#qrCode",
         "#finalStrip",
-        "#finalPrintActions",
       ];
       const boxes = Object.fromEntries(
         selectors.map((selector) => {

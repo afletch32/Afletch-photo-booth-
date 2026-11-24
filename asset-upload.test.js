@@ -72,19 +72,9 @@ test("capture modes share one canonical upload pipeline", () => {
     "final screens should receive the uploaded URL instead of uploading again"
   );
   assert.ok(
-    appScript.includes("enqueueFinalPrintIfNeeded(imageUrl, true)") &&
-      appScript.includes('shareType === "image"') &&
-      appScript.includes("Print queue waiting for shared upload") &&
-      appScript.includes("Print queue failed") &&
-      appScript.includes("Print queue rejected the request (HTTP") &&
-      appScript.includes("throw error;"),
-    "print queue submissions should use remote image uploads, skip live/video captures, and surface API failure details"
-  );
-  assert.ok(
-    appScript.includes("pendingFinalPrintUploadPromise = uploadPromise") &&
-      appScript.includes("await uploadPromise") &&
-      appScript.includes('uploadResult.resourceType === "image" ? uploadResult.publicUrl : ""'),
-    "print requests should wait for the final image upload and queue its public URL"
+    appScript.includes("eventId: options.eventId || getPrintQueueEventId()") &&
+      appScript.includes("paid_print_enabled: options.paidPrintEnabled === true"),
+    "the capture upload should retain event and paid-print metadata for the phone share page"
   );
   assert.ok(
     !appScript.includes("handleCaptureUpload("),

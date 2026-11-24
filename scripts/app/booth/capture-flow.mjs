@@ -37,13 +37,8 @@ export function createCaptureFlowModule(__appRuntimeContext) {
         resourceType: livePhotoEnabled && __appRuntimeContext.lastLiveClipBlob ? "video" : "image",
         modeName: livePhotoEnabled ? "live-photo" : "photo",
       });
-      __appRuntimeContext.pendingFinalPrintUploadPromise = uploadPromise;
       void uploadPromise.then((uploadResult) => {
         if (uploadToken !== __appRuntimeContext.activeFinalUploadToken) return;
-        if (uploadResult.resourceType === "image" && uploadResult.publicUrl) {
-          __appRuntimeContext.pendingFinalPrintImageUrl = uploadResult.publicUrl;
-        }
-        __appRuntimeContext.pendingFinalPrintUploadPromise = null;
         if (!__appRuntimeContext.DOM.qrHint) return;
         if (uploadResult.queued) {
           __appRuntimeContext.DOM.qrHint.textContent = "Photo queued; it will appear in the gallery after upload.";

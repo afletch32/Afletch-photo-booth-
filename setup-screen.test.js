@@ -1385,10 +1385,10 @@ test("guest booth flow uses attraction-style host moments", () => {
   assert.ok(
     !html.includes('id="reviewPanel"') &&
       !html.includes('id="lovePhotoBtn"') &&
-      html.includes('id="finalPrintActions"') &&
-      html.includes('id="reviewRetakeBtn"') &&
-      html.includes('id="requestPrintBtn"'),
-    "final preview should show QR directly and reserve retake and print for print mode"
+      !html.includes('id="finalPrintActions"') &&
+      !html.includes('id="requestPrintBtn"') &&
+      html.includes('id="reviewRetakeBtn"'),
+    "final preview should keep the share QR and retake action without starting print checkout on the booth"
   );
   assert.ok(
     html.includes("Take them with you.") &&
@@ -1563,7 +1563,7 @@ test("final share panel appears immediately while QR is pending or failed", () =
   );
 });
 
-test("share-ready QR is large and only shows retake and print when printing is enabled", () => {
+test("share-ready QR remains large and print ordering is handled from the guest photo page", () => {
   const appScript = [readAppModule("sharing", "final-output.mjs"), readAppModule("settings", "services.mjs")].join("\n");
   const html = readProjectFile("index.html");
   const qrStart = html.indexOf('id="qrCodeContainer"');
@@ -1571,13 +1571,12 @@ test("share-ready QR is large and only shows retake and print when printing is e
   const qrMarkup = html.slice(qrStart, qrEnd);
 
   assert.equal((html.match(/id="reviewRetakeBtn"/g) || []).length, 1);
-  assert.ok(qrMarkup.includes('id="finalPrintActions" class="final-print-actions hidden"'));
-  assert.ok(qrMarkup.includes('id="requestPrintBtn"'));
+  assert.ok(!qrMarkup.includes('id="finalPrintActions"'));
+  assert.ok(!qrMarkup.includes('id="requestPrintBtn"'));
   assert.ok(html.includes("width: min(100%, 340px);"));
   assert.ok(appScript.includes("renderQrCodeAtWidth(canvas, text, 360)"));
   assert.ok(appScript.includes("new QRCode(stage, {"));
-  assert.ok(appScript.includes('DOM.finalPrintActions.classList.toggle("hidden", !printEnabled)'));
-  assert.ok(appScript.includes("await enqueueFinalPrintIfNeeded(imageUrl, true);"));
+  assert.ok(!appScript.includes("enqueueFinalPrintIfNeeded"));
   assert.ok(!html.includes("Love your photos?"));
   assert.ok(!html.includes('id="paidPrintPanel"'));
 });

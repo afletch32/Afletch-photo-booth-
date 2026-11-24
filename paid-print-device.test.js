@@ -5,19 +5,20 @@ const path = require("node:path");
 
 const read = (...parts) => fs.readFileSync(path.join(__dirname, ...parts), "utf8");
 
-test("paid booth checkout shows a phone-scannable approval QR instead of PayPal buttons", () => {
+test("paid printing starts from the guest photo page instead of the booth screen", () => {
   const services = read("scripts", "app", "settings", "services.mjs");
   const finalOutput = read("scripts", "app", "sharing", "final-output.mjs");
   const createOrder = read("functions", "api", "paypal", "create-order.js");
+  const sharePage = read("functions", "share", "[id].js");
+  const boothHtml = read("index.html");
 
-  assert.ok(services.includes("text: result.approvalUrl"));
-  assert.ok(services.includes("Scan with your phone to pay"));
-  assert.ok(services.includes("The booth will be ready for the next guest before checkout finishes."));
-  assert.ok(services.includes('finishBoothBtn.textContent = "Next Guest"'));
-  assert.ok(services.includes("setTimeout(__appRuntimeContext.finishBoothFlow, 20000)"));
+  assert.ok(!boothHtml.includes('id="requestPrintBtn"'));
+  assert.ok(!finalOutput.includes("enqueueFinalPrintIfNeeded"));
+  assert.ok(sharePage.includes('id="order-print"'));
+  assert.ok(sharePage.includes('fetch("/api/paypal/create-order"'));
+  assert.ok(sharePage.includes('window.location.assign(order.approvalUrl)'));
   assert.ok(!services.includes("paypal.com/sdk/js"));
   assert.ok(!services.includes("paypal.Buttons("));
-  assert.ok(finalOutput.includes('requestPrintBtn.textContent = "Scan to Pay"'));
   assert.ok(createOrder.includes('link.rel === "approve" || link.rel === "payer-action"'));
 });
 

@@ -550,95 +550,11 @@ export function createFinalOutputModule(__appRuntimeContext) {
         __appRuntimeContext.finishBoothFlow();
       });
     }
-    if (__appRuntimeContext.DOM.requestPrintBtn && !__appRuntimeContext.DOM.requestPrintBtn.dataset.bound) {
-      __appRuntimeContext.DOM.requestPrintBtn.dataset.bound = "true";
-      __appRuntimeContext.DOM.requestPrintBtn.addEventListener("click", async () => {
-        if (!__appRuntimeContext.pendingFinalPrintImageUrl) return;
-        __appRuntimeContext.DOM.requestPrintBtn.disabled = true;
-        __appRuntimeContext.DOM.requestPrintBtn.textContent = "Preparing…";
-        try {
-          const settings = __appRuntimeContext.getPrintSettings();
-          let imageUrl = __appRuntimeContext.pendingFinalPrintImageUrl;
-          if (!/^https?:\/\//i.test(String(imageUrl || ""))) {
-            const uploadPromise = __appRuntimeContext.pendingFinalPrintUploadPromise;
-            if (!uploadPromise) {
-              throw new Error("Your photo is still uploading. Please wait for it to finish, then try printing again.");
-            }
-            let uploadResult;
-            try {
-              uploadResult = await uploadPromise;
-            } catch (_) {
-              throw new Error("Your photo could not finish uploading, so it could not be sent to the print queue. Please ask the attendant.");
-            }
-            imageUrl = uploadResult && uploadResult.resourceType === "image" ? uploadResult.publicUrl : "";
-            if (/^https?:\/\//i.test(String(imageUrl || ""))) {
-              __appRuntimeContext.pendingFinalPrintImageUrl = imageUrl;
-            } else {
-              throw new Error("Your photo is still uploading. Please wait for it to finish, then try printing again.");
-            }
-          }
-          const item = await __appRuntimeContext.enqueueFinalPrintIfNeeded(imageUrl, true);
-          if (!item) throw new Error("The print queue returned no item. Please ask the attendant.");
-          if (settings.mode === "paid") {
-            await __appRuntimeContext.showPayPalPrintCheckout(item);
-              __appRuntimeContext.DOM.requestPrintBtn.textContent = "Scan to Pay";
-            return;
-          }
-          __appRuntimeContext.DOM.requestPrintBtn.textContent = "Print Requested";
-        } catch (error) {
-          console.warn("Print checkout setup failed", error);
-          if (__appRuntimeContext.DOM.shareStatus) {
-            __appRuntimeContext.DOM.shareStatus.textContent = error.message || "Print checkout could not start.";
-            __appRuntimeContext.DOM.shareStatus.style.display = "inline-flex";
-          }
-          __appRuntimeContext.DOM.requestPrintBtn.disabled = false;
-          __appRuntimeContext.DOM.requestPrintBtn.textContent = "Try Again";
-        }
-      });
-    }
-  }
-
-  async function fetchPayPalPrintConfig(eventId) {
-    const response = await fetch(`/api/paypal/config?eventId=${encodeURIComponent(eventId || "default")}`, { cache: "no-store" });
-    const config = await response.json();
-    if (!response.ok || !config.configured || !config.clientId) {
-      throw new Error("PayPal checkout is not connected. Ask the attendant to check the payment setup.");
-    }
-    return config;
-  }
-
-  function formatPayPalPrintPrice(amount, currency) {
-    try {
-      return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(Number(amount));
-    } catch (_) {
-      return `${currency} ${amount}`;
-    }
-  }
-
-  async function showFinalPrintPrice(eventId) {
-    const requestId = ++__appRuntimeContext.finalPrintPriceRequestId;
-    if (__appRuntimeContext.DOM.printPriceNotice) {
-      __appRuntimeContext.DOM.printPriceNotice.classList.remove("hidden");
-      __appRuntimeContext.DOM.printPriceNotice.textContent = "Checking event print price…";
-    }
-    if (__appRuntimeContext.DOM.requestPrintBtn) __appRuntimeContext.DOM.requestPrintBtn.disabled = true;
-    try {
-      const config = await fetchPayPalPrintConfig(eventId);
-      if (requestId !== __appRuntimeContext.finalPrintPriceRequestId || __appRuntimeContext.getPrintSettings().mode !== "paid") return;
-      if (__appRuntimeContext.DOM.printPriceNotice) {
-        __appRuntimeContext.DOM.printPriceNotice.textContent = `Print price: ${formatPayPalPrintPrice(config.amount, config.currency)}`;
-      }
-      if (__appRuntimeContext.DOM.requestPrintBtn) __appRuntimeContext.DOM.requestPrintBtn.disabled = false;
-    } catch (_) {
-      if (requestId !== __appRuntimeContext.finalPrintPriceRequestId || __appRuntimeContext.getPrintSettings().mode !== "paid") return;
-      if (__appRuntimeContext.DOM.printPriceNotice) __appRuntimeContext.DOM.printPriceNotice.textContent = "Print price unavailable. Please ask the attendant.";
-    }
   }
 
   function showFinal(url, options = {}) {
     clearTimeout(__appRuntimeContext.hidePreviewTimer); // Clear any existing timer
     if (__appRuntimeContext.DOM.finishBoothBtn) __appRuntimeContext.DOM.finishBoothBtn.textContent = "Done";
-    __appRuntimeContext.pendingFinalPrintUploadPromise = null;
     __appRuntimeContext.updateOutputSurfaceTrace({
       localFinalUrl: url,
       remoteFinalUrl: options.shareUrl || "",
@@ -676,7 +592,6 @@ export function createFinalOutputModule(__appRuntimeContext) {
         : shareType === "image"
           ? providedShareUrl
           : "";
-    const printEligible = options.printEligible !== false && shareType === "image";
     const offline = __appRuntimeContext.offlineModeActive();
     const qrContainer = __appRuntimeContext.DOM.qrCodeContainer;
     const qrCanvas = __appRuntimeContext.DOM.qrCode;
@@ -788,26 +703,6 @@ export function createFinalOutputModule(__appRuntimeContext) {
           __appRuntimeContext.DOM.qrHint.textContent = "Enable Cloudinary in Admin to show QR";
           __appRuntimeContext.DOM.qrHint.style.display = "block";
         }
-      }
-      const printSettings = __appRuntimeContext.getPrintSettings();
-      const printEnabled = printSettings.mode !== "off" && printEligible;
-      const paidPrintEnabled = printEnabled && printSettings.mode === "paid";
-      __appRuntimeContext.pendingFinalPrintImageUrl = printEnabled ? printImageUrl : "";
-      if (__appRuntimeContext.DOM.finalPrintActions)
-        __appRuntimeContext.DOM.finalPrintActions.classList.toggle("hidden", !printEnabled);
-      if (__appRuntimeContext.DOM.requestPrintBtn) {
-        __appRuntimeContext.DOM.requestPrintBtn.disabled = paidPrintEnabled;
-        __appRuntimeContext.DOM.requestPrintBtn.textContent = "Print";
-      }
-      if (__appRuntimeContext.DOM.printPriceNotice) {
-        __appRuntimeContext.DOM.printPriceNotice.textContent = "";
-        __appRuntimeContext.DOM.printPriceNotice.classList.toggle("hidden", !paidPrintEnabled);
-      }
-      if (paidPrintEnabled) showFinalPrintPrice(__appRuntimeContext.getPrintQueueEventId());
-      else __appRuntimeContext.finalPrintPriceRequestId += 1;
-      if (__appRuntimeContext.DOM.paypalPrintCheckout) {
-        __appRuntimeContext.DOM.paypalPrintCheckout.innerHTML = "";
-        __appRuntimeContext.DOM.paypalPrintCheckout.classList.add("hidden");
       }
       __appRuntimeContext.updateOutputSurfaceTrace({
         surfaces: {
@@ -954,9 +849,6 @@ export function createFinalOutputModule(__appRuntimeContext) {
     revealFinalSaveStage,
     showGoodbyeMoment,
     setupFinalExperienceActions,
-    fetchPayPalPrintConfig,
-    formatPayPalPrintPrice,
-    showFinalPrintPrice,
     showFinal,
     renderQrCodeAtWidth,
     renderQrCode,

@@ -551,20 +551,6 @@
     max-height: 100% !important;
   }
 
-  #finalPrintActions {
-    grid-row: 3;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 4px;
-  }
-
-  #printPriceNotice {
-    grid-column: 1;
-    padding: 4px;
-    font-size: 0.8rem;
-    line-height: 1.2;
-  }
-
   #qrHint {
     grid-row: 4;
     margin-top: 0 !important;
@@ -633,7 +619,6 @@
   }
 
   #openEventGalleryFromShare,
-  #finalPrintActions button,
   .final-review-actions button {
     min-height: 44px;
     padding: 8px;

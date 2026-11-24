@@ -18,7 +18,6 @@ test("admin reports live PayPal checkout and server price", async ({ page }) => 
 
   await expect(page.locator("#paypalPrintConfigStatus"))
     .toHaveText("PayPal live checkout ready · 3.00 USD per print.");
-  await expect(page.locator("#paypalPrintCheckout")).toBeAttached();
 });
 
 test("operator saves one PayPal print price on a saved event", async ({ page }) => {
@@ -98,7 +97,7 @@ test("operator can enable paid printing and set the price during wedding setup",
   )).toBe(7.25);
 });
 
-test("guest sees the event print price before checkout", async ({ page }) => {
+test("paid event checkout is not shown on the booth finish screen", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const event = { id: "wedding", name: "Wedding", themeKey: "wedding", printPrice: 5.5 };
   await page.addInitScript(() => {
@@ -113,19 +112,6 @@ test("guest sees the event print price before checkout", async ({ page }) => {
     contentType: "application/json",
     body: JSON.stringify({ events: [event], activeEventId: event.id }),
   }));
-  await page.route("**/api/paypal/config**", (route) => route.fulfill({
-    status: 200,
-    contentType: "application/json",
-    body: JSON.stringify({
-      ok: true,
-      configured: true,
-      environment: "live",
-      amount: "5.50",
-      currency: "USD",
-      clientId: "public-client-id",
-    }),
-  }));
-
   await page.goto("/index.html?testMode=booth&testPaidPrint=true", { waitUntil: "domcontentloaded" });
   await page.evaluate(() => new Promise((resolve) => {
     requestAnimationFrame(() => {
@@ -135,13 +121,9 @@ test("guest sees the event print price before checkout", async ({ page }) => {
   }));
 
   await expect(page.locator("#finalPreview")).toHaveClass(/show/, { timeout: 15000 });
-  await expect(page.locator("#printPriceNotice"))
-    .toHaveText("Print price: $5.50");
-  await expect(page.locator("#requestPrintBtn")).toBeEnabled();
-  await expect(page.locator("#paypalPrintCheckout")).toHaveClass(/hidden/);
-  const noticeBounds = await page.locator("#printPriceNotice").boundingBox();
-  expect(noticeBounds.x).toBeGreaterThanOrEqual(0);
-  expect(noticeBounds.x + noticeBounds.width).toBeLessThanOrEqual(390);
+  await expect(page.locator("#requestPrintBtn")).toHaveCount(0);
+  await expect(page.locator("#paypalPrintCheckout")).toHaveCount(0);
+  await expect(page.locator("#qrCodeContainer")).toBeVisible();
 });
 
 test("phone payment return confirms the capture without opening booth checkout", async ({ page }) => {
@@ -176,7 +158,7 @@ test("phone payment cancel return does not capture the order", async ({ page }) 
   expect(captureCalled).toBe(false);
 });
 
-test("paid print shows a PayPal approval QR on the booth without loading checkout there", async ({ page }) => {
+test("paid print mode keeps checkout off the booth finish screen", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.addInitScript(() => {
     localStorage.setItem("photoboothEvents", JSON.stringify([
@@ -190,41 +172,13 @@ test("paid print shows a PayPal approval QR on the booth without loading checkou
     contentType: "application/json",
     body: JSON.stringify({ events: [{ id: "party", name: "Party", printPrice: 3 }], activeEventId: "party" }),
   }));
-  await page.route("**/api/paypal/config**", (route) => route.fulfill({
-    status: 200,
-    contentType: "application/json",
-    body: JSON.stringify({ ok: true, configured: true, environment: "sandbox", amount: "3.00", currency: "USD", clientId: "sandbox-client" }),
-  }));
-  await page.route("**/api/print-queue", async (route) => {
-    if (route.request().method() === "POST") {
-      await route.fulfill({
-        status: 201,
-        contentType: "application/json",
-        body: JSON.stringify({ ok: true, item: { id: "print-123", eventId: "party", paymentStatus: "unpaid" } }),
-      });
-      return;
-    }
-    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, items: [] }) });
-  });
-  await page.route("**/api/paypal/create-order", (route) => route.fulfill({
-    status: 200,
-    contentType: "application/json",
-    body: JSON.stringify({ ok: true, orderId: "order-123", approvalUrl: "https://www.sandbox.paypal.com/checkoutnow?token=order-123" }),
-  }));
-
   await page.goto("/index.html?testMode=booth&testPaidPrint=true", { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => !!window.__photoboothTest);
   await page.evaluate(() => window.__photoboothQA.enterState("final"));
   await expect(page.locator("#finalPreview")).toHaveClass(/show/, { timeout: 15_000 });
-  await expect(page.locator("#requestPrintBtn")).toBeEnabled();
-  await page.locator("#requestPrintBtn").click();
-
-  await expect(page.locator("#paypalPrintCheckout"))
-    .toContainText("Scan with your phone to pay");
-  await expect(page.locator('#paypalPrintCheckout img[alt="Scan me!"]')).toBeVisible();
-  await expect(page.locator("#requestPrintBtn")).toHaveText("Scan to Pay");
-  await expect(page.locator("#finishBoothBtn")).toHaveText("Next Guest");
-  await expect(page.locator('script[src*="paypal.com/sdk"]')).toHaveCount(0);
+  await expect(page.locator("#requestPrintBtn")).toHaveCount(0);
+  await expect(page.locator("#paypalPrintCheckout")).toHaveCount(0);
+  await expect(page.locator("#qrCodeContainer")).toBeVisible();
   await page.locator("#finishBoothBtn").click();
   await expect(page.locator("#finalPreview")).not.toHaveClass(/show/);
 });

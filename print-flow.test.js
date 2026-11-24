@@ -35,8 +35,11 @@ test("legacy paid queue settings migrate to explicit print modes", () => {
 
 test("free printing queues comped items and paid printing requires payment", () => {
   const app = readAppSource();
-  assert.ok(app.includes('paymentRequired: settings.mode === "paid"'));
-  assert.ok(app.includes('if (settings.mode === "off" || !printEligible) return null;'));
+  const sharePage = read("functions", "share", "[id].js");
+  assert.ok(sharePage.includes('paymentRequired: true'));
+  assert.ok(sharePage.includes('quantity: 1'));
+  assert.ok(app.includes('paidPrintEnabled: options.paidPrintEnabled === undefined'));
+  assert.ok(!app.includes("enqueueFinalPrintIfNeeded"));
 });
 
 test("staff must clear payment before printing paid queue items", () => {
