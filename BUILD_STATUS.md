@@ -16,9 +16,9 @@
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
 - Current goal: Diagnose and resolve paid-print queue failures reported on the iPad booth.
-- Done: Print requests await the in-flight capture upload and queue the public image URL. Confirmed production queue GET is healthy. Updated the client to show the queue API's actual error instead of hiding it behind the generic message. App-shell cache is v88.
+- Done: Print requests await the in-flight capture upload and queue the public image URL. Confirmed production queue GET is healthy. Diagnostic error details are deployed on app-shell v88.
 - In progress: Validate the queue failure reason with the iPad's next safe retry; the failed request stops before PayPal checkout.
-- Next steps: Deploy the diagnostic message, then use the displayed API error to fix the queue failure. After queueing works, verify PayPal handoff and printer output.
+- Next steps: Use the displayed API error to fix the queue failure. After queueing works, verify PayPal handoff and printer output.
 - Known bugs/blockers: Real queue POST and printer output remain unverified. No production queue writes or payment attempts were performed during diagnosis.
 - Important decisions: Keep the existing Cloudinary upload and print-queue path; do not queue local blob URLs.
 - Production target: Cloudflare Pages project `decemeberbooth`, branch `main`, `https://decemeberbooth.pages.dev/`.
