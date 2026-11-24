@@ -9,7 +9,7 @@ const OFFLINE_ASSETS_CACHE = "pb-offline-assets-v1";
 const APP_SHELL_ASSETS = [
   "",
   "index.html",
-  "pay-print.html",
+  "pay-print",
   "scripts/pay-print-page.mjs",
   "styles/pay-print.css",
   "manifest.json",

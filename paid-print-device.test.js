@@ -27,7 +27,7 @@ test("PayPal return page captures payment and is included in the app shell", () 
   assert.ok(paymentPage.includes('fetch("/api/paypal/capture-order"'));
   assert.ok(paymentPage.includes("Payment confirmed. Your print is ready with the booth attendant."));
   assert.ok(html.includes('<h1 id="payment-title">Complete your payment</h1>'));
-  assert.ok(serviceWorker.includes('"pay-print.html"'));
+  assert.ok(serviceWorker.includes('"pay-print"'));
   assert.ok(serviceWorker.includes('"scripts/pay-print-page.mjs"'));
   assert.ok(serviceWorker.includes('"styles/pay-print.css"'));
 });

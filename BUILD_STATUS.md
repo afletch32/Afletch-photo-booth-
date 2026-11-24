@@ -16,7 +16,7 @@
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
 - Current goal: Keep paid-print checkout on each guest's personal phone, not on the booth iPad.
-- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. PayPal returns to a small hosted page that captures and confirms payment; the booth watches for the paid queue status. App-shell cache is v89.
+- Done: Booth creates the unpaid print request and displays a QR for PayPal approval on the phone. PayPal returns directly to the clean `/pay-print` route, which captures and confirms payment; the booth watches for the paid queue status. App-shell cache is v89.
 - In progress: Validate the complete phone-to-booth payment handoff with a sandbox order before using live payments.
 - Next steps: Verify order links and phone return/capture behavior in sandbox, then test on the iPad without completing a live charge.
 - Known bugs/blockers: No real queue POST or payment has been made for this new handoff; printer output still needs device verification.

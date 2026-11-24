@@ -55,7 +55,7 @@ export async function onRequest({ request, env }) {
       }
     } else {
       const priceKey = config.amount.replace(".", "");
-      const paymentReturnUrl = new URL("/pay-print.html", request.url);
+      const paymentReturnUrl = new URL("/pay-print", request.url);
       paymentReturnUrl.searchParams.set("eventId", eventId);
       paymentReturnUrl.searchParams.set("printItemId", item.id);
       const paymentCancelUrl = new URL(paymentReturnUrl);
