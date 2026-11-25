@@ -15,11 +15,11 @@
 
 - Current goal: Make theme picking start with recent themes, keep category browsing easy, and simplify Event Assets.
 - Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup is available under Event and Guest Screen Settings rather than beside the theme gallery. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
-- In progress: Commit, push, deploy, and verify the focused UI update.
+- In progress: None.
 - Known bugs/blockers: None identified; physical iPad behavior still needs device verification.
 - Important decisions: Recent-theme history is booth-local UI state; keep wedding setup accessible without featuring it in the theme picker. Keep asset categories independently expandable.
 - Validation: `npm test` passes 314/314. Rendered local browser check confirms Recently Used loads first, category filters browse themes, and wedding setup is no longer beside the theme gallery. Event Assets displays the category accordions without an extra framed panel.
-- Release: Pending.
+- Release: Commit `05608de` pushed to `main`; Cloudflare Pages production deployment `e27e5c71-36d1-4788-9d82-f578ff799ed8` is active. Live page returns HTTP 200 and serves the updated theme-picker module. Dynamic interaction was verified locally; Playwright live-browser verification was unavailable because the local Chromium executable is not installed.
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
