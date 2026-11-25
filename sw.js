@@ -1,5 +1,5 @@
 // Bump these to force one-time invalidation when changing strategies.
-const APP_SHELL_CACHE = "pb-app-shell-v91";
+const APP_SHELL_CACHE = "pb-app-shell-v92";
 const RUNTIME_CACHE = "pb-runtime-v5";
 const SHARE_CACHE = "pb-share-v1";
 const OFFLINE_ASSETS_CACHE = "pb-offline-assets-v1";

@@ -259,7 +259,7 @@ export function createThemePickerModule(__appRuntimeContext) {
     });
     const selectedEntry = getSetupThemeEntries().find((entry) => entry.key === selectedKey);
     if (__appRuntimeContext.DOM.themeQuickSelectionName) __appRuntimeContext.DOM.themeQuickSelectionName.textContent = selectedEntry ? selectedEntry.label : "Choose a theme";
-    if (__appRuntimeContext.DOM.themeQuickSelectionMeta) __appRuntimeContext.DOM.themeQuickSelectionMeta.textContent = selectedEntry ? `${selectedEntry.group} · ${getThemeQuickMeta(selectedEntry.theme)}` : "Choose a look to see the included guest screens and photo styling.";
+    if (__appRuntimeContext.DOM.themeQuickSelectionMeta) __appRuntimeContext.DOM.themeQuickSelectionMeta.textContent = selectedEntry ? `${selectedEntry.group} · ${getThemeQuickMeta(selectedEntry.theme)}` : "Select a theme to preview its guest screens and photo styling.";
   }
 
   function activateThemeFromSetupKey(key) {

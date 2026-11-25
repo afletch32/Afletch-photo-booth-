@@ -13,10 +13,10 @@
 
 # Build status
 
-- Current goal: Make event setup easier to scan and keep the guest-option selections across sessions.
-- Done: Grouped the event asset summary, asset library, and photo backgrounds/logo controls in one Event Assets section. Moved Wedding Setup beside theme selection. Guest Options already persist in this booth's browser storage; added an explanatory note and expanded reload coverage.
-- In progress: None.
-- Next steps: Continue with the next booth improvement.
+- Current goal: Make event setup easier to scan and make theme selection immediately clear.
+- Done: Grouped the event asset summary, asset library, and photo backgrounds/logo controls in one Event Assets section. Moved Wedding Setup beside theme selection. Labeled the theme gallery Themes and clarified the theme card/filter instructions. Guest Options persist in this booth's browser storage; the UI explains this and reload coverage checks all four options.
+- In progress: Validate the updated theme label.
+- Next steps: Run unit and focused browser checks, then release the label update.
 - Known bugs/blockers: None identified for this change. Physical iPad behavior still needs device verification.
 - Important decisions: Keep booth settings local to this device; keep event text customization separate from asset management.
 - Validation: `npm test` passes 314/314; the focused guest-options Playwright check passes; rendered browser check confirms the asset controls are grouped and Wedding Setup still opens correctly.

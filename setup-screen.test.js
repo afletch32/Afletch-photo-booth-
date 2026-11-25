@@ -387,8 +387,10 @@ test("setup theme picker groups themes by user-facing category", () => {
   assert.ok(
     html.includes('id="themeQuickFilters"') &&
       html.includes('id="themeQuickGrid"') &&
+      html.includes('id="themeQuickPickerHeading" class="theme-quick-picker-heading">Themes</h2>') &&
+      html.includes("Filter by event type, then scroll through the theme cards.") &&
       !html.includes('id="sessionThemeToggle"'),
-    "the picker should use category filters and a single theme grid"
+    "the visible Themes section should use category filters and a single theme grid"
   );
   assert.ok(
     appScript.includes("const THEME_SETUP_GROUP_ORDER = [") &&
