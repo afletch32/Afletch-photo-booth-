@@ -62,11 +62,7 @@
             <div class="theme-quick-picker-heading-row">
               <div class="theme-quick-picker-heading-copy">
                 <h2 id="themeQuickPickerHeading" class="theme-quick-picker-heading">Themes</h2>
-                <p class="theme-quick-picker-note">Filter by event type, then scroll through the theme cards.</p>
-              </div>
-              <div class="wedding-setup-action" id="weddingSetupAction">
-                <span class="setup-session-item-label">Special event</span>
-                <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
+                <p class="theme-quick-picker-note">Recently used themes appear first. Choose a category to browse more.</p>
               </div>
             </div>
             <div id="themeQuickFilters" class="theme-quick-filters" aria-label="Theme categories"></div>
@@ -174,6 +170,10 @@
         <details class="event-library-section" id="eventDetailsPanel">
           <summary>Event and Guest Screen Settings</summary>
           <div class="event-library-section-content">
+          <div class="wedding-setup-action" id="weddingSetupAction">
+            <span class="setup-session-item-label">Wedding event setup</span>
+            <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
+          </div>
           <div class="setup-session-item setup-combobox" data-setup-combobox="font">
             <label for="sessionFontSearch">Font pairing</label>
             <button type="button" id="sessionFontToggle" class="setup-combobox-button" aria-expanded="false" aria-controls="sessionFontMenu">
@@ -470,9 +470,8 @@
         <details class="panel-section" id="currentAssetsSection" data-setup-section="event">
           <summary>Event Assets</summary>
           <div id="currentAssetsContent" class="section-content">
-            <div id="eventAssetsPanel" class="event-library-section-content event-assets-group">
-                <section class="setup-session-assets-toggle" id="setupSessionAssetsToggle" aria-labelledby="selectedAssetsHeading">
-                  <div class="setup-session-assets-summary-label" id="selectedAssetsHeading">Assets included with this event</div>
+            <div id="eventAssetsPanel" class="event-assets-group">
+                <section id="setupSessionAssetsToggle" aria-label="Assets included with this event">
                   <div class="setup-session-assets-summary-row">
                     <details class="setup-session-asset-detail">
                       <summary class="setup-session-assets-summary-chip">Backgrounds <strong id="launchBackgroundSummary">0 selected</strong></summary>

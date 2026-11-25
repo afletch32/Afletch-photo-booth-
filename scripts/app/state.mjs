@@ -449,7 +449,7 @@ export function createAppState(dependencies = {}) {
     "new year": "New Year",
   };
 
-  let activeThemeQuickFilter = "All";
+  let activeThemeQuickFilter = "Recently Used";
 
   const themeQuickCardsByKey = new Map();
 
@@ -457,7 +457,7 @@ export function createAppState(dependencies = {}) {
 
   let themeQuickPreviewObserver = null;
 
-  const THEME_QUICK_FILTERS = ["All", "Celebrations", "Weddings", "Sports", "Schools", "Seasons", "Holidays"];
+  const THEME_QUICK_FILTERS = ["Recently Used", "All Themes", "Celebrations", "Weddings", "Sports", "Schools", "Seasons", "Holidays"];
 
   let activeSetupSection = "event";
 

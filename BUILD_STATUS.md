@@ -13,15 +13,13 @@
 
 # Build status
 
-- Current goal: Keep event settings together, make event assets one group, and ensure themes stay visible.
-- Done: Grouped guest-screen/event-text settings with Event Setup. The Event Assets panel now contains only asset summary and management controls. Wedding Setup sits beside the theme browser; saved wedding events show Themes and categories first, with a separate Edit Wedding Setup action. Guest Options persist on this booth and have a reload check.
-- In progress: None.
-- Next steps: Continue with the next booth improvement.
-- Known bugs/blockers: None identified for this change. Physical iPad behavior still needs device verification.
-- Important decisions: Keep booth settings local to this device; keep event text customization separate from asset management.
-- Validation: `npm test` passes 314/314; focused guest-options and saved-wedding theme-visibility Playwright checks pass (2/2).
-- Release: Commit `bbaa0fd` pushed to `main`; Cloudflare Pages deployment `109c45b9-c475-41b0-90f6-dfbdff575ec0` is active. The production page shows the Themes gallery and separate event settings/assets groups.
-- Previous release: Paid photo-share print checkout shipped in `cb566a9`; Cloudflare Pages deployment succeeded.
+- Current goal: Make theme picking start with recent themes, keep category browsing easy, and simplify Event Assets.
+- Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup is available under Event and Guest Screen Settings rather than beside the theme gallery. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
+- In progress: Commit, push, deploy, and verify the focused UI update.
+- Known bugs/blockers: None identified; physical iPad behavior still needs device verification.
+- Important decisions: Recent-theme history is booth-local UI state; keep wedding setup accessible without featuring it in the theme picker. Keep asset categories independently expandable.
+- Validation: `npm test` passes 314/314. Rendered local browser check confirms Recently Used loads first, category filters browse themes, and wedding setup is no longer beside the theme gallery. Event Assets displays the category accordions without an extra framed panel.
+- Release: Pending.
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 

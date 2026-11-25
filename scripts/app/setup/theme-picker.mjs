@@ -126,7 +126,7 @@ export function createThemePickerModule(__appRuntimeContext) {
   }
 
   function themeMatchesQuickFilter(entry, filter) {
-    if (filter === "All") return true;
+    if (filter === "All Themes") return true;
     const group = entry.group;
     if (filter === "Celebrations") return group === "General";
     if (filter === "Weddings") return group === "Wedding";
@@ -134,6 +134,23 @@ export function createThemePickerModule(__appRuntimeContext) {
     if (filter === "Schools") return group === "Youth";
     if (filter === "Seasons") return group === "Seasonal";
     return group === "Holidays";
+  }
+
+  function getRecentThemeKeys() {
+    try {
+      const stored = JSON.parse(localStorage.getItem("photoboothRecentThemes") || "[]");
+      return Array.isArray(stored) ? stored.filter((key) => typeof key === "string") : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function rememberRecentTheme(key) {
+    if (!key) return;
+    try {
+      const recent = [key, ...getRecentThemeKeys().filter((savedKey) => savedKey !== key)].slice(0, 8);
+      localStorage.setItem("photoboothRecentThemes", JSON.stringify(recent));
+    } catch (_) {}
   }
 
   function getThemeQuickPreview(theme) {
@@ -189,7 +206,20 @@ export function createThemePickerModule(__appRuntimeContext) {
     allEntries.sort(
       (a, b) => __appRuntimeContext.themeQuickOrderByKey.get(a.key) - __appRuntimeContext.themeQuickOrderByKey.get(b.key)
     );
-    const entries = allEntries.filter((entry) => themeMatchesQuickFilter(entry, __appRuntimeContext.activeThemeQuickFilter));
+    let entries;
+    if (__appRuntimeContext.activeThemeQuickFilter === "Recently Used") {
+      const recentKeys = getRecentThemeKeys();
+      const recentSet = new Set(recentKeys);
+      entries = allEntries
+        .filter((entry) => recentSet.has(entry.key))
+        .sort((a, b) => recentKeys.indexOf(a.key) - recentKeys.indexOf(b.key));
+      if (!entries.length && selectedKey) {
+        entries = allEntries.filter((entry) => entry.key === selectedKey);
+        if (entries.length) rememberRecentTheme(selectedKey);
+      }
+    } else {
+      entries = allEntries.filter((entry) => themeMatchesQuickFilter(entry, __appRuntimeContext.activeThemeQuickFilter));
+    }
     const visibleEntries = entries;
     const visibleKeys = new Set(visibleEntries.map((entry) => entry.key));
     __appRuntimeContext.themeQuickCardsByKey.forEach((card, key) => {
@@ -264,6 +294,8 @@ export function createThemePickerModule(__appRuntimeContext) {
 
   function activateThemeFromSetupKey(key) {
     if (!key) return;
+    rememberRecentTheme(key);
+    __appRuntimeContext.activeThemeQuickFilter = "Recently Used";
     __appRuntimeContext.disableShowcaseDemo();
     __appRuntimeContext.setActiveEventId("");
     __appRuntimeContext.setQuickStartSessionDate(__appRuntimeContext.getLocalIsoDate());

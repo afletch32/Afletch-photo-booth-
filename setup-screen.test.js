@@ -73,7 +73,7 @@ test("setup screen uses a compact toolbar for section controls", () => {
   );
   assert.ok(
     html.includes('<details class="event-library-section" id="eventDetailsPanel">') &&
-      html.includes('<div id="eventAssetsPanel" class="event-library-section-content event-assets-group">') &&
+      html.includes('<div id="eventAssetsPanel" class="event-assets-group">') &&
       html.includes('<details class="event-library-section" id="uploadedAssetLibraryPanel">') &&
       html.includes("<summary>Photo Backgrounds and Logo</summary>"),
     "event settings and the single grouped asset surface should stay collapsed by default"
@@ -393,12 +393,13 @@ test("setup presents a numbered flow with one share-stage launch action", () => 
 test("setup theme picker groups themes by user-facing category", () => {
   const html = readProjectFile("index.html");
   const appScript = readAppSource();
+  const pickerModule = readProjectFile("scripts/app/setup/theme-picker.mjs");
 
   assert.ok(
     html.includes('id="themeQuickFilters"') &&
       html.includes('id="themeQuickGrid"') &&
       html.includes('id="themeQuickPickerHeading" class="theme-quick-picker-heading">Themes</h2>') &&
-      html.includes("Filter by event type, then scroll through the theme cards.") &&
+      html.includes("Recently used themes appear first. Choose a category to browse more.") &&
       !html.includes('id="sessionThemeToggle"'),
     "the visible Themes section should use category filters and a single theme grid"
   );
@@ -420,7 +421,9 @@ test("setup theme picker groups themes by user-facing category", () => {
   assert.ok(
     appScript.includes("const allEntries = getSetupThemeEntries();") &&
       appScript.includes("button.dataset.themeFilter = filter;") &&
-      appScript.includes("themeMatchesQuickFilter(entry, activeThemeQuickFilter)"),
+      pickerModule.includes('__appRuntimeContext.activeThemeQuickFilter === "Recently Used"') &&
+      pickerModule.includes('localStorage.getItem("photoboothRecentThemes")') &&
+      pickerModule.includes("themeMatchesQuickFilter(entry, __appRuntimeContext.activeThemeQuickFilter)"),
     "category filters should group the theme cards in the primary picker"
   );
   assert.ok(
