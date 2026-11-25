@@ -215,12 +215,18 @@ export function createEventPersistenceModule(__appRuntimeContext) {
       active && active.eventType === "wedding" && active.weddingTheme
     );
     const weddingSelected = !!__appRuntimeContext.weddingSetupRequested;
+    const selectedThemeKey = getEventEditorThemeKey();
+    const selectedTheme = __appRuntimeContext.resolveThemeByKey(selectedThemeKey) || __appRuntimeContext.activeTheme;
+    const weddingThemeSelected =
+      __appRuntimeContext.normalizeEventStyle(__appRuntimeContext.inferThemeEventStyle(selectedThemeKey, selectedTheme)) === "wedding";
     if (editingWedding && !__appRuntimeContext.weddingThemeChoiceDirty) {
       syncWeddingThemeChoice(active.weddingThemeStyle || "eucalyptus");
     }
     document.querySelector(".setup-session-card")?.classList.toggle("wedding-setup-mode", weddingSelected);
     __appRuntimeContext.syncEventPrintPriceVisibility();
-    if (__appRuntimeContext.DOM.weddingSetupAction) __appRuntimeContext.DOM.weddingSetupAction.hidden = weddingSelected;
+    if (__appRuntimeContext.DOM.weddingSetupAction) {
+      __appRuntimeContext.DOM.weddingSetupAction.hidden = weddingSelected || !weddingThemeSelected;
+    }
     if (__appRuntimeContext.DOM.startWeddingSetupBtn) {
       __appRuntimeContext.DOM.startWeddingSetupBtn.textContent = editingWedding
         ? "Edit Wedding Setup"

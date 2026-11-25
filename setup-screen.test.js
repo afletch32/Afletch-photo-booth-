@@ -477,6 +477,7 @@ test("built-in wedding themes use their matching overlay and template packs", as
   assert.ok(!html.includes('data-demo-theme="wedding"'));
   assert.ok(!html.includes('id="eventTypeInput"'));
   assert.ok(html.includes('id="startWeddingSetupBtn">Set Up a Wedding</button>'));
+  assert.ok(html.includes('id="weddingSetupAction" hidden'));
   assert.ok(html.includes('id="createWeddingEventBtn">Create Wedding Theme</button>'));
   assert.ok(appScript.includes("let weddingSetupRequested = false;"));
   assert.ok(appScript.includes("function syncWeddingSetupMode()"));

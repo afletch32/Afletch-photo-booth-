@@ -64,6 +64,10 @@
                 <h2 id="themeQuickPickerHeading" class="theme-quick-picker-heading">Themes</h2>
                 <p class="theme-quick-picker-note">Recently used themes appear first. Choose a category to browse more.</p>
               </div>
+              <div class="wedding-setup-action" id="weddingSetupAction" hidden>
+                <span class="setup-session-item-label">Wedding event setup</span>
+                <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
+              </div>
             </div>
             <div id="themeQuickFilters" class="theme-quick-filters" aria-label="Theme categories"></div>
             <div id="themeQuickGrid" class="theme-quick-grid" aria-live="polite"></div>
@@ -170,10 +174,6 @@
         <details class="event-library-section" id="eventDetailsPanel">
           <summary>Event and Guest Screen Settings</summary>
           <div class="event-library-section-content">
-          <div class="wedding-setup-action" id="weddingSetupAction">
-            <span class="setup-session-item-label">Wedding event setup</span>
-            <button type="button" id="startWeddingSetupBtn">Set Up a Wedding</button>
-          </div>
           <div class="setup-session-item setup-combobox" data-setup-combobox="font">
             <label for="sessionFontSearch">Font pairing</label>
             <button type="button" id="sessionFontToggle" class="setup-combobox-button" aria-expanded="false" aria-controls="sessionFontMenu">
