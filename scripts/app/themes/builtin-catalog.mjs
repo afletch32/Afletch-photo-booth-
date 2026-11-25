@@ -878,6 +878,92 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
     fall: {
       name: "Fall",
       holidays: {
+        thanksgiving: {
+          name: "Harvest Afterglow",
+          eventTypes: ["holiday", "party", "general"],
+          accent: "#762D3B",
+          accent2: "#D8874F",
+          fontHeading: "'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif",
+          fontBody: "'Avenir Next', Avenir, 'Segoe UI', sans-serif",
+          logo: "",
+          backgrounds: [
+            "/assets/themes/harvest-afterglow/harvest-afterglow-background-landscape.webp",
+            "/assets/themes/harvest-afterglow/harvest-afterglow-background-portrait.webp",
+          ],
+          idleScreens: [
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-idle-portrait.webp",
+              name: "Harvest Afterglow idle screen portrait",
+              role: "idle",
+              orientation: "portrait",
+              buttonZones: {
+                start: { x: 50, y: 70, width: 66, height: 16, variant: "hotspot" },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-idle-landscape.webp",
+              name: "Harvest Afterglow idle screen landscape",
+              role: "idle",
+              orientation: "landscape",
+              buttonZones: {
+                start: { x: 50, y: 66, width: 60, height: 21, variant: "hotspot" },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-photo-choice-portrait.webp",
+              name: "Harvest Afterglow photo choice portrait",
+              role: "photo-choice",
+              orientation: "portrait",
+              buttonZones: {
+                singlePhoto: { x: 50, y: 40, width: 72, height: 29 },
+                photoStrip: { x: 50, y: 73, width: 72, height: 29 },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-photo-choice-landscape.webp",
+              name: "Harvest Afterglow photo choice landscape",
+              role: "photo-choice",
+              orientation: "landscape",
+              buttonZones: {
+                singlePhoto: { x: 29, y: 56, width: 39, height: 52 },
+                photoStrip: { x: 71, y: 56, width: 39, height: 52 },
+              },
+            },
+          ],
+          shareScreens: [
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-share-portrait.webp",
+              name: "Harvest Afterglow share screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-share-landscape.webp",
+              name: "Harvest Afterglow share screen landscape",
+              orientation: "landscape",
+            },
+          ],
+          thankYouScreens: [
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-thank-you-portrait.webp",
+              name: "Harvest Afterglow thank you screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/harvest-afterglow/harvest-afterglow-thank-you-landscape.webp",
+              name: "Harvest Afterglow thank you screen landscape",
+              orientation: "landscape",
+            },
+          ],
+          overlays: [],
+          templates: [],
+          welcome: {
+            title: "Gather & Give Thanks",
+            portrait: "",
+            landscape: "",
+            prompt: "Tap to start",
+          },
+          vibeSummary: "Contemporary Thanksgiving warmth with cranberry velvet, parchment, persimmon, sage, and editorial harvest details",
+        },
         halloween: {
           name: "Halloween",
           accent: "orange",

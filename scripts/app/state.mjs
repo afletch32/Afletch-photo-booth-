@@ -74,6 +74,7 @@ export function createAppState(dependencies = {}) {
     "general:averyBirthday",
     "general:backToSchool",
     "general:summer",
+    "fall:thanksgiving",
     "fall:halloween",
     "fall:cuteHalloween",
     "winter:christmas",

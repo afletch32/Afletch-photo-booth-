@@ -13,6 +13,8 @@
 
 # Build status
 
+- Thanksgiving theme (2026-11-25): Added the Harvest Afterglow booth theme with portrait and landscape idle, photo-choice, live-preview background, share, and thank-you artwork. The editable welcome title/prompt and artwork hotspot behavior use existing app roles. App-shell cache bumped to v96.
+
 - Current goal: Make theme picking start with recent themes, keep category browsing easy, and simplify Event Assets.
 - Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup appears beside Themes only when a wedding theme is selected. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
 - In progress: None.
