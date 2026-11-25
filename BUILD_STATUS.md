@@ -16,8 +16,12 @@
 - Thanksgiving theme (2026-11-25): Added the Harvest Afterglow booth theme with portrait and landscape idle, photo-choice, live-preview background, share, and thank-you artwork. The editable welcome title/prompt and artwork hotspot behavior use existing app roles. App-shell cache bumped to v96.
 - Family Thanksgiving theme (2026-11-25): Added Harvest Pals with matching portrait and landscape idle, photo-choice, live-preview background, share, and thank-you artwork. Storybook fox and hedgehog illustrations contain no squirrels; the editable welcome copy and visible start hotspot use existing app roles. Screen-focused Thanksgiving themes can be selected without a print overlay. App-shell cache bumped to v97.
 
-- Current goal: Make theme picking start with recent themes, keep category browsing easy, and simplify Event Assets.
-- Done: Keep artwork start prompts unobstructed with transparent touch targets by default; assets can opt into a visible button with `variant: "button"`.
+- Current goal: Make the built-in holiday booth sounds gentler and describe them accurately.
+- Done: Reworked holiday fallback cues into softer, lower-register chimes; changed the editor label from “theme palette” to “built-in tones”. Keep artwork start prompts unobstructed with transparent touch targets by default; assets can opt into a visible button with `variant: "button"`.
+- In progress: Run focused sound checks and prepare the scoped release.
+- Next steps: Verify the updated cues in the deployed sound editor.
+- Known bugs/blockers: Sound quality still needs listening feedback on the Mac and iPad speakers; physical iPad artwork behavior still needs device verification.
+- Important decisions: Keep the existing Web Audio fallback; uploaded theme sounds remain available for replacement.
 - Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup appears beside Themes only when a wedding theme is selected. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
 - In progress: Validate and release transparent artwork touch targets.
 - Known bugs/blockers: Physical iPad behavior still needs device verification.

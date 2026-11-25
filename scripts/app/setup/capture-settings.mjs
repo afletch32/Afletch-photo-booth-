@@ -260,7 +260,7 @@ export function createCaptureSettingsModule(__appRuntimeContext) {
       JSON.stringify(currentAlternates || []) !==
         JSON.stringify(builtinAlternates || []);
     const profileName = __appRuntimeContext.resolveThemeSoundProfileName(themeKey, theme);
-    let label = `Using ${profileName} theme palette`;
+    let label = `Using built-in ${profileName} tones`;
     if (currentUrl) {
       if (!custom && builtinUrl === currentUrl) {
         label = Array.isArray(currentAlternates) && currentAlternates.length > 1
