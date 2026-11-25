@@ -786,6 +786,8 @@ test("resize and orientation changes recalculate hotspot placement", () => {
   assert.ok(app.includes('window.addEventListener("orientationchange"'));
   assert.ok(app.includes("positionIdleStartHotspot(idleEntry)"));
   assert.ok(app.includes("applyCustomIdleScreen(idleEntry)"));
+  assert.ok(app.includes('entry?.buttonZones?.start?.variant !== "button"'));
+  assert.ok(app.includes("artwork-start-hotspot-screen"));
 });
 
 test("admin editor supports bounded drag resize reset and save", () => {

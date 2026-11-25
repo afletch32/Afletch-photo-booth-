@@ -880,7 +880,12 @@ export function createImagingModule(__appRuntimeContext) {
     }
     __appRuntimeContext.DOM.welcomeScreen.classList.remove("custom-photo-choice-screen");
     __appRuntimeContext.DOM.welcomeScreen.classList.toggle("marquee-start-screen", entry?.buttonZones?.start?.variant === "marquee");
-    __appRuntimeContext.DOM.welcomeScreen.classList.toggle("artwork-start-hotspot-screen", entry?.buttonZones?.start?.variant === "hotspot");
+    // Artwork may already include its own Tap to Start label. Keep its overlay
+    // button as an invisible touch target unless an asset explicitly requests a visible button.
+    __appRuntimeContext.DOM.welcomeScreen.classList.toggle(
+      "artwork-start-hotspot-screen",
+      entry?.buttonZones?.start?.variant !== "button"
+    );
     __appRuntimeContext.DOM.welcomeScreen.classList.add("custom-idle-screen", "custom-artwork-loading");
     return loadWelcomeArtwork(entry, () => positionIdleStartHotspot(entry));
   }

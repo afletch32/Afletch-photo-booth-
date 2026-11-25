@@ -17,12 +17,13 @@
 - Family Thanksgiving theme (2026-11-25): Added Harvest Pals with matching portrait and landscape idle, photo-choice, live-preview background, share, and thank-you artwork. Storybook fox and hedgehog illustrations contain no squirrels; the editable welcome copy and visible start hotspot use existing app roles. Screen-focused Thanksgiving themes can be selected without a print overlay. App-shell cache bumped to v97.
 
 - Current goal: Make theme picking start with recent themes, keep category browsing easy, and simplify Event Assets.
+- Done: Keep artwork start prompts unobstructed with transparent touch targets by default; assets can opt into a visible button with `variant: "button"`.
 - Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup appears beside Themes only when a wedding theme is selected. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
-- In progress: None.
-- Known bugs/blockers: None identified; physical iPad behavior still needs device verification.
-- Important decisions: Recent-theme history is booth-local UI state; keep wedding setup accessible without featuring it in the theme picker. Keep asset categories independently expandable.
-- Validation: `npm test` passes 314/314. Rendered local browser check confirms Recently Used loads first, category filters browse themes, and the wedding action appears beside Themes for the saved wedding theme. Event Assets displays the category accordions without an extra framed panel.
-- Release: Commit `ad1af1e` pushed to `main`; Cloudflare Pages deployment `593aa9ee-74bc-4069-a553-2abbe5a4c0c6` is active. Live pages return HTTP 200 and serve the wedding-theme visibility rule. Local rendered browser confirms the action appears for the selected wedding theme. Playwright live-browser verification was unavailable because local Chromium is not installed.
+- In progress: Validate and release transparent artwork touch targets.
+- Known bugs/blockers: Physical iPad behavior still needs device verification.
+- Important decisions: Custom idle screen buttons are invisible touch targets by default; assets can opt into a visible button with `variant: "button"`.
+- Validation: Pending for transparent artwork touch targets.
+- Release: Pending.
 
 - Christmas for Kids overlay refinement (2026-11-02): Added matching transparent portrait and landscape icy frames with the polar bear in the lower corner. The bear may overlap the photo opening edges, and the openings now use most of each frame.
 
