@@ -18,9 +18,10 @@
 
 - Current goal: Make the built-in holiday booth sounds gentler and describe them accurately.
 - Done: Reworked holiday fallback cues into softer, lower-register chimes; changed the editor label from “theme palette” to “built-in tones”. Keep artwork start prompts unobstructed with transparent touch targets by default; assets can opt into a visible button with `variant: "button"`.
-- In progress: Run focused sound checks and prepare the scoped release.
-- Next steps: Verify the updated cues in the deployed sound editor.
-- Known bugs/blockers: Sound quality still needs listening feedback on the Mac and iPad speakers; physical iPad artwork behavior still needs device verification.
+- In progress: None.
+- Validation: Focused sound tests pass (9/9); live production editor displays “Using built-in holiday tones” for the generated fallback cues.
+- Release: Commit `9d47470` is pushed to `main`; Cloudflare Pages production deployment `6c2c4b3f-c6d7-4368-b547-0bcab0057e3a` is active. Production serves app-shell cache `v98`.
+- Known bugs/blockers: Listening quality still needs feedback from the Mac and iPad speakers. Physical iPad artwork behavior still needs device verification.
 - Important decisions: Keep the existing Web Audio fallback; uploaded theme sounds remain available for replacement.
 - Done: Guest-screen and event-text settings remain grouped under Event Setup. Event Assets category controls now use a flatter layout. Wedding setup appears beside Themes only when a wedding theme is selected. Theme picker defaults to Recently Used and records selections on this device; categories browse the remaining catalog.
 - In progress: Validate and release transparent artwork touch targets.
