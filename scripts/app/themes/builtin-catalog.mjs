@@ -880,6 +880,7 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
       holidays: {
         thanksgiving: {
           name: "Harvest Afterglow",
+          guestScreensOnly: true,
           eventTypes: ["holiday", "party", "general"],
           accent: "#762D3B",
           accent2: "#D8874F",
@@ -963,6 +964,93 @@ export function createBuiltinThemeData({ pruneUnapprovedThemes, approvedThemeKey
             prompt: "Tap to start",
           },
           vibeSummary: "Contemporary Thanksgiving warmth with cranberry velvet, parchment, persimmon, sage, and editorial harvest details",
+        },
+        thanksgivingFamily: {
+          name: "Harvest Pals",
+          guestScreensOnly: true,
+          eventTypes: ["holiday", "party", "general"],
+          accent: "#762D3B",
+          accent2: "#D8874F",
+          fontHeading: "'Avenir Next', Avenir, 'Segoe UI', sans-serif",
+          fontBody: "'Avenir Next', Avenir, 'Segoe UI', sans-serif",
+          logo: "",
+          backgrounds: [
+            "/assets/themes/harvest-pals/harvest-pals-background-landscape.webp",
+            "/assets/themes/harvest-pals/harvest-pals-background-portrait.webp",
+          ],
+          idleScreens: [
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-idle-portrait.webp",
+              name: "Harvest Pals idle screen portrait",
+              role: "idle",
+              orientation: "portrait",
+              buttonZones: {
+                start: { x: 50, y: 61, width: 72, height: 16, variant: "hotspot" },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-idle-landscape.webp",
+              name: "Harvest Pals idle screen landscape",
+              role: "idle",
+              orientation: "landscape",
+              buttonZones: {
+                start: { x: 50, y: 74, width: 44, height: 18, variant: "hotspot" },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-photo-choice-portrait.webp",
+              name: "Harvest Pals photo choice portrait",
+              role: "photo-choice",
+              orientation: "portrait",
+              buttonZones: {
+                singlePhoto: { x: 50, y: 42, width: 84, height: 25 },
+                photoStrip: { x: 50, y: 80, width: 84, height: 25 },
+              },
+            },
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-photo-choice-landscape.webp",
+              name: "Harvest Pals photo choice landscape",
+              role: "photo-choice",
+              orientation: "landscape",
+              buttonZones: {
+                singlePhoto: { x: 30, y: 52, width: 36, height: 52 },
+                photoStrip: { x: 70, y: 52, width: 36, height: 52 },
+              },
+            },
+          ],
+          shareScreens: [
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-share-portrait.webp",
+              name: "Harvest Pals share screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-share-landscape.webp",
+              name: "Harvest Pals share screen landscape",
+              orientation: "landscape",
+            },
+          ],
+          thankYouScreens: [
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-thank-you-portrait.webp",
+              name: "Harvest Pals thank you screen portrait",
+              orientation: "portrait",
+            },
+            {
+              src: "/assets/themes/harvest-pals/harvest-pals-thank-you-landscape.webp",
+              name: "Harvest Pals thank you screen landscape",
+              orientation: "landscape",
+            },
+          ],
+          overlays: [],
+          templates: [],
+          welcome: {
+            title: "Gather & Give Thanks",
+            portrait: "",
+            landscape: "",
+            prompt: "Tap to start",
+          },
+          vibeSummary: "A playful, family-friendly harvest with storybook fox and hedgehog characters, pumpkins, and cozy autumn colors",
         },
         halloween: {
           name: "Halloween",

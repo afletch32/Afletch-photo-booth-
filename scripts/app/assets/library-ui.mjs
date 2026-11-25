@@ -121,13 +121,13 @@ export function createLibraryUiModule(__appRuntimeContext) {
     // Wedding layouts can reuse the app's shared guest screens; each event only
     // supplies names and a date, while the printable artwork stays reusable.
     if (hasReusableWeddingLayouts) return true;
-    return (
+    const hasGuestScreens =
       hasScreen(idleScreens, "idle") &&
       hasScreen(photoChoiceScreens, "photo-choice") &&
-      hasScreen(theme.thankYouScreens) &&
-      hasPhotoOverlay("portrait") &&
-      hasPhotoOverlay("landscape")
-    );
+      hasScreen(theme.thankYouScreens);
+    if (!hasGuestScreens) return false;
+    if (theme.guestScreensOnly === true) return true;
+    return hasPhotoOverlay("portrait") && hasPhotoOverlay("landscape");
   }
 
   function getSelectableThemeGroups() {
