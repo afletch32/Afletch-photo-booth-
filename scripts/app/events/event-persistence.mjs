@@ -214,22 +214,30 @@ export function createEventPersistenceModule(__appRuntimeContext) {
     const editingWedding = !!(
       active && active.eventType === "wedding" && active.weddingTheme
     );
-    const weddingSelected = __appRuntimeContext.weddingSetupRequested || editingWedding;
+    const weddingSelected = !!__appRuntimeContext.weddingSetupRequested;
     if (editingWedding && !__appRuntimeContext.weddingThemeChoiceDirty) {
       syncWeddingThemeChoice(active.weddingThemeStyle || "eucalyptus");
     }
     document.querySelector(".setup-session-card")?.classList.toggle("wedding-setup-mode", weddingSelected);
     __appRuntimeContext.syncEventPrintPriceVisibility();
     if (__appRuntimeContext.DOM.weddingSetupAction) __appRuntimeContext.DOM.weddingSetupAction.hidden = weddingSelected;
+    if (__appRuntimeContext.DOM.startWeddingSetupBtn) {
+      __appRuntimeContext.DOM.startWeddingSetupBtn.textContent = editingWedding
+        ? "Edit Wedding Setup"
+        : "Set Up a Wedding";
+    }
     if (__appRuntimeContext.DOM.weddingEventSetup) __appRuntimeContext.DOM.weddingEventSetup.hidden = !weddingSelected;
     if (__appRuntimeContext.DOM.themeQuickPicker) __appRuntimeContext.DOM.themeQuickPicker.classList.toggle("hidden", weddingSelected);
-    if (__appRuntimeContext.DOM.eventNameSetupField) __appRuntimeContext.DOM.eventNameSetupField.classList.toggle("hidden", weddingSelected);
+    if (__appRuntimeContext.DOM.eventNameSetupField) __appRuntimeContext.DOM.eventNameSetupField.classList.toggle("hidden", weddingSelected || editingWedding);
     if (__appRuntimeContext.DOM.createWeddingEventBtn) {
       __appRuntimeContext.DOM.createWeddingEventBtn.textContent = editingWedding
         ? "Save Wedding Theme"
         : "Create Wedding Theme";
     }
-    if (__appRuntimeContext.DOM.cancelWeddingSetupBtn) __appRuntimeContext.DOM.cancelWeddingSetupBtn.hidden = editingWedding;
+    if (__appRuntimeContext.DOM.cancelWeddingSetupBtn) {
+      __appRuntimeContext.DOM.cancelWeddingSetupBtn.hidden = false;
+      __appRuntimeContext.DOM.cancelWeddingSetupBtn.textContent = "Back to Themes";
+    }
   }
 
   function syncBirthdayOnlyEventFields(themeObj = null) {
@@ -703,6 +711,7 @@ export function createEventPersistenceModule(__appRuntimeContext) {
         weddingTheme: createWeddingTheme(weddingThemeStyle, partner1, partner2, date),
       };
       setStoredEvents(events);
+      __appRuntimeContext.weddingSetupRequested = false;
       __appRuntimeContext.weddingThemeChoiceDirty = false;
       populateEventProfileSelect(active.id);
       __appRuntimeContext.loadTheme(themeKey);
@@ -736,6 +745,7 @@ export function createEventPersistenceModule(__appRuntimeContext) {
     const events = getStoredEvents();
     events.push(newEvent);
     setStoredEvents(events);
+    __appRuntimeContext.weddingSetupRequested = false;
     __appRuntimeContext.weddingThemeChoiceDirty = false;
     setActiveEventId(id);
     populateEventProfileSelect(id);

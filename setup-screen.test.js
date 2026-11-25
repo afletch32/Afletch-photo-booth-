@@ -73,10 +73,10 @@ test("setup screen uses a compact toolbar for section controls", () => {
   );
   assert.ok(
     html.includes('<details class="event-library-section" id="eventDetailsPanel">') &&
-      html.includes('<details class="event-library-section" id="eventAssetsPanel">') &&
+      html.includes('<div id="eventAssetsPanel" class="event-library-section-content event-assets-group">') &&
       html.includes('<details class="event-library-section" id="uploadedAssetLibraryPanel">') &&
       html.includes("<summary>Photo Backgrounds and Logo</summary>"),
-    "event details and the grouped event asset tools should stay collapsed by default"
+    "event settings and the single grouped asset surface should stay collapsed by default"
   );
   assert.ok(
     appScript.includes("function renderAssetLibrary()"),
@@ -363,7 +363,7 @@ test("setup presents a numbered flow with one share-stage launch action", () => 
     "Share should own the only launch action and start the booth in kiosk full screen"
   );
   assert.ok(
-    html.includes('<summary>Guest Screen and Event Details</summary>') &&
+    html.includes('<summary>Event and Guest Screen Settings</summary>') &&
       html.includes('<h3>Guest Screen Text</h3>') &&
       html.includes('<summary>Event Assets</summary>') &&
       html.includes("Your choices are saved on this booth and reused for the next session.") &&
@@ -372,6 +372,16 @@ test("setup presents a numbered flow with one share-stage launch action", () => 
       html.includes('<h3>Capture Timing</h3>') &&
       html.includes('<h3>Camera Quality</h3>'),
     "optional event details and asset customization should stay collapsed while Capture settings remain grouped"
+  );
+  const setupCardStart = html.indexOf('<div class="setup-session-card');
+  const captureModeStart = html.indexOf('<div class="capture-mode-bar"');
+  const eventSettingsStart = html.indexOf('id="eventDetailsPanel"');
+  const eventSettingsEnd = html.indexOf("</details>", eventSettingsStart);
+  assert.ok(
+    setupCardStart >= 0 &&
+      eventSettingsStart > setupCardStart &&
+      eventSettingsEnd < captureModeStart,
+    "event text and display settings should stay with the rest of Event Setup"
   );
   assert.ok(
     html.includes('href="#offlineSection">Advanced Device Tools</a>') &&
@@ -438,6 +448,7 @@ test("setup theme picker groups themes by user-facing category", () => {
 
 test("built-in wedding themes use their matching overlay and template packs", async () => {
   const appScript = readAppSource();
+  const eventPersistence = readProjectFile("scripts/app/events/event-persistence.mjs");
   const html = readProjectFile("index.html");
   const { createWeddingTheme } = await import("./scripts/app/events/wedding-themes.mjs");
   const eucalyptus = createWeddingTheme("eucalyptus", "", "", "");
@@ -466,6 +477,8 @@ test("built-in wedding themes use their matching overlay and template packs", as
   assert.ok(html.includes('id="createWeddingEventBtn">Create Wedding Theme</button>'));
   assert.ok(appScript.includes("let weddingSetupRequested = false;"));
   assert.ok(appScript.includes("function syncWeddingSetupMode()"));
+  assert.ok(eventPersistence.includes("const weddingSelected = !!__appRuntimeContext.weddingSetupRequested;"));
+  assert.ok(eventPersistence.includes('textContent = editingWedding\n        ? "Edit Wedding Setup"'));
   assert.ok(appScript.includes('target.eventType = normalizeEventStyle(eventType)'));
   assert.ok(appScript.includes('classList.toggle("hidden", !showWeddingFields)'));
 });

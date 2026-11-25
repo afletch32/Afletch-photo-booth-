@@ -171,6 +171,82 @@
           </div>
         </div>
       </div>
+        <details class="event-library-section" id="eventDetailsPanel">
+          <summary>Event and Guest Screen Settings</summary>
+          <div class="event-library-section-content">
+          <div class="setup-session-item setup-combobox" data-setup-combobox="font">
+            <label for="sessionFontSearch">Font pairing</label>
+            <button type="button" id="sessionFontToggle" class="setup-combobox-button" aria-expanded="false" aria-controls="sessionFontMenu">
+              <span id="sessionFontValue">Choose pairing</span>
+              <span class="setup-combobox-caret" aria-hidden="true">▼</span>
+            </button>
+            <div id="sessionFontMenu" class="setup-combobox-menu hidden">
+              <input type="search" id="sessionFontSearch" class="setup-combobox-search" placeholder="Search pairings" autocomplete="off">
+              <div id="sessionFontOptions" class="setup-combobox-options" role="listbox" aria-label="Font pairing options"></div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+            <div class="theme-field">
+              <label for="eventGeneralDateInput">Session Date (optional)</label>
+              <input type="text" id="eventGeneralDateInput" placeholder="e.g., April 2026" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="theme-field birthday-only-event-field hidden">
+              <label for="eventBirthdayNameInput">Birthday Name</label>
+              <input type="text" id="eventBirthdayNameInput" placeholder="Name" autocomplete="off" autocapitalize="words" spellcheck="false">
+            </div>
+            <div class="theme-field">
+              <label for="eventExpoCompanyInput">Company Name</label>
+              <input type="text" id="eventExpoCompanyInput" placeholder="Name" autocomplete="off" autocapitalize="words" spellcheck="false">
+            </div>
+          </div>
+          <h3>Guest Screen Text</h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+            <div class="theme-field">
+              <label for="eventBannerTextInput">Banner Text</label>
+              <input type="text" id="eventBannerTextInput" placeholder="Top booth banner" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="theme-field">
+              <label for="eventWelcomeTitleInput">Welcome Title</label>
+              <input type="text" id="eventWelcomeTitleInput" placeholder="Welcome screen title" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="theme-field">
+              <label for="eventStartButtonTextInput">Start Button Text</label>
+              <input type="text" id="eventStartButtonTextInput" placeholder="Touch to start" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="theme-field">
+              <label for="eventCaptureLabelInput">Capture Button Text</label>
+              <input type="text" id="eventCaptureLabelInput" placeholder="Take Photo" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+            <div class="theme-field">
+              <label for="eventBannerSizeInput">Banner Size</label>
+              <div style="display:flex; align-items:center; gap:16px;">
+                <input type="range" id="eventBannerSizeInput" min="24" max="120" step="2">
+                <span id="eventBannerSizeValue" style="color:#9aa; min-width:48px; text-align:right;"></span>
+              </div>
+            </div>
+            <div class="theme-field">
+              <label for="eventWelcomeTitleSizeInput">Welcome Title Size</label>
+              <div style="display:flex; align-items:center; gap:16px;">
+                <input type="range" id="eventWelcomeTitleSizeInput" min="24" max="120" step="2">
+                <span id="eventWelcomeTitleSizeValue" style="color:#9aa; min-width:48px; text-align:right;"></span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+            <div>
+              <div style="font-size:0.8em; color:#9aa; text-transform:uppercase; letter-spacing:0.12em;">Base Theme</div>
+              <div id="eventBaseThemeName" style="font-weight:600;"></div>
+              <div id="eventBaseThemeAssetsSummary" style="color:#9aa; margin-top:8px; font-size:0.92em;"></div>
+            </div>
+            <div>
+              <div style="font-size:0.8em; color:#9aa; text-transform:uppercase; letter-spacing:0.12em;">Theme Reference</div>
+              <div id="eventThemeReferenceText" style="color:#9aa; font-size:0.92em;">This event inherits from its chosen theme until you add event-only assets or text here.</div>
+            </div>
+          </div>
+          </div>
+        </details>
     </div>
     <div class="capture-mode-bar" data-setup-section="capture">
       <div class="capture-mode-copy">
@@ -392,87 +468,9 @@
           </div>
         </details>
         <details class="panel-section" id="currentAssetsSection" data-setup-section="event">
-          <summary>Event Details and Assets</summary>
+          <summary>Event Assets</summary>
           <div id="currentAssetsContent" class="section-content">
-            <details class="event-library-section" id="eventDetailsPanel">
-              <summary>Guest Screen and Event Details</summary>
-              <div class="event-library-section-content">
-              <div class="setup-session-item setup-combobox" data-setup-combobox="font">
-                <label for="sessionFontSearch">Font pairing</label>
-                <button type="button" id="sessionFontToggle" class="setup-combobox-button" aria-expanded="false" aria-controls="sessionFontMenu">
-                  <span id="sessionFontValue">Choose pairing</span>
-                  <span class="setup-combobox-caret" aria-hidden="true">▼</span>
-                </button>
-                <div id="sessionFontMenu" class="setup-combobox-menu hidden">
-                  <input type="search" id="sessionFontSearch" class="setup-combobox-search" placeholder="Search pairings" autocomplete="off">
-                  <div id="sessionFontOptions" class="setup-combobox-options" role="listbox" aria-label="Font pairing options"></div>
-                </div>
-              </div>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
-                <div class="theme-field">
-                  <label for="eventGeneralDateInput">Session Date (optional)</label>
-                  <input type="text" id="eventGeneralDateInput" placeholder="e.g., April 2026" autocomplete="off" spellcheck="false">
-                </div>
-                <div class="theme-field birthday-only-event-field hidden">
-                  <label for="eventBirthdayNameInput">Birthday Name</label>
-                  <input type="text" id="eventBirthdayNameInput" placeholder="Name" autocomplete="off" autocapitalize="words" spellcheck="false">
-                </div>
-                <div class="theme-field">
-                  <label for="eventExpoCompanyInput">Company Name</label>
-                  <input type="text" id="eventExpoCompanyInput" placeholder="Name" autocomplete="off" autocapitalize="words" spellcheck="false">
-                </div>
-              </div>
-              <h3>Guest Screen Text</h3>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
-                <div class="theme-field">
-                  <label for="eventBannerTextInput">Banner Text</label>
-                  <input type="text" id="eventBannerTextInput" placeholder="Top booth banner" autocomplete="off" spellcheck="false">
-                </div>
-                <div class="theme-field">
-                  <label for="eventWelcomeTitleInput">Welcome Title</label>
-                  <input type="text" id="eventWelcomeTitleInput" placeholder="Welcome screen title" autocomplete="off" spellcheck="false">
-                </div>
-                <div class="theme-field">
-                  <label for="eventStartButtonTextInput">Start Button Text</label>
-                  <input type="text" id="eventStartButtonTextInput" placeholder="Touch to start" autocomplete="off" spellcheck="false">
-                </div>
-                <div class="theme-field">
-                  <label for="eventCaptureLabelInput">Capture Button Text</label>
-                  <input type="text" id="eventCaptureLabelInput" placeholder="Take Photo" autocomplete="off" spellcheck="false">
-                </div>
-              </div>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
-                <div class="theme-field">
-                  <label for="eventBannerSizeInput">Banner Size</label>
-                  <div style="display:flex; align-items:center; gap:16px;">
-                    <input type="range" id="eventBannerSizeInput" min="24" max="120" step="2">
-                    <span id="eventBannerSizeValue" style="color:#9aa; min-width:48px; text-align:right;"></span>
-                  </div>
-                </div>
-                <div class="theme-field">
-                  <label for="eventWelcomeTitleSizeInput">Welcome Title Size</label>
-                  <div style="display:flex; align-items:center; gap:16px;">
-                    <input type="range" id="eventWelcomeTitleSizeInput" min="24" max="120" step="2">
-                    <span id="eventWelcomeTitleSizeValue" style="color:#9aa; min-width:48px; text-align:right;"></span>
-                  </div>
-                </div>
-              </div>
-              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
-                <div>
-                  <div style="font-size:0.8em; color:#9aa; text-transform:uppercase; letter-spacing:0.12em;">Base Theme</div>
-                  <div id="eventBaseThemeName" style="font-weight:600;"></div>
-                  <div id="eventBaseThemeAssetsSummary" style="color:#9aa; margin-top:8px; font-size:0.92em;"></div>
-                </div>
-                <div>
-                  <div style="font-size:0.8em; color:#9aa; text-transform:uppercase; letter-spacing:0.12em;">Theme Reference</div>
-                  <div id="eventThemeReferenceText" style="color:#9aa; font-size:0.92em;">This event inherits from its chosen theme until you add event-only assets or text here.</div>
-                </div>
-              </div>
-              </div>
-            </details>
-            <details class="event-library-section" id="eventAssetsPanel">
-              <summary>Event Assets</summary>
-              <div class="event-library-section-content">
+            <div id="eventAssetsPanel" class="event-library-section-content event-assets-group">
                 <section class="setup-session-assets-toggle" id="setupSessionAssetsToggle" aria-labelledby="selectedAssetsHeading">
                   <div class="setup-session-assets-summary-label" id="selectedAssetsHeading">Assets included with this event</div>
                   <div class="setup-session-assets-summary-row">
@@ -554,8 +552,7 @@
               </div>
               <div id="assetLibraryGrid" class="asset-library-grid"></div>
               <div id="assetLibraryStatus" class="asset-library-empty" aria-live="polite"></div>
-              </div>
-            </details>
+            </div>
             <div id="assetUploadInputs" class="hidden">
               <input type="file" id="themeBackground" accept="image/*,video/*">
               <input type="file" id="themeLogo" accept="image/*">
